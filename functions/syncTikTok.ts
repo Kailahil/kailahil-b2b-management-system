@@ -35,10 +35,15 @@ Deno.serve(async (req) => {
 
     try {
       // Get TikTok OAuth access token
-      const accessToken = await base44.asServiceRole.connectors.getAccessToken('tiktok');
+      let accessToken;
+      try {
+        accessToken = await base44.asServiceRole.connectors.getAccessToken('tiktok');
+      } catch (error) {
+        throw new Error('TikTok OAuth not authorized. Please complete the authorization flow in the Base44 dashboard first.');
+      }
 
       if (!accessToken) {
-        throw new Error('TikTok not connected. Please authorize the app first.');
+        throw new Error('TikTok OAuth not authorized. Please complete the authorization flow in the Base44 dashboard first.');
       }
 
       // Fetch user info

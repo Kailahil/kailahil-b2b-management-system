@@ -78,8 +78,36 @@ export default function BusinessDetail() {
 
   const handleConnectIntegration = async (platform) => {
     if (platform === 'tiktok') {
-      // Show manual link dialog instead of OAuth
-      setShowTikTokDialog(true);
+      const tiktokAccount = socialAccounts.find(acc => acc.platform === 'tiktok');
+      
+      // If already pending, just open dialog to update
+      if (tiktokAccount?.connected_status === 'pending') {
+        setShowTikTokDialog(true);
+        return;
+      }
+
+      // Try OAuth sync first
+      setConnecting('tiktok');
+      try {
+        const response = await base44.functions.invoke('syncTikTok', {
+          business_id: business.id
+        });
+
+        if (response.data.success) {
+          const updatedAccounts = await base44.entities.SocialAccount.filter({ 
+            business_id: business.id 
+          });
+          setSocialAccounts(updatedAccounts);
+          alert(`TikTok connected successfully! Synced ${response.data.records_written} records.`);
+        }
+      } catch (error) {
+        console.error('TikTok OAuth not available:', error);
+        // OAuth not set up, fall back to manual entry
+        setConnecting(null);
+        setShowTikTokDialog(true);
+      } finally {
+        setConnecting(null);
+      }
     } else {
       alert(`Connect ${platform} - Integration flow coming soon`);
     }
