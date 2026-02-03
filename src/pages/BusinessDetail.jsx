@@ -299,21 +299,35 @@ export default function BusinessDetail() {
         </CardHeader>
         <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Link 
-              to={createPageUrl('BusinessAnalytics', `?id=${business.id}`)}
-              className="p-4 rounded-lg border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all group"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-indigo-100 group-hover:bg-indigo-200 flex items-center justify-center">
-                  <TrendingUp className="w-5 h-5 text-indigo-600" />
+              <Link 
+                to={createPageUrl('ExecutiveDashboard', `?id=${business.id}`)}
+                className="p-4 rounded-lg border border-slate-200 hover:border-purple-300 hover:bg-purple-50 transition-all group"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-purple-100 group-hover:bg-purple-200 flex items-center justify-center">
+                    <Building2 className="w-5 h-5 text-purple-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-slate-900">Executive Dashboard</h3>
+                    <p className="text-sm text-slate-500">AI-powered business insights</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-medium text-slate-900">View Analytics</h3>
-                  <p className="text-sm text-slate-500">Performance metrics & insights</p>
+              </Link>
+              <Link 
+                to={createPageUrl('BusinessAnalytics', `?id=${business.id}`)}
+                className="p-4 rounded-lg border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all group"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-indigo-100 group-hover:bg-indigo-200 flex items-center justify-center">
+                    <TrendingUp className="w-5 h-5 text-indigo-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-slate-900">View Analytics</h3>
+                    <p className="text-sm text-slate-500">Performance metrics & insights</p>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          </div>
+              </Link>
+            </div>
         </CardContent>
       </Card>
 

@@ -56,6 +56,7 @@ import BusinessAnalytics from './pages/BusinessAnalytics';
 import ContentPipeline from './pages/ContentPipeline';
 import ContentItemDetail from './pages/ContentItemDetail';
 import Reviews from './pages/Reviews';
+import ExecutiveDashboard from './pages/ExecutiveDashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -69,6 +70,7 @@ export const PAGES = {
     "ContentPipeline": ContentPipeline,
     "ContentItemDetail": ContentItemDetail,
     "Reviews": Reviews,
+    "ExecutiveDashboard": ExecutiveDashboard,
 }
 
 export const pagesConfig = {
