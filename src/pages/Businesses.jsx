@@ -74,8 +74,42 @@ export default function Businesses() {
       const newBusiness = await base44.entities.Business.create({
         ...formData,
         agency_id: user.agency_id,
+        status: 'onboarding',
         primary_media_user_id: user.id
       });
+
+      // Auto-provision default integration records
+      await Promise.all([
+        base44.entities.SocialAccount.create({
+          agency_id: user.agency_id,
+          business_id: newBusiness.id,
+          platform: 'tiktok',
+          connected_status: 'disconnected',
+          handle: null,
+          external_account_id: null,
+          auth_ref: null,
+          last_sync_at: null
+        }),
+        base44.entities.SocialAccount.create({
+          agency_id: user.agency_id,
+          business_id: newBusiness.id,
+          platform: 'instagram',
+          connected_status: 'disconnected',
+          handle: null,
+          external_account_id: null,
+          auth_ref: null,
+          last_sync_at: null
+        }),
+        base44.entities.ReviewSource.create({
+          agency_id: user.agency_id,
+          business_id: newBusiness.id,
+          platform: 'google',
+          connected_status: 'disconnected',
+          place_id: null,
+          auth_ref: null,
+          last_sync_at: null
+        })
+      ]);
 
       setBusinesses([newBusiness, ...businesses]);
       setShowCreateDialog(false);
