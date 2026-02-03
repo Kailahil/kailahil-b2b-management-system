@@ -6,7 +6,7 @@ import { ArrowLeft, Building2, Link as LinkIcon } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
 import IntegrationCard from '../components/shared/IntegrationCard';
 import { Link } from 'react-router-dom';
-import { createPageUrl } from '../utils';
+import { createPageUrl } from '../lib/utils';
 
 export default function BusinessDetail() {
   const [business, setBusiness] = useState(null);

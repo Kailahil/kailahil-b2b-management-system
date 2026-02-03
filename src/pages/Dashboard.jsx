@@ -4,7 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Building2, Users, TrendingUp, AlertCircle } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
 import { Link } from 'react-router-dom';
-import { createPageUrl } from '../utils';
+import { createPageUrl } from '../lib/utils';
 
 export default function Dashboard() {
   const [user, setUser] = useState(null);
