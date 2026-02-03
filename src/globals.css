@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Liquid Glass Design Tokens */
+    --primary-green: 134 168 134;
+    --primary-green-dark: 106 142 106;
+    --cream-surface: 250 248 243;
+    --text-primary: 45 45 42;
+    --text-secondary: 115 125 115;
+    
+    --background: 250 248 243;
+    --foreground: 45 45 42;
+    
+    --card: 250 248 243;
+    --card-foreground: 45 45 42;
+    
+    --popover: 250 248 243;
+    --popover-foreground: 45 45 42;
+    
+    --primary: 134 168 134;
+    --primary-foreground: 250 248 243;
+    
+    --secondary: 230 230 225;
+    --secondary-foreground: 45 45 42;
+    
+    --muted: 230 230 225;
+    --muted-foreground: 115 125 115;
+    
+    --accent: 220 235 220;
+    --accent-foreground: 45 45 42;
+    
+    --destructive: 239 68 68;
+    --destructive-foreground: 250 248 243;
+    
+    --border: 220 220 215;
+    --input: 220 220 215;
+    --ring: 134 168 134;
+    
+    --radius: 1rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  }
+}
+
+@layer utilities {
+  .bg-primary-green {
+    background-color: rgb(var(--primary-green));
+  }
+  
+  .bg-primary-green-dark {
+    background-color: rgb(var(--primary-green-dark));
+  }
+  
+  .bg-cream-surface {
+    background-color: rgb(var(--cream-surface));
+  }
+  
+  .text-primary-green {
+    color: rgb(var(--primary-green));
+  }
+  
+  .text-primary-green-dark {
+    color: rgb(var(--primary-green-dark));
+  }
+  
+  .text-text-primary {
+    color: rgb(var(--text-primary));
+  }
+  
+  .text-text-secondary {
+    color: rgb(var(--text-secondary));
+  }
+  
+  .border-primary-green {
+    border-color: rgb(var(--primary-green));
+  }
+  
+  .ring-primary-green {
+    --tw-ring-color: rgb(var(--primary-green));
+  }
+}

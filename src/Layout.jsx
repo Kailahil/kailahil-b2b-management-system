@@ -32,7 +32,7 @@ export default function Layout({ children, currentPageName }) {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen bg-gradient-to-br from-[rgb(240,245,240)] via-[rgb(250,248,243)] to-[rgb(245,250,245)]">
       <Sidebar 
         currentPageName={currentPageName} 
         user={user} 
@@ -43,23 +43,23 @@ export default function Layout({ children, currentPageName }) {
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-30 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
       
       <div className="flex-1 lg:ml-64 w-full">
         {/* Mobile header with hamburger */}
-        <div className="lg:hidden fixed top-0 left-0 right-0 bg-white border-b border-slate-200 z-20 px-4 py-3 flex items-center gap-3">
+        <div className="lg:hidden fixed top-0 left-0 right-0 bg-cream-surface/80 backdrop-blur-xl border-b border-white/20 z-20 px-4 py-3 flex items-center gap-3">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+            className="p-2 hover:bg-cream-surface/60 rounded-xl transition-colors"
           >
-            <svg className="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
-          <h1 className="text-lg font-bold text-slate-900">Marketing ERP</h1>
+          <h1 className="text-lg font-bold text-text-primary">Marketing ERP</h1>
         </div>
         
         <main className="p-4 md:p-8 pt-20 lg:pt-8">
