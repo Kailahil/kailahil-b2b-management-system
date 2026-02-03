@@ -2,13 +2,12 @@ import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { CheckCircle2, XCircle, AlertCircle, ExternalLink } from 'lucide-react';
+import { CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
 
 export default function IntegrationCard({ 
   platform, 
   status, 
   accountName, 
-  profileUrl,
   lastSync, 
   onConnect,
   isConnecting 
@@ -71,47 +70,10 @@ export default function IntegrationCard({
       )}
 
       {isPending && (
-        <div className="space-y-3 mb-4">
-          <div className="bg-amber-50 rounded-lg p-4">
-            <p className="text-sm text-amber-800">
-              Account linked. Analytics will appear once API connection is complete.
-            </p>
-          </div>
-          {accountName && (
-            <div className="space-y-2">
-              <div className="text-sm">
-                <span className="text-slate-500">Handle:</span>
-                <span className="ml-2 font-medium text-slate-900">{accountName}</span>
-              </div>
-              {profileUrl && (
-                <>
-                  <div className="text-sm">
-                    <span className="text-slate-500">Profile:</span>
-                    <a 
-                      href={profileUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="ml-2 text-indigo-600 hover:text-indigo-700 underline break-all"
-                    >
-                      {profileUrl}
-                    </a>
-                  </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="w-full"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      window.open(profileUrl, '_blank');
-                    }}
-                  >
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    Open TikTok Profile
-                  </Button>
-                </>
-              )}
-            </div>
-          )}
+        <div className="bg-amber-50 rounded-lg p-4 mb-4">
+          <p className="text-sm text-amber-800">
+            Account linked. Analytics will appear once API connection is complete.
+          </p>
         </div>
       )}
 

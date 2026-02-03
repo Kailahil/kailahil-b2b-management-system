@@ -6,7 +6,6 @@ import { ArrowLeft, Building2, Link as LinkIcon } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
 import IntegrationCard from '../components/shared/IntegrationCard';
 import LinkTikTokDialog from '../components/businesses/LinkTikTokDialog';
-import ManualTikTokKPIs from '../components/businesses/ManualTikTokKPIs';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../components/utils';
 
@@ -147,7 +146,6 @@ export default function BusinessDetail() {
     integrationMap[acc.platform] = {
       status: acc.connected_status,
       accountName: acc.handle,
-      profileUrl: acc.external_account_id,
       lastSync: acc.last_sync_at
     };
   });
@@ -156,13 +154,9 @@ export default function BusinessDetail() {
     integrationMap['google_reviews'] = {
       status: src.connected_status,
       accountName: src.place_id ? 'Google Business' : null,
-      profileUrl: null,
       lastSync: src.last_sync_at
     };
   });
-
-  const tiktokAccount = socialAccounts.find(acc => acc.platform === 'tiktok');
-  const showManualTikTokKPIs = tiktokAccount?.connected_status === 'pending';
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -236,7 +230,6 @@ export default function BusinessDetail() {
               platform="tiktok"
               status={integrationMap['tiktok']?.status || 'disconnected'}
               accountName={integrationMap['tiktok']?.accountName}
-              profileUrl={integrationMap['tiktok']?.profileUrl}
               lastSync={integrationMap['tiktok']?.lastSync}
               onConnect={() => handleConnectIntegration('tiktok')}
               isConnecting={connecting === 'tiktok'}
@@ -260,13 +253,6 @@ export default function BusinessDetail() {
           </div>
         </CardContent>
       </Card>
-
-      {/* Manual TikTok KPIs - Only show when TikTok is pending */}
-      {showManualTikTokKPIs && (
-        <div className="mb-8">
-          <ManualTikTokKPIs business={business} />
-        </div>
-      )}
 
       {/* Metrics Section - Empty State */}
       <Card className="shadow-lg">
