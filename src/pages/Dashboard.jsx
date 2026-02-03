@@ -15,6 +15,13 @@ export default function Dashboard() {
     const loadData = async () => {
       try {
         const currentUser = await base44.auth.me();
+        
+        // Redirect to setup if no agency_id
+        if (!currentUser.agency_id) {
+          window.location.href = createPageUrl('Setup');
+          return;
+        }
+        
         setUser(currentUser);
 
         let businessList = [];

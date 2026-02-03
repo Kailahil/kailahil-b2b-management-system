@@ -19,6 +19,12 @@ export default function Businesses() {
     const loadData = async () => {
       try {
         const currentUser = await base44.auth.me();
+        
+        if (!currentUser.agency_id) {
+          window.location.href = createPageUrl('Setup');
+          return;
+        }
+        
         setUser(currentUser);
 
         let businessList = [];
