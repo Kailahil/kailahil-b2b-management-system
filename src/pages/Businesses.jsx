@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Building2, Plus, Search } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
 import { Link } from 'react-router-dom';
-import { createPageUrl } from '../lib/utils';
+import { createPageUrl } from '../components/utils';
 
 export default function Businesses() {
   const [user, setUser] = useState(null);
