@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Building2, Link as LinkIcon, TrendingUp, Lightbulb } from 'lucide-react';
+import { ArrowLeft, Building2, Link as LinkIcon, TrendingUp, Lightbulb, FileText } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
 import IntegrationCard from '../components/shared/IntegrationCard';
 import LinkTikTokDialog from '../components/businesses/LinkTikTokDialog';
@@ -341,7 +341,21 @@ export default function BusinessDetail() {
                   </div>
                 </div>
               </Link>
-            </div>
+              <Link 
+                to={createPageUrl('ClientReports') + `?id=${business.id}`}
+                className="p-4 rounded-lg border border-slate-200 hover:border-emerald-300 hover:bg-emerald-50 transition-all group"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-emerald-100 group-hover:bg-emerald-200 flex items-center justify-center">
+                    <FileText className="w-5 h-5 text-emerald-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-slate-900">Client Reports</h3>
+                    <p className="text-sm text-slate-500">Monthly performance reports</p>
+                  </div>
+                </div>
+              </Link>
+              </div>
         </CardContent>
       </Card>
 

@@ -58,6 +58,7 @@ import ContentItemDetail from './pages/ContentItemDetail';
 import Reviews from './pages/Reviews';
 import ExecutiveDashboard from './pages/ExecutiveDashboard';
 import AIInsights from './pages/AIInsights';
+import ClientReports from './pages/ClientReports';
 import __Layout from './Layout.jsx';
 
 
@@ -73,6 +74,7 @@ export const PAGES = {
     "Reviews": Reviews,
     "ExecutiveDashboard": ExecutiveDashboard,
     "AIInsights": AIInsights,
+    "ClientReports": ClientReports,
 }
 
 export const pagesConfig = {
