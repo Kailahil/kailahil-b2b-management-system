@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Building2, Link as LinkIcon, TrendingUp, Lightbulb } from 'lucide-react';
+import { ArrowLeft, Building2, Link as LinkIcon, TrendingUp, Lightbulb, FileText } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
 import IntegrationCard from '../components/shared/IntegrationCard';
 import LinkTikTokDialog from '../components/businesses/LinkTikTokDialog';
