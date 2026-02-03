@@ -300,7 +300,7 @@ export default function BusinessDetail() {
         <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Link 
-                to={createPageUrl('ExecutiveDashboard', `?id=${business.id}`)}
+                to={createPageUrl('ExecutiveDashboard') + `?id=${business.id}`}
                 className="p-4 rounded-lg border border-slate-200 hover:border-purple-300 hover:bg-purple-50 transition-all group"
               >
                 <div className="flex items-center gap-3">
@@ -314,7 +314,7 @@ export default function BusinessDetail() {
                 </div>
               </Link>
               <Link 
-                to={createPageUrl('BusinessAnalytics', `?id=${business.id}`)}
+                to={createPageUrl('BusinessAnalytics') + `?id=${business.id}`}
                 className="p-4 rounded-lg border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all group"
               >
                 <div className="flex items-center gap-3">
