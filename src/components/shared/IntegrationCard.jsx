@@ -20,6 +20,7 @@ export default function IntegrationCard({
 
   const config = platformConfig[platform];
   const isConnected = status === 'connected';
+  const isPending = status === 'pending';
   const hasError = status === 'error';
 
   return (
@@ -42,13 +43,19 @@ export default function IntegrationCard({
             Connected
           </Badge>
         )}
+        {isPending && (
+          <Badge className="bg-amber-100 text-amber-700 border-amber-200">
+            <AlertCircle className="w-3 h-3 mr-1" />
+            Pending
+          </Badge>
+        )}
         {hasError && (
           <Badge variant="destructive">
             <AlertCircle className="w-3 h-3 mr-1" />
             Error
           </Badge>
         )}
-        {!isConnected && !hasError && (
+        {!isConnected && !isPending && !hasError && (
           <Badge variant="secondary" className="bg-slate-100 text-slate-600">
             <XCircle className="w-3 h-3 mr-1" />
             Not Connected
@@ -62,27 +69,41 @@ export default function IntegrationCard({
         </p>
       )}
 
-      {!isConnected && (
+      {isPending && (
+        <div className="bg-amber-50 rounded-lg p-4 mb-4">
+          <p className="text-sm text-amber-800">
+            Account linked. Analytics will appear once API connection is complete.
+          </p>
+        </div>
+      )}
+
+      {!isConnected && !isPending && (
         <div className="bg-slate-50 rounded-lg p-4 mb-4">
           <p className="text-sm text-slate-600">
-            Connect {config.name} to pull real metrics and insights.
+            {platform === 'tiktok' 
+              ? 'Link your TikTok account. Full API analytics coming soon.'
+              : `Connect ${config.name} to pull real metrics and insights.`}
           </p>
         </div>
       )}
 
       <Button 
         onClick={onConnect}
-        disabled={isConnecting}
-        variant={isConnected ? "outline" : "default"}
-        className={!isConnected ? "w-full bg-indigo-600 hover:bg-indigo-700" : "w-full"}
+        disabled={isConnecting || isPending}
+        variant={isConnected || isPending ? "outline" : "default"}
+        className={(!isConnected && !isPending) ? "w-full bg-indigo-600 hover:bg-indigo-700" : "w-full"}
       >
         {isConnecting ? (
           <>
             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
             Connecting...
           </>
+        ) : isPending ? (
+          'Update Details'
+        ) : isConnected ? (
+          'Manage Connection'
         ) : (
-          isConnected ? 'Manage Connection' : `Connect ${config.name}`
+          platform === 'tiktok' ? 'Link TikTok (API coming soon)' : `Connect ${config.name}`
         )}
       </Button>
     </Card>

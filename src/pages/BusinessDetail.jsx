@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Building2, Link as LinkIcon } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
 import IntegrationCard from '../components/shared/IntegrationCard';
+import LinkTikTokDialog from '../components/businesses/LinkTikTokDialog';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../components/utils';
 
@@ -15,6 +16,8 @@ export default function BusinessDetail() {
   const [reviewSources, setReviewSources] = useState([]);
   const [loading, setLoading] = useState(true);
   const [connecting, setConnecting] = useState(null);
+  const [showTikTokDialog, setShowTikTokDialog] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -75,31 +78,52 @@ export default function BusinessDetail() {
 
   const handleConnectIntegration = async (platform) => {
     if (platform === 'tiktok') {
-      setConnecting('tiktok');
-      try {
-        // Run initial sync
-        const response = await base44.functions.invoke('syncTikTok', {
-          business_id: business.id
-        });
-
-        if (response.data.success) {
-          // Refresh social accounts
-          const socialAccountData = await base44.entities.SocialAccount.filter({ 
-            business_id: business.id 
-          });
-          setSocialAccounts(socialAccountData);
-          alert(`TikTok connected successfully! Synced ${response.data.records_written} records.`);
-        } else {
-          alert('Failed to sync TikTok data');
-        }
-      } catch (error) {
-        console.error('TikTok connection error:', error);
-        alert(error.response?.data?.error || 'Failed to connect TikTok. Please try again.');
-      } finally {
-        setConnecting(null);
-      }
+      // Show manual link dialog instead of OAuth
+      setShowTikTokDialog(true);
     } else {
       alert(`Connect ${platform} - Integration flow coming soon`);
+    }
+  };
+
+  const handleLinkTikTok = async (formData) => {
+    setIsSubmitting(true);
+    try {
+      // Find or update the TikTok social account
+      const socialAccountData = await base44.entities.SocialAccount.filter({ 
+        business_id: business.id,
+        platform: 'tiktok'
+      });
+
+      if (socialAccountData.length > 0) {
+        await base44.entities.SocialAccount.update(socialAccountData[0].id, {
+          connected_status: 'pending',
+          handle: formData.handle,
+          external_account_id: formData.profile_url
+        });
+      } else {
+        await base44.entities.SocialAccount.create({
+          agency_id: business.agency_id,
+          business_id: business.id,
+          platform: 'tiktok',
+          connected_status: 'pending',
+          handle: formData.handle,
+          external_account_id: formData.profile_url
+        });
+      }
+
+      // Refresh social accounts
+      const updatedAccounts = await base44.entities.SocialAccount.filter({ 
+        business_id: business.id 
+      });
+      setSocialAccounts(updatedAccounts);
+      
+      setShowTikTokDialog(false);
+      alert('TikTok account linked! Analytics will appear once API connection is complete.');
+    } catch (error) {
+      console.error('Failed to link TikTok:', error);
+      alert('Failed to link TikTok account. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -243,6 +267,14 @@ export default function BusinessDetail() {
           />
         </CardContent>
       </Card>
+
+      {/* Link TikTok Dialog */}
+      <LinkTikTokDialog
+        open={showTikTokDialog}
+        onClose={() => setShowTikTokDialog(false)}
+        onSubmit={handleLinkTikTok}
+        isSubmitting={isSubmitting}
+      />
     </div>
   );
 }
