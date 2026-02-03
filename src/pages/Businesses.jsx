@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import GlassCard from '../components/glass/GlassCard';
+import GlassButton from '../components/glass/GlassButton';
+import GlassInput from '../components/glass/GlassInput';
 import { Building2, Plus, Search } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
 import { Link } from 'react-router-dom';
@@ -125,7 +126,7 @@ export default function Businesses() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-green"></div>
       </div>
     );
   }
@@ -135,40 +136,36 @@ export default function Businesses() {
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-4xl font-bold text-slate-900 mb-2">Businesses</h1>
-          <p className="text-slate-500">
+          <h1 className="text-5xl font-bold text-text-primary mb-3">Businesses</h1>
+          <p className="text-text-secondary text-lg">
             {user?.user_role === 'client' 
               ? 'Your business information and performance'
               : 'Manage all businesses in your agency'}
           </p>
-          <p className="text-xs text-slate-400 mt-1">
-            role(raw): {user?.role || 'none'} | user_role: {user?.user_role || 'none'} | agency_id: {user?.agency_id || 'none'}
-          </p>
         </div>
-        <Button 
+        <GlassButton 
           onClick={() => setShowCreateDialog(true)}
           disabled={!canAddBusiness}
-          className="bg-indigo-600 hover:bg-indigo-700 gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-5 h-5" />
           <span className="hidden sm:inline">Add Business</span>
           <span className="sm:hidden">Add</span>
-        </Button>
+        </GlassButton>
       </div>
 
 
 
       {/* Search */}
       {businesses.length > 0 && (
-        <div className="mb-6">
+        <div className="mb-8">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
-            <Input
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-text-secondary" />
+            <GlassInput
               type="text"
               placeholder="Search businesses by name, city, or industry..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 py-6 text-base"
+              className="pl-12 py-4 text-base"
             />
           </div>
         </div>
@@ -194,13 +191,13 @@ export default function Businesses() {
           )}
         </div>
       ) : filteredBusinesses.length === 0 ? (
-        <Card className="p-12">
+        <GlassCard className="p-12">
           <EmptyState
             icon={Search}
             title="No businesses found"
             description="Try adjusting your search query."
           />
-        </Card>
+        </GlassCard>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredBusinesses.map((business) => (
@@ -208,45 +205,45 @@ export default function Businesses() {
               key={business.id}
               to={createPageUrl(`BusinessDetail?id=${business.id}`)}
             >
-              <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer border-2 border-transparent hover:border-indigo-200 h-full">
-                <CardContent className="p-6">
+              <GlassCard hover className="h-full">
+                <div className="p-6">
                   <div className="flex items-start gap-4 mb-4">
                     {business.logo_url ? (
                       <img 
                         src={business.logo_url} 
                         alt={business.name}
-                        className="w-16 h-16 rounded-xl object-cover"
+                        className="w-16 h-16 rounded-2xl object-cover"
                       />
                     ) : (
-                      <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center flex-shrink-0">
-                        <Building2 className="w-8 h-8 text-indigo-600" />
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-green/20 to-primary-green/40 flex items-center justify-center flex-shrink-0">
+                        <Building2 className="w-8 h-8 text-primary-green-dark" />
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-bold text-lg text-slate-900 mb-1 truncate">{business.name}</h3>
-                      <p className="text-sm text-slate-500 capitalize mb-2">{business.industry}</p>
-                      <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                      <h3 className="font-bold text-lg text-text-primary mb-1 truncate">{business.name}</h3>
+                      <p className="text-sm text-text-secondary capitalize mb-2">{business.industry}</p>
+                      <span className={`inline-block px-3 py-1.5 rounded-full text-xs font-medium backdrop-blur-md ${
                         business.status === 'active' 
-                          ? 'bg-emerald-100 text-emerald-700'
-                          : 'bg-slate-100 text-slate-600'
+                          ? 'bg-emerald-100/60 text-emerald-700'
+                          : 'bg-cream-surface/80 text-text-secondary'
                       }`}>
                         {business.status}
                       </span>
                     </div>
                   </div>
-                  
+
                   {(business.city || business.phone) && (
-                    <div className="pt-4 border-t border-slate-100 space-y-1">
+                    <div className="pt-4 border-t border-white/20 space-y-1">
                       {business.city && (
-                        <p className="text-sm text-slate-600">📍 {business.city}{business.state ? `, ${business.state}` : ''}</p>
+                        <p className="text-sm text-text-secondary">📍 {business.city}{business.state ? `, ${business.state}` : ''}</p>
                       )}
                       {business.phone && (
-                        <p className="text-sm text-slate-600">📞 {business.phone}</p>
+                        <p className="text-sm text-text-secondary">📞 {business.phone}</p>
                       )}
                     </div>
                   )}
-                </CardContent>
-              </Card>
+                </div>
+              </GlassCard>
             </Link>
           ))}
         </div>
