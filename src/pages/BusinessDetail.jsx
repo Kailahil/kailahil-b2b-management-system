@@ -11,8 +11,10 @@ import { createPageUrl } from '../components/utils';
 export default function BusinessDetail() {
   const [business, setBusiness] = useState(null);
   const [user, setUser] = useState(null);
-  const [integrations, setIntegrations] = useState([]);
+  const [socialAccounts, setSocialAccounts] = useState([]);
+  const [reviewSources, setReviewSources] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [connecting, setConnecting] = useState(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -50,11 +52,17 @@ export default function BusinessDetail() {
 
         setBusiness(bizData);
 
-        // Load integrations
-        const integrationData = await base44.entities.IntegrationConnection.filter({ 
+        // Load social accounts
+        const socialAccountData = await base44.entities.SocialAccount.filter({ 
           business_id: businessId 
         });
-        setIntegrations(integrationData);
+        setSocialAccounts(socialAccountData);
+
+        // Load review sources
+        const reviewSourceData = await base44.entities.ReviewSource.filter({ 
+          business_id: businessId 
+        });
+        setReviewSources(reviewSourceData);
       } catch (error) {
         console.error('Failed to load business:', error);
       } finally {
@@ -65,8 +73,34 @@ export default function BusinessDetail() {
     loadData();
   }, []);
 
-  const handleConnectIntegration = (platform) => {
-    alert(`Connect ${platform} - Integration flow coming soon`);
+  const handleConnectIntegration = async (platform) => {
+    if (platform === 'tiktok') {
+      setConnecting('tiktok');
+      try {
+        // Run initial sync
+        const response = await base44.functions.invoke('syncTikTok', {
+          business_id: business.id
+        });
+
+        if (response.data.success) {
+          // Refresh social accounts
+          const socialAccountData = await base44.entities.SocialAccount.filter({ 
+            business_id: business.id 
+          });
+          setSocialAccounts(socialAccountData);
+          alert(`TikTok connected successfully! Synced ${response.data.records_written} records.`);
+        } else {
+          alert('Failed to sync TikTok data');
+        }
+      } catch (error) {
+        console.error('TikTok connection error:', error);
+        alert(error.response?.data?.error || 'Failed to connect TikTok. Please try again.');
+      } finally {
+        setConnecting(null);
+      }
+    } else {
+      alert(`Connect ${platform} - Integration flow coming soon`);
+    }
   };
 
   if (loading) {
@@ -81,11 +115,24 @@ export default function BusinessDetail() {
     return null;
   }
 
-  const platforms = ['tiktok', 'instagram', 'google_reviews'];
-  const integrationMap = integrations.reduce((acc, int) => {
-    acc[int.platform] = int;
-    return acc;
-  }, {});
+  // Map integrations from actual data
+  const integrationMap = {};
+  
+  socialAccounts.forEach(acc => {
+    integrationMap[acc.platform] = {
+      status: acc.connected_status,
+      accountName: acc.handle,
+      lastSync: acc.last_sync_at
+    };
+  });
+
+  reviewSources.forEach(src => {
+    integrationMap['google_reviews'] = {
+      status: src.connected_status,
+      accountName: src.place_id ? 'Google Business' : null,
+      lastSync: src.last_sync_at
+    };
+  });
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -155,19 +202,30 @@ export default function BusinessDetail() {
         </CardHeader>
         <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {platforms.map((platform) => {
-              const integration = integrationMap[platform];
-              return (
-                <IntegrationCard
-                  key={platform}
-                  platform={platform}
-                  status={integration?.status || 'disconnected'}
-                  accountName={integration?.account_name}
-                  lastSync={integration?.last_sync}
-                  onConnect={() => handleConnectIntegration(platform)}
-                />
-              );
-            })}
+            <IntegrationCard
+              platform="tiktok"
+              status={integrationMap['tiktok']?.status || 'disconnected'}
+              accountName={integrationMap['tiktok']?.accountName}
+              lastSync={integrationMap['tiktok']?.lastSync}
+              onConnect={() => handleConnectIntegration('tiktok')}
+              isConnecting={connecting === 'tiktok'}
+            />
+            <IntegrationCard
+              platform="instagram"
+              status={integrationMap['instagram']?.status || 'disconnected'}
+              accountName={integrationMap['instagram']?.accountName}
+              lastSync={integrationMap['instagram']?.lastSync}
+              onConnect={() => handleConnectIntegration('instagram')}
+              isConnecting={connecting === 'instagram'}
+            />
+            <IntegrationCard
+              platform="google_reviews"
+              status={integrationMap['google_reviews']?.status || 'disconnected'}
+              accountName={integrationMap['google_reviews']?.accountName}
+              lastSync={integrationMap['google_reviews']?.lastSync}
+              onConnect={() => handleConnectIntegration('google_reviews')}
+              isConnecting={connecting === 'google_reviews'}
+            />
           </div>
         </CardContent>
       </Card>

@@ -9,7 +9,8 @@ export default function IntegrationCard({
   status, 
   accountName, 
   lastSync, 
-  onConnect 
+  onConnect,
+  isConnecting 
 }) {
   const platformConfig = {
     tiktok: { name: 'TikTok', color: 'from-pink-500 to-purple-500' },
@@ -71,10 +72,18 @@ export default function IntegrationCard({
 
       <Button 
         onClick={onConnect}
+        disabled={isConnecting}
         variant={isConnected ? "outline" : "default"}
         className={!isConnected ? "w-full bg-indigo-600 hover:bg-indigo-700" : "w-full"}
       >
-        {isConnected ? 'Manage Connection' : `Connect ${config.name}`}
+        {isConnecting ? (
+          <>
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+            Connecting...
+          </>
+        ) : (
+          isConnected ? 'Manage Connection' : `Connect ${config.name}`
+        )}
       </Button>
     </Card>
   );
