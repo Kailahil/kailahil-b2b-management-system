@@ -7,6 +7,7 @@ import { Building2, Plus, Search } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../components/utils';
+import CreateBusinessDialog from '../components/businesses/CreateBusinessDialog';
 
 export default function Businesses() {
   const [user, setUser] = useState(null);
@@ -14,6 +15,8 @@ export default function Businesses() {
   const [filteredBusinesses, setFilteredBusinesses] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -62,6 +65,26 @@ export default function Businesses() {
 
   const canAddBusiness = user?.user_role === 'agency_admin' || user?.user_role === 'account_manager';
 
+  const handleCreateBusiness = async (formData) => {
+    setIsSubmitting(true);
+    try {
+      const newBusiness = await base44.entities.Business.create({
+        ...formData,
+        agency_id: user.agency_id,
+        primary_media_user_id: user.id
+      });
+
+      setBusinesses([newBusiness, ...businesses]);
+      setShowCreateDialog(false);
+      window.location.href = createPageUrl(`BusinessDetail?id=${newBusiness.id}`);
+    } catch (error) {
+      console.error('Failed to create business:', error);
+      alert('Failed to create business. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
@@ -83,9 +106,13 @@ export default function Businesses() {
           </p>
         </div>
         {canAddBusiness && (
-          <Button className="bg-indigo-600 hover:bg-indigo-700 gap-2">
+          <Button 
+            onClick={() => setShowCreateDialog(true)}
+            className="bg-indigo-600 hover:bg-indigo-700 gap-2"
+          >
             <Plus className="w-4 h-4" />
-            Add Business
+            <span className="hidden sm:inline">Add Business</span>
+            <span className="sm:hidden">Add</span>
           </Button>
         )}
       </div>
@@ -117,7 +144,7 @@ export default function Businesses() {
               : 'Start by adding your first business to track and manage.'
           }
           actionLabel={canAddBusiness ? 'Add Business' : null}
-          onAction={() => {}}
+          onAction={() => setShowCreateDialog(true)}
         />
       ) : filteredBusinesses.length === 0 ? (
         <Card className="p-12">
@@ -176,6 +203,24 @@ export default function Businesses() {
             </Link>
           ))}
         </div>
+      )}
+
+      {/* Create Business Dialog */}
+      <CreateBusinessDialog
+        open={showCreateDialog}
+        onClose={() => setShowCreateDialog(false)}
+        onSubmit={handleCreateBusiness}
+        isSubmitting={isSubmitting}
+      />
+
+      {/* Mobile FAB */}
+      {canAddBusiness && (
+        <Button
+          onClick={() => setShowCreateDialog(true)}
+          className="lg:hidden fixed bottom-6 right-6 w-14 h-14 rounded-full bg-indigo-600 hover:bg-indigo-700 shadow-2xl z-50"
+        >
+          <Plus className="w-6 h-6" />
+        </Button>
       )}
     </div>
   );
