@@ -12,6 +12,8 @@ export default function Sidebar({ currentPageName, user, isOpen, onClose }) {
   const navigation = [
     { name: 'Dashboard', page: 'Dashboard', icon: Home },
     { name: 'Businesses', page: 'Businesses', icon: Building2 },
+    { name: 'Content Pipeline', page: 'ContentPipeline', icon: Video },
+    { name: 'Reviews', page: 'Reviews', icon: MessageSquare },
     { name: 'Settings', page: 'Settings', icon: Settings },
   ];
 

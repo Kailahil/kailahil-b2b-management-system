@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Building2, Link as LinkIcon } from 'lucide-react';
+import { ArrowLeft, Building2, Link as LinkIcon, TrendingUp } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
 import IntegrationCard from '../components/shared/IntegrationCard';
 import LinkTikTokDialog from '../components/businesses/LinkTikTokDialog';
+import OnboardingChecklist from '../components/businesses/OnboardingChecklist';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../components/utils';
 
@@ -246,6 +247,15 @@ export default function BusinessDetail() {
         </CardContent>
       </Card>
 
+      {/* Onboarding Checklist */}
+      <div className="mb-8">
+        <OnboardingChecklist 
+          business={business}
+          socialAccounts={socialAccounts}
+          reviewSources={reviewSources}
+        />
+      </div>
+
       {/* Integrations Section */}
       <Card className="mb-8 shadow-lg">
         <CardHeader className="border-b border-slate-100">
@@ -282,17 +292,28 @@ export default function BusinessDetail() {
         </CardContent>
       </Card>
 
-      {/* Metrics Section - Empty State */}
+      {/* Quick Actions */}
       <Card className="shadow-lg">
         <CardHeader className="border-b border-slate-100">
-          <CardTitle className="text-2xl font-bold text-slate-900">Performance Metrics</CardTitle>
+          <CardTitle className="text-2xl font-bold text-slate-900">Quick Actions</CardTitle>
         </CardHeader>
         <CardContent className="p-6">
-          <EmptyState
-            icon={Building2}
-            title="No data available"
-            description="Connect your integrations above to start seeing real metrics and insights. We never display estimated or placeholder data."
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Link 
+              to={createPageUrl('BusinessAnalytics', `?id=${business.id}`)}
+              className="p-4 rounded-lg border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all group"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-indigo-100 group-hover:bg-indigo-200 flex items-center justify-center">
+                  <TrendingUp className="w-5 h-5 text-indigo-600" />
+                </div>
+                <div>
+                  <h3 className="font-medium text-slate-900">View Analytics</h3>
+                  <p className="text-sm text-slate-500">Performance metrics & insights</p>
+                </div>
+              </div>
+            </Link>
+          </div>
         </CardContent>
       </Card>
 
