@@ -63,7 +63,10 @@ export default function Businesses() {
     setFilteredBusinesses(filtered);
   }, [searchQuery, businesses]);
 
-  const canAddBusiness = user?.user_role === 'agency_admin' || user?.user_role === 'account_manager';
+  const canAddBusiness = 
+    user?.role?.toLowerCase() === 'admin' || 
+    user?.user_role?.toLowerCase() === 'admin' ||
+    user?.user_role?.toLowerCase() === 'account_manager';
 
   const handleCreateBusiness = async (formData) => {
     setIsSubmitting(true);
@@ -104,7 +107,9 @@ export default function Businesses() {
               ? 'Your business information and performance'
               : 'Manage all businesses in your agency'}
           </p>
-          <p className="text-xs text-slate-400 mt-1">Role: {user?.user_role || 'unknown'}</p>
+          <p className="text-xs text-slate-400 mt-1">
+            role(raw): {user?.role || 'none'} | user_role: {user?.user_role || 'none'} | agency_id: {user?.agency_id || 'none'}
+          </p>
         </div>
         <Button 
           onClick={() => setShowCreateDialog(true)}
@@ -117,12 +122,7 @@ export default function Businesses() {
         </Button>
       </div>
 
-      {/* Role message for non-admins */}
-      {!canAddBusiness && (
-        <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl">
-          <p className="text-sm text-amber-800">Only admins and account managers can add businesses.</p>
-        </div>
-      )}
+
 
       {/* Search */}
       {businesses.length > 0 && (
@@ -143,17 +143,21 @@ export default function Businesses() {
       {/* Businesses Grid */}
       {filteredBusinesses.length === 0 && searchQuery === '' ? (
         <div>
-          <EmptyState
-            icon={Building2}
-            title="No businesses yet"
-            description={
-              user?.user_role === 'client'
-                ? 'Your agency is setting up your business profile.'
-                : 'Start by adding your first business to track and manage.'
-            }
-            actionLabel={canAddBusiness ? 'Add your first business' : null}
-            onAction={() => setShowCreateDialog(true)}
-          />
+          {!canAddBusiness ? (
+            <EmptyState
+              icon={Building2}
+              title="No businesses yet"
+              description="Your agency is setting up your business profile. Only admins and account managers can add businesses."
+            />
+          ) : (
+            <EmptyState
+              icon={Building2}
+              title="No businesses yet"
+              description="Start by adding your first business to track and manage."
+              actionLabel="Add your first business"
+              onAction={() => setShowCreateDialog(true)}
+            />
+          )}
         </div>
       ) : filteredBusinesses.length === 0 ? (
         <Card className="p-12">
