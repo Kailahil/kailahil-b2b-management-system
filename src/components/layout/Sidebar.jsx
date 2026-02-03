@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import { Home, Building2, Settings, LogOut } from 'lucide-react';
+import { Home, Building2, Settings, LogOut, Video, MessageSquare } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
 export default function Sidebar({ currentPageName, user, isOpen, onClose }) {
