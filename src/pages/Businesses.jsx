@@ -104,18 +104,25 @@ export default function Businesses() {
               ? 'Your business information and performance'
               : 'Manage all businesses in your agency'}
           </p>
+          <p className="text-xs text-slate-400 mt-1">Role: {user?.user_role || 'unknown'}</p>
         </div>
-        {canAddBusiness && (
-          <Button 
-            onClick={() => setShowCreateDialog(true)}
-            className="bg-indigo-600 hover:bg-indigo-700 gap-2"
-          >
-            <Plus className="w-4 h-4" />
-            <span className="hidden sm:inline">Add Business</span>
-            <span className="sm:hidden">Add</span>
-          </Button>
-        )}
+        <Button 
+          onClick={() => setShowCreateDialog(true)}
+          disabled={!canAddBusiness}
+          className="bg-indigo-600 hover:bg-indigo-700 gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <Plus className="w-4 h-4" />
+          <span className="hidden sm:inline">Add Business</span>
+          <span className="sm:hidden">Add</span>
+        </Button>
       </div>
+
+      {/* Role message for non-admins */}
+      {!canAddBusiness && (
+        <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl">
+          <p className="text-sm text-amber-800">Only admins and account managers can add businesses.</p>
+        </div>
+      )}
 
       {/* Search */}
       {businesses.length > 0 && (
@@ -135,17 +142,19 @@ export default function Businesses() {
 
       {/* Businesses Grid */}
       {filteredBusinesses.length === 0 && searchQuery === '' ? (
-        <EmptyState
-          icon={Building2}
-          title="No businesses yet"
-          description={
-            user?.user_role === 'client'
-              ? 'Your agency is setting up your business profile.'
-              : 'Start by adding your first business to track and manage.'
-          }
-          actionLabel={canAddBusiness ? 'Add Business' : null}
-          onAction={() => setShowCreateDialog(true)}
-        />
+        <div>
+          <EmptyState
+            icon={Building2}
+            title="No businesses yet"
+            description={
+              user?.user_role === 'client'
+                ? 'Your agency is setting up your business profile.'
+                : 'Start by adding your first business to track and manage.'
+            }
+            actionLabel={canAddBusiness ? 'Add your first business' : null}
+            onAction={() => setShowCreateDialog(true)}
+          />
+        </div>
       ) : filteredBusinesses.length === 0 ? (
         <Card className="p-12">
           <EmptyState
@@ -212,16 +221,6 @@ export default function Businesses() {
         onSubmit={handleCreateBusiness}
         isSubmitting={isSubmitting}
       />
-
-      {/* Mobile FAB */}
-      {canAddBusiness && (
-        <Button
-          onClick={() => setShowCreateDialog(true)}
-          className="lg:hidden fixed bottom-6 right-6 w-14 h-14 rounded-full bg-indigo-600 hover:bg-indigo-700 shadow-2xl z-50"
-        >
-          <Plus className="w-6 h-6" />
-        </Button>
-      )}
     </div>
   );
 }
