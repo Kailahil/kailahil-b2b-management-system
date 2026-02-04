@@ -49,6 +49,8 @@
  */
 import AIInsights from './pages/AIInsights';
 import BusinessAnalytics from './pages/BusinessAnalytics';
+import BusinessDetail from './pages/BusinessDetail';
+import Businesses from './pages/Businesses';
 import ClientReports from './pages/ClientReports';
 import ContentItemDetail from './pages/ContentItemDetail';
 import ContentPipeline from './pages/ContentPipeline';
@@ -58,14 +60,14 @@ import Reviews from './pages/Reviews';
 import Settings from './pages/Settings';
 import Setup from './pages/Setup';
 import Dashboard from './pages/Dashboard';
-import BusinessDetail from './pages/BusinessDetail';
-import Businesses from './pages/Businesses';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "AIInsights": AIInsights,
     "BusinessAnalytics": BusinessAnalytics,
+    "BusinessDetail": BusinessDetail,
+    "Businesses": Businesses,
     "ClientReports": ClientReports,
     "ContentItemDetail": ContentItemDetail,
     "ContentPipeline": ContentPipeline,
@@ -75,8 +77,6 @@ export const PAGES = {
     "Settings": Settings,
     "Setup": Setup,
     "Dashboard": Dashboard,
-    "BusinessDetail": BusinessDetail,
-    "Businesses": Businesses,
 }
 
 export const pagesConfig = {

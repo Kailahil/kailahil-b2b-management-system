@@ -116,154 +116,259 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Ultra Creative Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
-          {stats.map((stat, idx) => {
-            const Icon = stat.icon;
-            const patterns = [
-              { bg: 'bg-gradient-to-br from-white to-[#f9f8f4]', accent: 'from-[#a8b88c] to-[#8a9a6e]', shape: 'rounded-[2.5rem_2.5rem_2.5rem_0.5rem]' },
-              { bg: 'bg-gradient-to-bl from-white to-[#f9f8f4]', accent: 'from-[#7a8a5e] to-[#a8b88c]', shape: 'rounded-[2.5rem_0.5rem_2.5rem_2.5rem]' },
-              { bg: 'bg-gradient-to-tr from-white to-[#f9f8f4]', accent: 'from-[#8a9a6e] to-[#7a8a5e]', shape: 'rounded-[0.5rem_2.5rem_2.5rem_2.5rem]' }
-            ];
-            const pattern = patterns[idx];
-            
-            return (
-              <div key={stat.title} className={`${pattern.bg} ${pattern.shape} p-7 shadow-lg hover:shadow-2xl transition-all duration-500 relative overflow-hidden group`}>
-                {/* Animated background pattern */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-500">
-                  <div className="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgb3BhY2l0eT0iMC4xIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30" />
+        {/* Creative Asymmetric Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-10">
+          {/* First stat - Large organic shape */}
+          <div className="md:col-span-5">
+            <div className="bg-gradient-to-br from-white via-[#f9f8f4] to-white rounded-[3rem_3rem_3rem_1rem] p-8 shadow-xl hover:shadow-2xl transition-all duration-500 relative overflow-hidden group h-full">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-[#a8b88c]/10 rounded-full -mr-20 -mt-20 group-hover:scale-150 transition-transform duration-700" />
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#7a8a5e]/10 rounded-full -ml-16 -mb-16" />
+              
+              <div className="relative z-10">
+                <div className="w-20 h-20 rounded-[1.5rem_1.5rem_1.5rem_0.3rem] bg-gradient-to-br from-[#a8b88c] to-[#7a8a5e] flex items-center justify-center mb-6 shadow-lg group-hover:rotate-6 transition-transform duration-500">
+                  {React.createElement(stats[0].icon, { className: "w-10 h-10 text-white" })}
                 </div>
-
-                <div className="relative z-10">
-                  <div className={`w-16 h-16 rounded-[1.2rem] bg-gradient-to-br ${pattern.accent} flex items-center justify-center mb-5 shadow-md group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500`}>
-                    <Icon className="w-8 h-8 text-white" />
+                <p className="text-xs text-[#6b7055] uppercase tracking-[0.2em] font-bold mb-2">{stats[0].title}</p>
+                <p className="text-6xl font-black text-[#2d3319] mb-3">{stats[0].value}</p>
+                {stats[0].note && (
+                  <div className="inline-flex items-center gap-2 bg-[#f5f3ed] px-4 py-2 rounded-full">
+                    <div className="w-2 h-2 bg-[#a8b88c] rounded-full animate-pulse" />
+                    <p className="text-xs text-[#6b7055]">{stats[0].note}</p>
                   </div>
-                  <div className="space-y-1">
-                    <p className="text-xs text-[#6b7055] uppercase tracking-widest font-semibold">{stat.title}</p>
-                    <p className="text-5xl font-black text-[#2d3319] tracking-tight">
-                      {stat.value}
-                    </p>
-                    {stat.note && (
-                      <div className="flex items-center gap-2 mt-3">
-                        <div className="w-1.5 h-1.5 bg-[#a8b88c] rounded-full" />
-                        <p className="text-xs text-[#9ca38a]">{stat.note}</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
+                )}
               </div>
-            );
-          })}
-        </div>
-
-        {/* Revolutionary Business Cards */}
-        <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-xl overflow-hidden border border-white/50">
-          <div className="px-8 py-6 bg-gradient-to-r from-white/50 to-transparent border-b border-[#e8e6de]/50">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-2xl font-bold text-[#2d3319] mb-1">
-                  {user?.user_role === 'client' ? 'Your Business' : 'Your Portfolio'}
-                </h2>
-                <p className="text-sm text-[#6b7055]">{businesses.length} {businesses.length === 1 ? 'business' : 'businesses'} • Growing strong 🌱</p>
-              </div>
-              {businesses.length > 0 && user?.user_role !== 'client' && (
-                <Link 
-                  to={createPageUrl('Businesses')}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] text-white rounded-full hover:shadow-lg transition-all duration-300 text-sm font-medium"
-                >
-                  <span>View All</span>
-                  <span className="text-lg">→</span>
-                </Link>
-              )}
             </div>
           </div>
-          
-          <div className="p-8">
-            {businesses.length === 0 ? (
-              <div className="text-center py-12">
-                <div className="w-24 h-24 rounded-[2rem_2rem_2rem_0.5rem] bg-gradient-to-br from-[#e8e6de] to-[#d4d2c8] flex items-center justify-center mx-auto mb-6">
-                  <Building2 className="w-12 h-12 text-[#6b7055]" />
-                </div>
-                <h3 className="text-xl font-bold text-[#2d3319] mb-2">No businesses yet</h3>
-                <p className="text-[#6b7055] max-w-md mx-auto">
-                  {user?.user_role === 'client'
-                    ? 'Your agency is setting up your business profile.'
-                    : 'Start your journey by adding your first business.'}
-                </p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {businesses.slice(0, 6).map((business, idx) => {
-                  const shapes = [
-                    'rounded-[2rem_2rem_2rem_0.4rem]',
-                    'rounded-[2rem_0.4rem_2rem_2rem]',
-                    'rounded-[0.4rem_2rem_2rem_2rem]',
-                    'rounded-[2rem_2rem_0.4rem_2rem]',
-                    'rounded-[2rem_0.4rem_2rem_2rem]',
-                    'rounded-[0.4rem_2rem_2rem_2rem]'
-                  ];
-                  const gradients = [
-                    'from-[#f9f8f4] via-white to-[#f9f8f4]',
-                    'from-white via-[#f9f8f4] to-white',
-                    'from-[#f9f8f4] to-white'
-                  ];
-                  
-                  return (
-                    <Link
-                      key={business.id}
-                      to={createPageUrl(`BusinessDetail?id=${business.id}`)}
-                      className="block group"
-                    >
-                      <div className={`bg-gradient-to-br ${gradients[idx % 3]} ${shapes[idx % 6]} p-6 hover:shadow-2xl transition-all duration-500 border border-[#e8e6de]/30 hover:border-[#a8b88c]/50 relative overflow-hidden`}>
-                        {/* Animated hover effect */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-[#a8b88c]/0 to-[#a8b88c]/0 group-hover:from-[#a8b88c]/5 group-hover:to-[#a8b88c]/10 transition-all duration-500" />
-                        
-                        <div className="relative z-10">
-                          {/* Business Icon/Logo */}
-                          <div className="flex items-center gap-4 mb-6">
-                            {business.logo_url ? (
-                              <div className="w-16 h-16 rounded-[1.2rem] bg-[#2d3319] flex items-center justify-center overflow-hidden shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
-                                <img 
-                                  src={business.logo_url} 
-                                  alt={business.name}
-                                  className="w-full h-full object-cover"
-                                />
-                              </div>
-                            ) : (
-                              <div className="w-16 h-16 rounded-[1.2rem] bg-gradient-to-br from-[#a8b88c] to-[#7a8a5e] flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
-                                <Building2 className="w-8 h-8 text-white" />
-                              </div>
-                            )}
-                            <div className="flex-1 min-w-0">
-                              <h3 className="font-bold text-[#2d3319] truncate text-lg mb-1">{business.name}</h3>
-                              <p className="text-sm text-[#6b7055] capitalize">{business.industry}</p>
-                            </div>
-                          </div>
 
-                          {/* Business Info */}
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className={`px-4 py-1.5 rounded-full font-semibold text-xs shadow-sm ${
-                              business.status === 'active' 
-                                ? 'bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] text-white'
-                                : 'bg-[#e8e6de] text-[#6b7055]'
-                            }`}>
-                              {business.status}
-                            </span>
-                            {business.city && (
-                              <span className="text-xs text-[#9ca38a] flex items-center gap-1">
-                                <span>📍</span>
-                                <span>{business.city}</span>
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
+          {/* Second and Third stats - Stacked organic shapes */}
+          <div className="md:col-span-7 space-y-4">
+            {stats.slice(1).map((stat, idx) => {
+              const Icon = stat.icon;
+              const shapes = [
+                'rounded-[2.5rem_1rem_2.5rem_2.5rem]',
+                'rounded-[1rem_2.5rem_2.5rem_2.5rem]'
+              ];
+              const gradients = [
+                'from-[#f9f8f4] to-white',
+                'from-white to-[#f9f8f4]'
+              ];
+              
+              return (
+                <div key={stat.title} className={`bg-gradient-to-r ${gradients[idx]} ${shapes[idx]} p-6 shadow-lg hover:shadow-xl transition-all duration-500 relative overflow-hidden group`}>
+                  <div className="absolute top-1/2 right-0 w-32 h-32 bg-[#a8b88c]/5 rounded-full -mr-16 transform -translate-y-1/2 group-hover:scale-150 transition-transform duration-700" />
+                  
+                  <div className="relative z-10 flex items-center gap-6">
+                    <div className={`w-16 h-16 rounded-[1.2rem_1.2rem_1.2rem_0.3rem] bg-gradient-to-br from-[#8a9a6e] to-[#a8b88c] flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-500`}>
+                      <Icon className="w-8 h-8 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs text-[#6b7055] uppercase tracking-[0.15em] font-bold mb-1">{stat.title}</p>
+                      <p className="text-4xl font-black text-[#2d3319]">{stat.value}</p>
+                      {stat.note && (
+                        <p className="text-xs text-[#9ca38a] mt-2 flex items-center gap-1.5">
+                          <span className="w-1 h-1 bg-[#a8b88c] rounded-full" />
+                          {stat.note}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Organic Business Cards with Creative Layouts */}
+        <div className="space-y-6">
+          {/* Header with organic shape */}
+          <div className="flex items-end justify-between gap-4 mb-2">
+            <div>
+              <h2 className="text-3xl font-bold text-[#2d3319] mb-2">
+                {user?.user_role === 'client' ? 'Your Business' : 'Portfolio'}
+              </h2>
+              <div className="flex items-center gap-2">
+                <div className="px-4 py-1.5 bg-white/60 backdrop-blur-sm rounded-full border border-[#e8e6de]">
+                  <p className="text-sm text-[#6b7055] font-medium">{businesses.length} active</p>
+                </div>
+                <span className="text-2xl">🌱</span>
               </div>
+            </div>
+            {businesses.length > 0 && user?.user_role !== 'client' && (
+              <Link 
+                to={createPageUrl('Businesses')}
+                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] text-white rounded-full hover:shadow-lg transition-all duration-300 font-medium"
+              >
+                <span>View All</span>
+                <span className="text-lg">→</span>
+              </Link>
             )}
           </div>
+          
+          {businesses.length === 0 ? (
+            <div className="bg-white/80 backdrop-blur-sm rounded-[3rem_3rem_3rem_1rem] p-12 text-center shadow-lg">
+              <div className="w-28 h-28 rounded-[2.5rem_2.5rem_2.5rem_0.5rem] bg-gradient-to-br from-[#e8e6de] to-[#d4d2c8] flex items-center justify-center mx-auto mb-6">
+                <Building2 className="w-14 h-14 text-[#6b7055]" />
+              </div>
+              <h3 className="text-2xl font-bold text-[#2d3319] mb-3">No businesses yet</h3>
+              <p className="text-[#6b7055] text-lg max-w-md mx-auto">
+                {user?.user_role === 'client'
+                  ? 'Your agency is setting up your business profile.'
+                  : 'Start your journey by adding your first business.'}
+              </p>
+            </div>
+          ) : businesses.length === 1 ? (
+            /* Single business - Large featured card */
+            <Link
+              to={createPageUrl(`BusinessDetail?id=${businesses[0].id}`)}
+              className="block group"
+            >
+              <div className="bg-gradient-to-br from-white via-[#f9f8f4] to-white rounded-[3rem_3rem_3rem_1rem] p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-[#e8e6de]/50 hover:border-[#a8b88c]/50 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-[#a8b88c]/5 rounded-full -mr-32 -mt-32 group-hover:scale-150 transition-transform duration-700" />
+                
+                <div className="relative z-10 flex items-start gap-6">
+                  {businesses[0].logo_url ? (
+                    <div className="w-24 h-24 rounded-[1.8rem_1.8rem_1.8rem_0.4rem] bg-[#2d3319] flex items-center justify-center overflow-hidden shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
+                      <img 
+                        src={businesses[0].logo_url} 
+                        alt={businesses[0].name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-24 h-24 rounded-[1.8rem_1.8rem_1.8rem_0.4rem] bg-gradient-to-br from-[#a8b88c] to-[#7a8a5e] flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
+                      <Building2 className="w-12 h-12 text-white" />
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    <h3 className="text-3xl font-bold text-[#2d3319] mb-2">{businesses[0].name}</h3>
+                    <p className="text-lg text-[#6b7055] capitalize mb-4">{businesses[0].industry}</p>
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <span className={`px-5 py-2 rounded-full font-bold text-sm shadow-md ${
+                        businesses[0].status === 'active' 
+                          ? 'bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] text-white'
+                          : 'bg-[#e8e6de] text-[#6b7055]'
+                      }`}>
+                        {businesses[0].status}
+                      </span>
+                      {businesses[0].city && (
+                        <span className="text-sm text-[#9ca38a] flex items-center gap-2 bg-white/60 px-4 py-2 rounded-full">
+                          <span>📍</span>
+                          <span className="font-medium">{businesses[0].city}</span>
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ) : (
+            /* Multiple businesses - Creative masonry-style layout */
+            <div className="space-y-4">
+              {/* First row - 2 cards side by side */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {businesses.slice(0, 2).map((business, idx) => (
+                  <Link
+                    key={business.id}
+                    to={createPageUrl(`BusinessDetail?id=${business.id}`)}
+                    className="block group"
+                  >
+                    <div className={`bg-gradient-to-br from-white to-[#f9f8f4] ${idx === 0 ? 'rounded-[2.5rem_2.5rem_2.5rem_0.8rem]' : 'rounded-[2.5rem_0.8rem_2.5rem_2.5rem]'} p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-[#e8e6de]/30 hover:border-[#a8b88c]/50 relative overflow-hidden h-full`}>
+                      <div className="absolute bottom-0 right-0 w-32 h-32 bg-[#a8b88c]/5 rounded-full -mr-16 -mb-16 group-hover:scale-150 transition-transform duration-700" />
+                      
+                      <div className="relative z-10">
+                        <div className="flex items-center gap-4 mb-5">
+                          {business.logo_url ? (
+                            <div className="w-16 h-16 rounded-[1.2rem_1.2rem_1.2rem_0.3rem] bg-[#2d3319] flex items-center justify-center overflow-hidden shadow-lg group-hover:scale-110 transition-transform duration-500">
+                              <img src={business.logo_url} alt={business.name} className="w-full h-full object-cover" />
+                            </div>
+                          ) : (
+                            <div className="w-16 h-16 rounded-[1.2rem_1.2rem_1.2rem_0.3rem] bg-gradient-to-br from-[#a8b88c] to-[#7a8a5e] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-500">
+                              <Building2 className="w-8 h-8 text-white" />
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-bold text-[#2d3319] text-xl mb-1 truncate">{business.name}</h3>
+                            <p className="text-sm text-[#6b7055] capitalize">{business.industry}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className={`px-4 py-1.5 rounded-full font-bold text-xs ${
+                            business.status === 'active' 
+                              ? 'bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] text-white shadow-md'
+                              : 'bg-[#e8e6de] text-[#6b7055]'
+                          }`}>
+                            {business.status}
+                          </span>
+                          {business.city && (
+                            <span className="text-xs text-[#9ca38a] flex items-center gap-1">
+                              <span>📍</span>
+                              <span>{business.city}</span>
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+
+              {/* Remaining businesses - 3 column grid */}
+              {businesses.length > 2 && (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {businesses.slice(2, 8).map((business, idx) => {
+                    const shapes = [
+                      'rounded-[2rem_2rem_2rem_0.5rem]',
+                      'rounded-[2rem_0.5rem_2rem_2rem]',
+                      'rounded-[0.5rem_2rem_2rem_2rem]',
+                      'rounded-[2rem_2rem_0.5rem_2rem]',
+                      'rounded-[2rem_0.5rem_2rem_2rem]',
+                      'rounded-[0.5rem_2rem_2rem_2rem]'
+                    ];
+                    
+                    return (
+                      <Link
+                        key={business.id}
+                        to={createPageUrl(`BusinessDetail?id=${business.id}`)}
+                        className="block group"
+                      >
+                        <div className={`bg-white ${shapes[idx % 6]} p-5 shadow-md hover:shadow-xl transition-all duration-500 border border-[#e8e6de]/30 hover:border-[#a8b88c]/50 relative overflow-hidden`}>
+                          <div className="absolute top-0 right-0 w-24 h-24 bg-[#a8b88c]/5 rounded-full -mr-12 -mt-12 group-hover:scale-150 transition-transform duration-700" />
+                          
+                          <div className="relative z-10">
+                            <div className="mb-4">
+                              {business.logo_url ? (
+                                <div className="w-14 h-14 rounded-[1rem_1rem_1rem_0.2rem] bg-[#2d3319] flex items-center justify-center overflow-hidden shadow-md group-hover:scale-110 transition-transform duration-500 mb-3">
+                                  <img src={business.logo_url} alt={business.name} className="w-full h-full object-cover" />
+                                </div>
+                              ) : (
+                                <div className="w-14 h-14 rounded-[1rem_1rem_1rem_0.2rem] bg-gradient-to-br from-[#a8b88c] to-[#7a8a5e] flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-500 mb-3">
+                                  <Building2 className="w-7 h-7 text-white" />
+                                </div>
+                              )}
+                              <h3 className="font-bold text-[#2d3319] text-base mb-1 truncate">{business.name}</h3>
+                              <p className="text-xs text-[#6b7055] capitalize truncate">{business.industry}</p>
+                            </div>
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <span className={`px-3 py-1 rounded-full font-semibold text-[10px] ${
+                                business.status === 'active' 
+                                  ? 'bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] text-white'
+                                  : 'bg-[#e8e6de] text-[#6b7055]'
+                              }`}>
+                                {business.status}
+                              </span>
+                              {business.city && (
+                                <span className="text-[10px] text-[#9ca38a]">📍 {business.city}</span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
