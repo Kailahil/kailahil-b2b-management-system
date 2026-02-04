@@ -104,23 +104,6 @@ export default function EmployeeLogin() {
                 </p>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-[#2d3319] mb-2">
-                  Password
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#a8b88c]" />
-                  <Input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter your password"
-                    className="pl-12 h-12 rounded-xl border-[#e8e6de] focus:border-[#a8b88c] focus:ring-[#a8b88c]"
-                    required
-                  />
-                </div>
-              </div>
-
               <Button
                 type="submit"
                 disabled={loading}
