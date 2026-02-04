@@ -47,36 +47,36 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
-import AIInsights from './pages/AIInsights';
-import BusinessAnalytics from './pages/BusinessAnalytics';
 import BusinessDetail from './pages/BusinessDetail';
 import Businesses from './pages/Businesses';
-import ClientReports from './pages/ClientReports';
-import ContentItemDetail from './pages/ContentItemDetail';
-import ContentPipeline from './pages/ContentPipeline';
 import Dashboard from './pages/Dashboard';
-import ExecutiveDashboard from './pages/ExecutiveDashboard';
-import GrowthPlanner from './pages/GrowthPlanner';
-import Reviews from './pages/Reviews';
 import Settings from './pages/Settings';
 import Setup from './pages/Setup';
+import BusinessAnalytics from './pages/BusinessAnalytics';
+import ContentPipeline from './pages/ContentPipeline';
+import ContentItemDetail from './pages/ContentItemDetail';
+import Reviews from './pages/Reviews';
+import ExecutiveDashboard from './pages/ExecutiveDashboard';
+import AIInsights from './pages/AIInsights';
+import ClientReports from './pages/ClientReports';
+import GrowthPlanner from './pages/GrowthPlanner';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "AIInsights": AIInsights,
-    "BusinessAnalytics": BusinessAnalytics,
     "BusinessDetail": BusinessDetail,
     "Businesses": Businesses,
-    "ClientReports": ClientReports,
-    "ContentItemDetail": ContentItemDetail,
-    "ContentPipeline": ContentPipeline,
     "Dashboard": Dashboard,
-    "ExecutiveDashboard": ExecutiveDashboard,
-    "GrowthPlanner": GrowthPlanner,
-    "Reviews": Reviews,
     "Settings": Settings,
     "Setup": Setup,
+    "BusinessAnalytics": BusinessAnalytics,
+    "ContentPipeline": ContentPipeline,
+    "ContentItemDetail": ContentItemDetail,
+    "Reviews": Reviews,
+    "ExecutiveDashboard": ExecutiveDashboard,
+    "AIInsights": AIInsights,
+    "ClientReports": ClientReports,
+    "GrowthPlanner": GrowthPlanner,
 }
 
 export const pagesConfig = {
