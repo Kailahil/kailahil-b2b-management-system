@@ -47,36 +47,36 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
-import BusinessDetail from './pages/BusinessDetail';
-import Businesses from './pages/Businesses';
-import Dashboard from './pages/Dashboard';
+import AIInsights from './pages/AIInsights';
+import BusinessAnalytics from './pages/BusinessAnalytics';
+import ClientReports from './pages/ClientReports';
+import ContentItemDetail from './pages/ContentItemDetail';
+import ContentPipeline from './pages/ContentPipeline';
+import ExecutiveDashboard from './pages/ExecutiveDashboard';
+import GrowthPlanner from './pages/GrowthPlanner';
+import Reviews from './pages/Reviews';
 import Settings from './pages/Settings';
 import Setup from './pages/Setup';
-import BusinessAnalytics from './pages/BusinessAnalytics';
-import ContentPipeline from './pages/ContentPipeline';
-import ContentItemDetail from './pages/ContentItemDetail';
-import Reviews from './pages/Reviews';
-import ExecutiveDashboard from './pages/ExecutiveDashboard';
-import AIInsights from './pages/AIInsights';
-import ClientReports from './pages/ClientReports';
-import GrowthPlanner from './pages/GrowthPlanner';
+import Dashboard from './pages/Dashboard';
+import BusinessDetail from './pages/BusinessDetail';
+import Businesses from './pages/Businesses';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "BusinessDetail": BusinessDetail,
-    "Businesses": Businesses,
-    "Dashboard": Dashboard,
+    "AIInsights": AIInsights,
+    "BusinessAnalytics": BusinessAnalytics,
+    "ClientReports": ClientReports,
+    "ContentItemDetail": ContentItemDetail,
+    "ContentPipeline": ContentPipeline,
+    "ExecutiveDashboard": ExecutiveDashboard,
+    "GrowthPlanner": GrowthPlanner,
+    "Reviews": Reviews,
     "Settings": Settings,
     "Setup": Setup,
-    "BusinessAnalytics": BusinessAnalytics,
-    "ContentPipeline": ContentPipeline,
-    "ContentItemDetail": ContentItemDetail,
-    "Reviews": Reviews,
-    "ExecutiveDashboard": ExecutiveDashboard,
-    "AIInsights": AIInsights,
-    "ClientReports": ClientReports,
-    "GrowthPlanner": GrowthPlanner,
+    "Dashboard": Dashboard,
+    "BusinessDetail": BusinessDetail,
+    "Businesses": Businesses,
 }
 
 export const pagesConfig = {

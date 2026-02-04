@@ -82,122 +82,119 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-slate-900 mb-2">
-          Welcome back, {user?.full_name?.split(' ')[0]}
-        </h1>
-        <p className="text-slate-500">
-          {user?.user_role === 'client' 
-            ? 'View your business performance and insights'
-            : 'Here\'s what\'s happening across your managed businesses'}
-        </p>
-      </div>
+    <div className="min-h-screen bg-[#f5f3ed] px-6 py-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-semibold text-[#2d3319] mb-2">
+            Welcome back, {user?.full_name?.split(' ')[0]} 👋
+          </h1>
+          <p className="text-[#6b7055] text-base">
+            {user?.user_role === 'client' 
+              ? 'View your business performance and insights'
+              : 'Here\'s what\'s happening across your managed businesses'}
+          </p>
+        </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        {stats.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <Card key={stat.title} className="relative overflow-hidden hover:shadow-lg transition-all duration-300">
-              <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${stat.color} opacity-10 rounded-full -mr-8 -mt-8`}></div>
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-500 mb-1">{stat.title}</p>
-                    <CardTitle className="text-4xl font-bold text-slate-900">
-                      {stat.value}
-                    </CardTitle>
-                    {stat.note && (
-                      <p className="text-xs text-slate-400 mt-2">{stat.note}</p>
-                    )}
-                  </div>
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center`}>
-                    <Icon className="w-6 h-6 text-white" />
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+          {stats.map((stat) => {
+            const Icon = stat.icon;
+            return (
+              <div key={stat.title} className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-md transition-all duration-300">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="w-14 h-14 rounded-2xl bg-[#a8b88c] flex items-center justify-center">
+                    <Icon className="w-7 h-7 text-white" />
                   </div>
                 </div>
-              </CardHeader>
-            </Card>
-          );
-        })}
-      </div>
+                <p className="text-sm text-[#6b7055] mb-2">{stat.title}</p>
+                <p className="text-4xl font-bold text-[#2d3319] mb-1">
+                  {stat.value}
+                </p>
+                {stat.note && (
+                  <p className="text-xs text-[#9ca38a] mt-2">{stat.note}</p>
+                )}
+              </div>
+            );
+          })}
+        </div>
 
-      {/* Recent Businesses */}
-      <Card className="shadow-lg">
-        <CardHeader className="border-b border-slate-100">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-xl font-bold text-slate-900">
-              {user?.user_role === 'client' ? 'Your Business' : 'Recent Businesses'}
-            </CardTitle>
-            {businesses.length > 0 && user?.user_role !== 'client' && (
-              <Link 
-                to={createPageUrl('Businesses')}
-                className="text-sm text-indigo-600 hover:text-indigo-700 font-medium"
-              >
-                View all
-              </Link>
-            )}
-          </div>
-        </CardHeader>
-        <CardContent className="p-6">
-          {businesses.length === 0 ? (
-            <EmptyState
-              icon={Building2}
-              title="No businesses yet"
-              description={
-                user?.user_role === 'client'
-                  ? 'Your agency is setting up your business profile.'
-                  : 'Start by adding your first business to track and manage.'
-              }
-              actionLabel={user?.user_role === 'agency_admin' ? 'Add Business' : null}
-              onAction={() => window.location.href = createPageUrl('Businesses')}
-            />
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {businesses.slice(0, 6).map((business) => (
-                <Link
-                  key={business.id}
-                  to={createPageUrl(`BusinessDetail?id=${business.id}`)}
-                  className="block"
+        {/* Recent Businesses */}
+        <div className="bg-white rounded-3xl shadow-sm overflow-hidden">
+          <div className="px-6 py-5 border-b border-[#e8e6de]">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-[#2d3319]">
+                {user?.user_role === 'client' ? 'Your Business' : 'Recent Businesses'}
+              </h2>
+              {businesses.length > 0 && user?.user_role !== 'client' && (
+                <Link 
+                  to={createPageUrl('Businesses')}
+                  className="text-sm text-[#a8b88c] hover:text-[#8a9a6e] font-medium"
                 >
-                  <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer border-2 border-transparent hover:border-indigo-200">
-                    <CardContent className="p-6">
-                      <div className="flex items-center gap-3 mb-3">
+                  View all →
+                </Link>
+              )}
+            </div>
+          </div>
+          <div className="p-6">
+            {businesses.length === 0 ? (
+              <EmptyState
+                icon={Building2}
+                title="No businesses yet"
+                description={
+                  user?.user_role === 'client'
+                    ? 'Your agency is setting up your business profile.'
+                    : 'Start by adding your first business to track and manage.'
+                }
+                actionLabel={user?.user_role === 'agency_admin' ? 'Add Business' : null}
+                onAction={() => window.location.href = createPageUrl('Businesses')}
+              />
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {businesses.slice(0, 6).map((business) => (
+                  <Link
+                    key={business.id}
+                    to={createPageUrl(`BusinessDetail?id=${business.id}`)}
+                    className="block"
+                  >
+                    <div className="bg-[#f9f8f4] rounded-2xl p-5 hover:bg-[#f3f1e8] transition-all duration-300 cursor-pointer border border-transparent hover:border-[#a8b88c]/30">
+                      <div className="flex items-center gap-3 mb-4">
                         {business.logo_url ? (
-                          <img 
-                            src={business.logo_url} 
-                            alt={business.name}
-                            className="w-12 h-12 rounded-lg object-cover"
-                          />
+                          <div className="w-14 h-14 rounded-2xl bg-[#2d3319] flex items-center justify-center overflow-hidden">
+                            <img 
+                              src={business.logo_url} 
+                              alt={business.name}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
                         ) : (
-                          <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
-                            <Building2 className="w-6 h-6 text-indigo-600" />
+                          <div className="w-14 h-14 rounded-2xl bg-[#a8b88c] flex items-center justify-center">
+                            <Building2 className="w-7 h-7 text-white" />
                           </div>
                         )}
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-semibold text-slate-900 truncate">{business.name}</h3>
-                          <p className="text-sm text-slate-500 capitalize">{business.industry}</p>
+                          <h3 className="font-semibold text-[#2d3319] truncate text-base">{business.name}</h3>
+                          <p className="text-sm text-[#6b7055] capitalize">{business.industry}</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-2 text-xs text-slate-500">
-                        <span className={`px-2 py-1 rounded-full ${
+                      <div className="flex items-center gap-2 text-xs">
+                        <span className={`px-3 py-1.5 rounded-full font-medium ${
                           business.status === 'active' 
-                            ? 'bg-emerald-100 text-emerald-700'
-                            : 'bg-slate-100 text-slate-600'
+                            ? 'bg-[#a8b88c] text-white'
+                            : 'bg-[#e8e6de] text-[#6b7055]'
                         }`}>
                           {business.status}
                         </span>
-                        {business.city && <span>• {business.city}</span>}
+                        {business.city && <span className="text-[#9ca38a]">• {business.city}</span>}
                       </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
