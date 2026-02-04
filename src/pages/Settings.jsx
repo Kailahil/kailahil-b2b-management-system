@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Settings as SettingsIcon, Users, Shield } from 'lucide-react';
+import { Settings as SettingsIcon, Users, Shield, LogOut } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
+import { createPageUrl } from '../components/utils';
 
 export default function Settings() {
   const [user, setUser] = useState(null);
@@ -39,6 +40,13 @@ export default function Settings() {
   }
 
   const isAdmin = user?.user_role === 'agency_admin';
+
+  const handleLogout = async () => {
+    const redirectUrl = user?.user_role === 'client' 
+      ? createPageUrl('ClientLogin') 
+      : createPageUrl('MediaLogin');
+    await base44.auth.logout(redirectUrl);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f5f3ed] via-[#ebe9dd] to-[#f5f3ed] px-4 py-8 pb-32 relative overflow-hidden">
@@ -120,6 +128,18 @@ export default function Settings() {
                 <h3 className="font-bold text-[#2d3319] mb-2">Two-Factor Authentication</h3>
                 <p className="text-sm text-[#6b7055] mb-2">Add an extra layer of security to your account</p>
                 <Button variant="outline" className="border-[#e8e6de] text-[#6b7055] hover:bg-[#f5f3ed]">Enable 2FA</Button>
+              </div>
+              <div className="pt-6 border-t border-[#e8e6de]">
+                <h3 className="font-bold text-[#2d3319] mb-2">Sign Out</h3>
+                <p className="text-sm text-[#6b7055] mb-3">Log out of your account and return to the login page</p>
+                <Button 
+                  onClick={handleLogout}
+                  variant="outline" 
+                  className="border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
               </div>
             </div>
           </div>
