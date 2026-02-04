@@ -98,8 +98,8 @@ export default function Reviews() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      <div className="flex items-center justify-center min-h-screen bg-[#f5f3ed]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#a8b88c]"></div>
       </div>
     );
   }
@@ -109,29 +109,35 @@ export default function Reviews() {
     : reviews.filter(r => r.business_id === selectedBusiness);
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Reviews</h1>
-          <p className="text-slate-600">Manage and respond to customer reviews</p>
-        </div>
-        <Button 
-          onClick={() => setShowImport(!showImport)}
-          className="bg-indigo-600 hover:bg-indigo-700"
-        >
-          <Upload className="w-4 h-4 mr-2" />
-          Import Review
-        </Button>
+    <div className="min-h-screen bg-gradient-to-br from-[#f5f3ed] via-[#ebe9dd] to-[#f5f3ed] px-4 py-8 pb-32 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-[#d4e0b3] rounded-full opacity-10 blur-3xl animate-pulse" />
+        <div className="absolute bottom-40 right-10 w-96 h-96 bg-[#a8b88c] rounded-full opacity-10 blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
 
-      <Card className="mb-6">
-        <CardContent className="p-4">
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-4xl font-bold text-[#2d3319] mb-2">Reviews</h1>
+            <p className="text-[#6b7055] text-lg">Manage and respond to customer reviews</p>
+          </div>
+          <Button 
+            onClick={() => setShowImport(!showImport)}
+            className="bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] hover:from-[#8a9a6e] hover:to-[#7a8a5e] text-white shadow-md"
+          >
+            <Upload className="w-4 h-4 mr-2" />
+            Import Review
+          </Button>
+        </div>
+
+        <div className="bg-white/80 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-4 mb-6 shadow-lg border border-[#e8e6de]/30">
           <div className="flex items-center gap-2">
-            <span className="text-sm text-slate-600">Filter by business:</span>
+            <span className="text-sm text-[#6b7055] font-medium">Filter by business:</span>
             <select
               value={selectedBusiness}
               onChange={(e) => setSelectedBusiness(e.target.value)}
-              className="px-3 py-2 rounded-lg border border-slate-200 text-sm"
+              className="px-4 py-2 rounded-full border border-[#e8e6de] text-sm text-[#2d3319] bg-white focus:outline-none focus:border-[#a8b88c]"
             >
               <option value="all">All Businesses</option>
               {businesses.map(biz => (
@@ -139,65 +145,65 @@ export default function Reviews() {
               ))}
             </select>
           </div>
-        </CardContent>
-      </Card>
+        </div>
 
-      {showImport && (
-        <Card className="mb-6 border-indigo-200">
-          <CardHeader className="border-b border-slate-100">
-            <CardTitle className="text-lg">Import Review</CardTitle>
-          </CardHeader>
-          <CardContent className="p-6">
-            <div className="space-y-4">
-              <div>
-                <label className="text-sm font-medium text-slate-700 mb-2 block">
-                  Select Business
-                </label>
-                <select
-                  value={selectedBusiness === 'all' ? '' : selectedBusiness}
-                  onChange={(e) => setSelectedBusiness(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200"
-                >
-                  <option value="">Choose a business...</option>
-                  {businesses.map(biz => (
-                    <option key={biz.id} value={biz.id}>{biz.name}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="text-sm font-medium text-slate-700 mb-2 block">
-                  Review Text
-                </label>
-                <Textarea
-                  value={importText}
-                  onChange={(e) => setImportText(e.target.value)}
-                  placeholder="Paste review text here..."
-                  rows={4}
-                />
-              </div>
-              <div className="flex gap-2">
-                <Button 
-                  onClick={handleImport}
-                  disabled={isImporting}
-                  className="bg-indigo-600 hover:bg-indigo-700"
-                >
-                  {isImporting ? 'Importing...' : 'Import Review'}
-                </Button>
-                <Button 
-                  onClick={() => setShowImport(false)}
-                  variant="outline"
-                >
-                  Cancel
-                </Button>
+        {showImport && (
+          <div className="bg-white/90 backdrop-blur-sm rounded-[2.5rem_2.5rem_2.5rem_1rem] shadow-xl border-2 border-[#a8b88c]/30 mb-6 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#a8b88c]/5 rounded-full -mr-32 -mt-32" />
+            
+            <div className="relative z-10 p-8">
+              <h2 className="text-2xl font-bold text-[#2d3319] mb-6">Import Review</h2>
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-bold text-[#2d3319] mb-2 block">
+                    Select Business
+                  </label>
+                  <select
+                    value={selectedBusiness === 'all' ? '' : selectedBusiness}
+                    onChange={(e) => setSelectedBusiness(e.target.value)}
+                    className="w-full px-4 py-3 rounded-[1rem_1rem_1rem_0.3rem] border border-[#e8e6de] text-[#2d3319] bg-white focus:outline-none focus:border-[#a8b88c]"
+                  >
+                    <option value="">Choose a business...</option>
+                    {businesses.map(biz => (
+                      <option key={biz.id} value={biz.id}>{biz.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-sm font-bold text-[#2d3319] mb-2 block">
+                    Review Text
+                  </label>
+                  <Textarea
+                    value={importText}
+                    onChange={(e) => setImportText(e.target.value)}
+                    placeholder="Paste review text here..."
+                    rows={4}
+                    className="rounded-[1rem_1rem_1rem_0.3rem] border-[#e8e6de] focus:border-[#a8b88c]"
+                  />
+                </div>
+                <div className="flex gap-3">
+                  <Button 
+                    onClick={handleImport}
+                    disabled={isImporting}
+                    className="bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] hover:from-[#8a9a6e] hover:to-[#7a8a5e] text-white shadow-md"
+                  >
+                    {isImporting ? 'Importing...' : 'Import Review'}
+                  </Button>
+                  <Button 
+                    onClick={() => setShowImport(false)}
+                    variant="outline"
+                    className="border-[#e8e6de] text-[#6b7055] hover:bg-[#f5f3ed]"
+                  >
+                    Cancel
+                  </Button>
+                </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
-      )}
+          </div>
+        )}
 
-      {filteredReviews.length === 0 ? (
-        <Card>
-          <CardContent className="p-8">
+        {filteredReviews.length === 0 ? (
+          <div className="bg-white/80 backdrop-blur-sm rounded-[3rem_3rem_3rem_1rem] p-12 shadow-xl border border-[#e8e6de]/30">
             <EmptyState
               icon={MessageSquare}
               title="No reviews yet"
@@ -205,15 +211,13 @@ export default function Reviews() {
               actionLabel="Import First Review"
               onAction={() => setShowImport(true)}
             />
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="space-y-4">
-          {filteredReviews.map(review => {
-            const business = businesses.find(b => b.id === review.business_id);
-            return (
-              <Card key={review.id}>
-                <CardContent className="p-6">
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {filteredReviews.map(review => {
+              const business = businesses.find(b => b.id === review.business_id);
+              return (
+                <div key={review.id} className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-6 shadow-lg border border-[#e8e6de]/30 hover:shadow-xl transition-shadow duration-300">
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <div className="flex items-center gap-2 mb-2">
@@ -221,40 +225,40 @@ export default function Reviews() {
                           {[...Array(5)].map((_, i) => (
                             <Star 
                               key={i} 
-                              className={`w-4 h-4 ${i < review.rating ? 'fill-amber-400 text-amber-400' : 'text-slate-300'}`}
+                              className={`w-4 h-4 ${i < review.rating ? 'fill-amber-400 text-amber-400' : 'text-[#e8e6de]'}`}
                             />
                           ))}
                         </div>
-                        <span className="text-sm text-slate-600">{review.reviewer_name}</span>
+                        <span className="text-sm text-[#6b7055] font-medium">{review.reviewer_name}</span>
                       </div>
-                      <p className="text-sm text-slate-500 mb-2">{business?.name}</p>
-                      <p className="text-slate-900">{review.text}</p>
+                      <p className="text-sm text-[#9ca38a] mb-2">{business?.name}</p>
+                      <p className="text-[#2d3319]">{review.text}</p>
                     </div>
                   </div>
 
                   {review.ai_response_draft && (
                     <div className="mt-4 space-y-3">
-                      <div className="bg-indigo-50 rounded-lg p-4">
-                        <label className="text-sm font-medium text-indigo-900 mb-2 block flex items-center gap-2">
-                          <Sparkles className="w-4 h-4" />
+                      <div className="bg-[#a8b88c]/10 rounded-[1.5rem_1.5rem_1.5rem_0.5rem] p-4 border border-[#a8b88c]/20">
+                        <label className="text-sm font-bold text-[#2d3319] mb-2 block flex items-center gap-2">
+                          <Sparkles className="w-4 h-4 text-[#a8b88c]" />
                           AI Response Draft
                         </label>
-                        <p className="text-sm text-slate-700">{review.ai_response_draft}</p>
+                        <p className="text-sm text-[#6b7055]">{review.ai_response_draft}</p>
                       </div>
                       {review.ai_action_plan && (
-                        <div className="bg-slate-50 rounded-lg p-4">
-                          <label className="text-sm font-medium text-slate-900 mb-2 block">
+                        <div className="bg-[#e8e6de]/50 rounded-[1.5rem_1.5rem_1.5rem_0.5rem] p-4">
+                          <label className="text-sm font-bold text-[#2d3319] mb-2 block">
                             Action Plan
                           </label>
-                          <p className="text-sm text-slate-700">{review.ai_action_plan}</p>
+                          <p className="text-sm text-[#6b7055]">{review.ai_action_plan}</p>
                         </div>
                       )}
                       {review.ai_promo_idea && (
-                        <div className="bg-green-50 rounded-lg p-4">
-                          <label className="text-sm font-medium text-green-900 mb-2 block">
+                        <div className="bg-[#d4e0b3]/20 rounded-[1.5rem_1.5rem_1.5rem_0.5rem] p-4 border border-[#d4e0b3]/30">
+                          <label className="text-sm font-bold text-[#2d3319] mb-2 block">
                             Promo Idea
                           </label>
-                          <p className="text-sm text-slate-700">{review.ai_promo_idea}</p>
+                          <p className="text-sm text-[#6b7055]">{review.ai_promo_idea}</p>
                         </div>
                       )}
                     </div>
@@ -266,19 +270,19 @@ export default function Reviews() {
                         onClick={() => handleGenerateResponse(review)}
                         disabled={generatingFor === review.id}
                         size="sm"
-                        className="bg-indigo-600 hover:bg-indigo-700"
+                        className="bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] hover:from-[#8a9a6e] hover:to-[#7a8a5e] text-white shadow-md"
                       >
                         <Sparkles className="w-4 h-4 mr-2" />
                         {generatingFor === review.id ? 'Generating...' : 'Generate AI Response'}
                       </Button>
                     )}
                   </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-      )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

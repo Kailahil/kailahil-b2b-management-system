@@ -158,8 +158,8 @@ export default function BusinessDetail() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      <div className="flex items-center justify-center min-h-screen bg-[#f5f3ed]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#a8b88c]"></div>
       </div>
     );
   }
@@ -188,67 +188,82 @@ export default function BusinessDetail() {
   });
 
   return (
-    <div className="max-w-7xl mx-auto">
-      {/* Back Button */}
-      <Link 
-        to={createPageUrl('Businesses')}
-        className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6 transition-colors"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        Back to Businesses
-      </Link>
+    <div className="min-h-screen bg-gradient-to-br from-[#f5f3ed] via-[#ebe9dd] to-[#f5f3ed] px-4 py-8 pb-32 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-[#d4e0b3] rounded-full opacity-10 blur-3xl animate-pulse" />
+        <div className="absolute bottom-40 right-10 w-96 h-96 bg-[#a8b88c] rounded-full opacity-10 blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+      </div>
 
-      {/* Business Header */}
-      <Card className="mb-8 shadow-lg">
-        <CardContent className="p-8">
-          <div className="flex items-start gap-6">
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Back Button */}
+        <Link 
+          to={createPageUrl('Businesses')}
+          className="inline-flex items-center gap-2 text-[#6b7055] hover:text-[#2d3319] mb-6 transition-colors font-medium"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Businesses
+        </Link>
+
+        {/* Business Header */}
+        <div className="bg-gradient-to-br from-white via-[#f9f8f4] to-white rounded-[3rem_3rem_3rem_1rem] p-8 mb-6 shadow-xl border border-[#e8e6de]/50 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#a8b88c]/5 rounded-full -mr-32 -mt-32" />
+          
+          <div className="relative z-10 flex items-start gap-6">
             {business.logo_url ? (
-              <img 
-                src={business.logo_url} 
-                alt={business.name}
-                className="w-24 h-24 rounded-2xl object-cover"
-              />
+              <div className="w-24 h-24 rounded-[1.8rem_1.8rem_1.8rem_0.4rem] overflow-hidden shadow-xl">
+                <img 
+                  src={business.logo_url} 
+                  alt={business.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
             ) : (
-              <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center flex-shrink-0">
-                <Building2 className="w-12 h-12 text-indigo-600" />
+              <div className="w-24 h-24 rounded-[1.8rem_1.8rem_1.8rem_0.4rem] bg-gradient-to-br from-[#a8b88c] to-[#7a8a5e] flex items-center justify-center flex-shrink-0 shadow-xl">
+                <Building2 className="w-12 h-12 text-white" />
               </div>
             )}
             <div className="flex-1">
-              <h1 className="text-3xl font-bold text-slate-900 mb-2">{business.name}</h1>
-              <p className="text-slate-500 capitalize mb-4">{business.industry}</p>
-              <div className="flex flex-wrap gap-4 text-sm text-slate-600">
+              <h1 className="text-4xl font-bold text-[#2d3319] mb-2">{business.name}</h1>
+              <p className="text-[#6b7055] text-lg capitalize mb-4">{business.industry}</p>
+              <div className="flex flex-wrap gap-4 text-sm text-[#9ca38a]">
                 {business.city && (
-                  <span>📍 {business.city}{business.state ? `, ${business.state}` : ''}</span>
+                  <span className="flex items-center gap-2 bg-white/60 px-4 py-2 rounded-full">
+                    <span>📍</span>
+                    <span className="font-medium">{business.city}{business.state ? `, ${business.state}` : ''}</span>
+                  </span>
                 )}
                 {business.phone && (
-                  <span>📞 {business.phone}</span>
+                  <span className="flex items-center gap-2 bg-white/60 px-4 py-2 rounded-full">
+                    <span>📞</span>
+                    <span className="font-medium">{business.phone}</span>
+                  </span>
                 )}
                 {business.website && (
                   <a 
                     href={business.website} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-indigo-600 hover:text-indigo-700"
+                    className="flex items-center gap-2 bg-[#a8b88c]/10 hover:bg-[#a8b88c]/20 px-4 py-2 rounded-full transition-colors"
                   >
                     <LinkIcon className="w-4 h-4" />
-                    Website
+                    <span className="font-medium">Website</span>
                   </a>
                 )}
               </div>
             </div>
-            <span className={`px-4 py-2 rounded-full text-sm font-medium ${
+            <span className={`px-5 py-2 rounded-full font-bold text-sm shadow-md ${
               business.status === 'active' 
-                ? 'bg-emerald-100 text-emerald-700'
-                : 'bg-slate-100 text-slate-600'
+                ? 'bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] text-white'
+                : 'bg-[#e8e6de] text-[#6b7055]'
             }`}>
               {business.status}
             </span>
           </div>
-        </CardContent>
-      </Card>
+        </div>
 
       {/* Onboarding Checklist */}
-      <div className="mb-8">
+      <div className="mb-6">
         <OnboardingChecklist 
           business={business}
           socialAccounts={socialAccounts}
@@ -257,12 +272,14 @@ export default function BusinessDetail() {
       </div>
 
       {/* Integrations Section */}
-      <Card className="mb-8 shadow-lg">
-        <CardHeader className="border-b border-slate-100">
-          <CardTitle className="text-2xl font-bold text-slate-900">Integrations</CardTitle>
-          <p className="text-slate-500 text-sm mt-1">Connect platforms to pull real data and metrics</p>
-        </CardHeader>
-        <CardContent className="p-6">
+      <div className="bg-white/80 backdrop-blur-sm rounded-[2.5rem_2.5rem_2.5rem_1rem] shadow-xl border border-[#e8e6de]/30 mb-6 relative overflow-hidden">
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#a8b88c]/5 rounded-full -ml-32 -mb-32" />
+        
+        <div className="relative z-10 p-8">
+          <div className="mb-6">
+            <h2 className="text-3xl font-bold text-[#2d3319] mb-2">Integrations</h2>
+            <p className="text-[#6b7055]">Connect platforms to pull real data and metrics</p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <IntegrationCard
               platform="tiktok"
@@ -289,97 +306,98 @@ export default function BusinessDetail() {
               isConnecting={connecting === 'google_reviews'}
             />
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Quick Actions */}
-      <Card className="shadow-lg">
-        <CardHeader className="border-b border-slate-100">
-          <CardTitle className="text-2xl font-bold text-slate-900">Quick Actions</CardTitle>
-        </CardHeader>
-        <CardContent className="p-6">
+      <div className="bg-gradient-to-br from-white via-[#f9f8f4] to-white rounded-[2rem_2rem_2rem_1rem] shadow-xl border border-[#e8e6de]/30 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#a8b88c]/5 rounded-full -mr-48 -mt-48" />
+        
+        <div className="relative z-10 p-8">
+          <h2 className="text-3xl font-bold text-[#2d3319] mb-6">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Link 
                 to={createPageUrl('ExecutiveDashboard') + `?id=${business.id}`}
-                className="p-4 rounded-lg border border-slate-200 hover:border-purple-300 hover:bg-purple-50 transition-all group"
+                className="p-6 rounded-[1.5rem_1.5rem_1.5rem_0.5rem] bg-white border border-[#e8e6de]/30 hover:border-[#a8b88c]/50 hover:shadow-lg transition-all duration-500 group"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-purple-100 group-hover:bg-purple-200 flex items-center justify-center">
-                    <Building2 className="w-5 h-5 text-purple-600" />
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-[1rem_1rem_1rem_0.3rem] bg-gradient-to-br from-[#a8b88c] to-[#8a9a6e] flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-500">
+                    <Building2 className="w-7 h-7 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-slate-900">Executive Dashboard</h3>
-                    <p className="text-sm text-slate-500">AI-powered business insights</p>
+                    <h3 className="font-bold text-[#2d3319] mb-1">Executive Dashboard</h3>
+                    <p className="text-sm text-[#6b7055]">AI-powered business insights</p>
                   </div>
                 </div>
               </Link>
               <Link 
                 to={createPageUrl('AIInsights') + `?id=${business.id}`}
-                className="p-4 rounded-lg border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all group"
+                className="p-6 rounded-[1.5rem_0.5rem_1.5rem_1.5rem] bg-white border border-[#e8e6de]/30 hover:border-[#a8b88c]/50 hover:shadow-lg transition-all duration-500 group"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-indigo-100 group-hover:bg-indigo-200 flex items-center justify-center">
-                    <Lightbulb className="w-5 h-5 text-indigo-600" />
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-[1rem_0.3rem_1rem_1rem] bg-gradient-to-br from-[#8a9a6e] to-[#7a8a5e] flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-500">
+                    <Lightbulb className="w-7 h-7 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-slate-900">AI Insights</h3>
-                    <p className="text-sm text-slate-500">Issues, opportunities & action plans</p>
+                    <h3 className="font-bold text-[#2d3319] mb-1">AI Insights</h3>
+                    <p className="text-sm text-[#6b7055]">Issues, opportunities & action plans</p>
                   </div>
                 </div>
               </Link>
               <Link 
                 to={createPageUrl('BusinessAnalytics') + `?id=${business.id}`}
-                className="p-4 rounded-lg border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all group"
+                className="p-6 rounded-[0.5rem_1.5rem_1.5rem_1.5rem] bg-white border border-[#e8e6de]/30 hover:border-[#a8b88c]/50 hover:shadow-lg transition-all duration-500 group"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-indigo-100 group-hover:bg-indigo-200 flex items-center justify-center">
-                    <TrendingUp className="w-5 h-5 text-indigo-600" />
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-[0.3rem_1rem_1rem_1rem] bg-gradient-to-br from-[#7a8a5e] to-[#a8b88c] flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-500">
+                    <TrendingUp className="w-7 h-7 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-slate-900">View Analytics</h3>
-                    <p className="text-sm text-slate-500">Performance metrics & insights</p>
+                    <h3 className="font-bold text-[#2d3319] mb-1">View Analytics</h3>
+                    <p className="text-sm text-[#6b7055]">Performance metrics & insights</p>
                   </div>
                 </div>
               </Link>
               <Link 
                 to={createPageUrl('ClientReports') + `?id=${business.id}`}
-                className="p-4 rounded-lg border border-slate-200 hover:border-emerald-300 hover:bg-emerald-50 transition-all group"
+                className="p-6 rounded-[1.5rem_1.5rem_0.5rem_1.5rem] bg-white border border-[#e8e6de]/30 hover:border-[#a8b88c]/50 hover:shadow-lg transition-all duration-500 group"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-emerald-100 group-hover:bg-emerald-200 flex items-center justify-center">
-                    <FileText className="w-5 h-5 text-emerald-600" />
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-[1rem_1rem_0.3rem_1rem] bg-gradient-to-br from-[#a8b88c] to-[#d4e0b3] flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-500">
+                    <FileText className="w-7 h-7 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-slate-900">Client Reports</h3>
-                    <p className="text-sm text-slate-500">Monthly performance reports</p>
+                    <h3 className="font-bold text-[#2d3319] mb-1">Client Reports</h3>
+                    <p className="text-sm text-[#6b7055]">Monthly performance reports</p>
                   </div>
                 </div>
               </Link>
               <Link 
                 to={createPageUrl('GrowthPlanner') + `?id=${business.id}`}
-                className="p-4 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition-all group"
+                className="p-6 rounded-[1.5rem_1.5rem_1.5rem_0.5rem] bg-white border border-[#e8e6de]/30 hover:border-[#a8b88c]/50 hover:shadow-lg transition-all duration-500 group"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-blue-100 group-hover:bg-blue-200 flex items-center justify-center">
-                    <Target className="w-5 h-5 text-blue-600" />
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-[1rem_1rem_1rem_0.3rem] bg-gradient-to-br from-[#d4e0b3] to-[#a8b88c] flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-500">
+                    <Target className="w-7 h-7 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-slate-900">Growth Planner</h3>
-                    <p className="text-sm text-slate-500">30-day actionable plans</p>
+                    <h3 className="font-bold text-[#2d3319] mb-1">Growth Planner</h3>
+                    <p className="text-sm text-[#6b7055]">30-day actionable plans</p>
                   </div>
                 </div>
               </Link>
             </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      {/* Link TikTok Dialog */}
-      <LinkTikTokDialog
-        open={showTikTokDialog}
-        onClose={() => setShowTikTokDialog(false)}
-        onSubmit={handleLinkTikTok}
-        isSubmitting={isSubmitting}
-      />
+        {/* Link TikTok Dialog */}
+        <LinkTikTokDialog
+          open={showTikTokDialog}
+          onClose={() => setShowTikTokDialog(false)}
+          onSubmit={handleLinkTikTok}
+          isSubmitting={isSubmitting}
+        />
+      </div>
     </div>
   );
 }
