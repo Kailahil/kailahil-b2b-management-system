@@ -86,7 +86,6 @@ export default function Layout({ children, currentPageName }) {
           { name: 'Businesses', page: 'Businesses', icon: Building2 },
           { name: 'Reviews', page: 'Reviews', icon: Star },
           { name: 'Content', page: 'ContentPipeline', icon: FileText },
-          { name: 'Approvals', page: 'ClientSignupApprovals', icon: Star, badge: pendingSignups },
           { name: 'Settings', page: 'Settings', icon: Settings }
         ];
     } else {
