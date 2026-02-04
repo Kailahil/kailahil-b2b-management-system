@@ -26,7 +26,8 @@ export default function Welcome() {
 
   const handleRoleSelect = (role) => {
     localStorage.setItem('selectedRole', role);
-    base44.auth.redirectToLogin(window.location.origin + createPageUrl('Home'));
+    const returnUrl = window.location.origin + createPageUrl('Home');
+    window.location.href = `https://api.base44.com/auth/login?next=${encodeURIComponent(returnUrl)}`;
   };
 
   if (checking) {
