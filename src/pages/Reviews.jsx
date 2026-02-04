@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Star, Upload, Sparkles, MessageSquare } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
+import TikTokMetrics from '../components/analytics/TikTokMetrics';
 
 export default function Analytics() {
   const [user, setUser] = useState(null);
@@ -225,26 +226,7 @@ export default function Analytics() {
 
         {selectedBusiness && activeTab === 'social' && (
           <div className="space-y-6 mb-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-8 shadow-lg border border-[#e8e6de]/30">
-                <h3 className="text-lg font-bold text-[#2d3319] mb-4">Follower Growth</h3>
-                <div className="h-48 flex items-center justify-center text-[#9ca38a] text-sm">
-                  Chart placeholder - API data pending
-                </div>
-              </div>
-              <div className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-8 shadow-lg border border-[#e8e6de]/30">
-                <h3 className="text-lg font-bold text-[#2d3319] mb-4">Engagement Timeline</h3>
-                <div className="h-48 flex items-center justify-center text-[#9ca38a] text-sm">
-                  Chart placeholder - API data pending
-                </div>
-              </div>
-            </div>
-            <div className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-8 shadow-lg border border-[#e8e6de]/30">
-              <h3 className="text-lg font-bold text-[#2d3319] mb-4">Top Performing Posts</h3>
-              <div className="h-48 flex items-center justify-center text-[#9ca38a] text-sm">
-                Table placeholder - API data pending
-              </div>
-            </div>
+            <TikTokMetrics businessId={selectedBusiness} />
           </div>
         )}
 
