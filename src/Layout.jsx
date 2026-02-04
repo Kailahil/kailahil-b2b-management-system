@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import Sidebar from './components/layout/Sidebar';
+import { Home, Building2, FileText, BarChart3, Settings, LogOut } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { createPageUrl } from './components/utils';
 
 export default function Layout({ children, currentPageName }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -25,46 +26,89 @@ export default function Layout({ children, currentPageName }) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-slate-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      <div className="flex items-center justify-center min-h-screen bg-[#f5f3ed]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#a8b88c]"></div>
       </div>
     );
   }
 
+  const navItems = [
+    { name: 'Dashboard', page: 'Dashboard', icon: Home },
+    { name: 'Businesses', page: 'Businesses', icon: Building2 },
+    { name: 'Reviews', page: 'Reviews', icon: FileText },
+    { name: 'Content', page: 'ContentPipeline', icon: BarChart3 },
+  ];
+
+  const handleLogout = async () => {
+    await base44.auth.logout();
+  };
+
   return (
-    <div className="flex min-h-screen bg-slate-50">
-      <Sidebar 
-        currentPageName={currentPageName} 
-        user={user} 
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-      />
-      
-      {/* Mobile overlay */}
-      {sidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-      
-      <div className="flex-1 lg:ml-64 w-full">
-        {/* Mobile header with hamburger */}
-        <div className="lg:hidden fixed top-0 left-0 right-0 bg-white border-b border-slate-200 z-20 px-4 py-3 flex items-center gap-3">
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
-          >
-            <svg className="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-          <h1 className="text-lg font-bold text-slate-900">Marketing ERP</h1>
+    <div className="min-h-screen bg-[#f5f3ed] pb-24">
+      {/* Main Content */}
+      <main className="w-full">
+        {children}
+      </main>
+
+      {/* Bottom Navigation */}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+        <div className="bg-[#7a8a5e] backdrop-blur-lg rounded-full px-6 py-4 shadow-2xl">
+          <div className="flex items-center gap-8">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = currentPageName === item.page;
+              return (
+                <Link
+                  key={item.page}
+                  to={createPageUrl(item.page)}
+                  className="group relative"
+                >
+                  <div className={`transition-all duration-300 ${
+                    isActive 
+                      ? 'bg-[#a8b88c] p-3 rounded-2xl' 
+                      : 'p-3 hover:bg-[#6b7a4e]/50 rounded-2xl'
+                  }`}>
+                    <Icon className={`w-5 h-5 transition-colors ${
+                      isActive ? 'text-white' : 'text-white/70'
+                    }`} />
+                  </div>
+                  {isActive && (
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#c8d4a8] rounded-full" />
+                  )}
+                </Link>
+              );
+            })}
+            
+            {/* Settings Divider */}
+            <div className="w-px h-8 bg-white/20" />
+            
+            {/* Settings */}
+            <Link
+              to={createPageUrl('Settings')}
+              className="group relative"
+            >
+              <div className={`transition-all duration-300 ${
+                currentPageName === 'Settings'
+                  ? 'bg-[#a8b88c] p-3 rounded-2xl' 
+                  : 'p-3 hover:bg-[#6b7a4e]/50 rounded-2xl'
+              }`}>
+                <Settings className={`w-5 h-5 transition-colors ${
+                  currentPageName === 'Settings' ? 'text-white' : 'text-white/70'
+                }`} />
+              </div>
+            </Link>
+
+            {/* Logout */}
+            <button
+              onClick={handleLogout}
+              className="group relative"
+            >
+              <div className="p-3 hover:bg-[#6b7a4e]/50 rounded-2xl transition-all duration-300">
+                <LogOut className="w-5 h-5 text-white/70" />
+              </div>
+            </button>
+          </div>
         </div>
-        
-        <main className="p-4 md:p-8 pt-20 lg:pt-8">
-          {children}
-        </main>
       </div>
     </div>
   );
