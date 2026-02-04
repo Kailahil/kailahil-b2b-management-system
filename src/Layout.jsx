@@ -51,15 +51,15 @@ export default function Layout({ children, currentPageName }) {
     );
   }
 
-  const navItems = user?.user_role === 'client' 
+  const navItems = user?.role === 'admin' 
     ? [
-        { name: 'Dashboard', page: 'ClientDashboard', icon: Home },
+        { name: 'Dashboard', page: 'Dashboard', icon: Home },
+        { name: 'Businesses', page: 'Businesses', icon: Building2 },
         { name: 'Reviews', page: 'Reviews', icon: Star },
         { name: 'Content', page: 'ContentPipeline', icon: FileText }
       ]
     : [
-        { name: 'Dashboard', page: 'Dashboard', icon: Home },
-        { name: 'Businesses', page: 'Businesses', icon: Building2 },
+        { name: 'Dashboard', page: 'ClientDashboard', icon: Home },
         { name: 'Reviews', page: 'Reviews', icon: Star },
         { name: 'Content', page: 'ContentPipeline', icon: FileText }
       ];
