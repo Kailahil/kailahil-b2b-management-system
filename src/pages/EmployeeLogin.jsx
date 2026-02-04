@@ -7,9 +7,9 @@ import { createPageUrl } from '../components/utils';
 
 export default function EmployeeLogin() {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [sent, setSent] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,11 +23,18 @@ export default function EmployeeLogin() {
 
     setLoading(true);
     try {
-      // Send magic link
-      await base44.auth.sendMagicLink(email);
-      setSent(true);
+      const response = await base44.functions.invoke('loginEmployee', {
+        email,
+        password
+      });
+
+      if (response.data.success) {
+        // Store employee info and redirect
+        localStorage.setItem('employee', JSON.stringify(response.data.employee));
+        window.location.href = createPageUrl('Dashboard');
+      }
     } catch (err) {
-      setError('Failed to send login link. Please try again.');
+      setError(err.response?.data?.error || 'Invalid email or password. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -52,65 +59,73 @@ export default function EmployeeLogin() {
 
           <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl border border-[#e8e6de]/50">
             <h1 className="text-3xl font-bold text-[#2d3319] mb-2">Employee Login</h1>
-            <p className="text-[#6b7055] mb-8">
-              {sent ? 'Check your email for login link' : 'Enter your Kailahil email address'}
-            </p>
+            <p className="text-[#6b7055] mb-8">Sign in with your Kailahil account</p>
 
-            {!sent ? (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {error && (
-                  <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl">
-                    <AlertCircle className="w-5 h-5 text-red-600" />
-                    <span className="text-sm text-red-600">{error}</span>
-                  </div>
-                )}
-
-                <div>
-                  <label className="block text-sm font-medium text-[#2d3319] mb-2">
-                    Email Address
-                  </label>
-                  <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#a8b88c]" />
-                    <Input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="you@kailahil.com"
-                      className="pl-12 h-12 rounded-xl border-[#e8e6de] focus:border-[#a8b88c] focus:ring-[#a8b88c]"
-                      required
-                    />
-                  </div>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {error && (
+                <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl">
+                  <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
+                  <span className="text-sm text-red-600">{error}</span>
                 </div>
+              )}
 
-                <Button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full h-12 bg-gradient-to-r from-[#7a8a5e] to-[#6d7d51] hover:from-[#6d7d51] hover:to-[#5f6f43] text-white rounded-xl font-medium"
-                >
-                  {loading ? 'Sending...' : 'Send Login Link'}
-                </Button>
-              </form>
-            ) : (
-              <div className="bg-[#f0f4e9] border border-[#a8b88c] rounded-xl p-6 text-center">
-                <p className="text-[#2d3319] font-medium mb-2">Check your email!</p>
-                <p className="text-[#6b7055] text-sm mb-6">
-                  We sent a login link to <strong>{email}</strong>
-                </p>
-                <button
-                  onClick={() => setSent(false)}
-                  className="text-[#7a8a5e] hover:underline text-sm"
-                >
-                  ← Try a different email
-                </button>
+              <div>
+                <label className="block text-sm font-medium text-[#2d3319] mb-2">
+                  Email Address
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#a8b88c]" />
+                  <Input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@kailahil.com"
+                    className="pl-12 h-11 rounded-xl border-[#e8e6de] focus:border-[#a8b88c] focus:ring-[#a8b88c]"
+                    required
+                  />
+                </div>
               </div>
-            )}
 
-            <button
-              onClick={() => window.location.href = createPageUrl('Welcome')}
-              className="mt-6 text-sm text-[#7a8a5e] hover:underline"
-            >
-              ← Back to role selection
-            </button>
+              <div>
+                <label className="block text-sm font-medium text-[#2d3319] mb-2">
+                  Password
+                </label>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  className="h-11 rounded-xl border-[#e8e6de] focus:border-[#a8b88c] focus:ring-[#a8b88c]"
+                  required
+                />
+              </div>
+
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full h-11 bg-gradient-to-r from-[#7a8a5e] to-[#6d7d51] hover:from-[#6d7d51] hover:to-[#5f6f43] text-white rounded-xl font-medium"
+              >
+                {loading ? 'Signing in...' : 'Sign In'}
+              </Button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <p className="text-sm text-[#6b7055]">
+                Don't have an account?{' '}
+                <button
+                  onClick={() => window.location.href = createPageUrl('EmployeeSignup')}
+                  className="text-[#7a8a5e] hover:underline font-medium"
+                >
+                  Sign up
+                </button>
+              </p>
+              <button
+                onClick={() => window.location.href = createPageUrl('Welcome')}
+                className="mt-3 text-sm text-[#7a8a5e] hover:underline"
+              >
+                ← Back to role selection
+              </button>
+            </div>
           </div>
         </div>
       </div>
