@@ -14,27 +14,20 @@ export default function ClientDashboard() {
     const loadData = async () => {
       try {
         const currentUser = await base44.auth.me();
-        
-        if (!currentUser.agency_id) {
-          window.location.href = createPageUrl('Welcome');
-          return;
-        }
-
-        // Redirect non-clients to the agency dashboard
-        if (currentUser.user_role !== 'client') {
-          window.location.href = createPageUrl('Dashboard');
-          return;
-        }
-        
         setUser(currentUser);
 
-        // Load client's business
-        const businessList = await base44.entities.Business.filter({ 
-          client_user_id: currentUser.id 
+        // Load client's business from ClientBusiness relationship
+        const clientBusinessList = await base44.entities.ClientBusiness.filter({ 
+          user_id: currentUser.id 
         });
 
-        if (businessList.length > 0) {
-          setBusiness(businessList[0]);
+        if (clientBusinessList.length > 0) {
+          const businessList = await base44.entities.Business.filter({ 
+            id: clientBusinessList[0].business_id 
+          });
+          if (businessList.length > 0) {
+            setBusiness(businessList[0]);
+          }
         }
       } catch (error) {
         console.error('Failed to load dashboard data:', error);
