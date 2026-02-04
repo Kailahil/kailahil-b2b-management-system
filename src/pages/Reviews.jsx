@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Star, Upload, Sparkles, MessageSquare } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
 import TikTokMetrics from '../components/analytics/TikTokMetrics';
+import GoogleReviewsSegment from '../components/analytics/GoogleReviewsSegment';
+import ReviewAnalysisPanel from '../components/analytics/ReviewAnalysisPanel';
 
 export default function Analytics() {
   const [user, setUser] = useState(null);
