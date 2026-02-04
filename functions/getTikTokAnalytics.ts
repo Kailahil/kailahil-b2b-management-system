@@ -30,11 +30,20 @@ Deno.serve(async (req) => {
 
     const account = socialAccounts[0];
 
-    // Get TikTok API access token
-    const accessToken = Deno.env.get('Client_secret_TIkTok');
+    // Get TikTok API access token from app connector
+    let accessToken;
+    try {
+      accessToken = await base44.asServiceRole.connectors.getAccessToken('tiktok');
+    } catch (err) {
+      return Response.json({
+        error: 'TikTok not connected or authorization expired',
+        data: null
+      }, { status: 403 });
+    }
+
     if (!accessToken) {
       return Response.json({
-        error: 'TikTok API credentials not configured',
+        error: 'Failed to retrieve TikTok access token',
         data: null
       }, { status: 500 });
     }
