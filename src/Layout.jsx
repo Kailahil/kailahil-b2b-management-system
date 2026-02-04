@@ -51,8 +51,18 @@ export default function Layout({ children, currentPageName }) {
     );
   }
 
+  const isMediaSpecialist = !!localStorage.getItem('employeeAuth');
+
   const getNavItems = () => {
-    if (user?.role === 'admin') {
+    if (isMediaSpecialist) {
+      return [
+        { name: 'Dashboard', page: 'Dashboard', icon: Home },
+        { name: 'Businesses', page: 'Businesses', icon: Building2 },
+        { name: 'Chat', page: 'MediaSpecialistChat', icon: MessageCircle },
+        { name: 'Content', page: 'ContentPipeline', icon: FileText },
+        { name: 'Settings', page: 'MediaSpecialistSettings', icon: Settings }
+      ];
+    } else if (user?.role === 'admin') {
       return [
         { name: 'Dashboard', page: 'Dashboard', icon: Home },
         { name: 'Businesses', page: 'Businesses', icon: Building2 },
@@ -93,7 +103,7 @@ export default function Layout({ children, currentPageName }) {
               user?.role === 'admin' 
                 ? 'bg-gradient-to-r from-[#7a8a5e] via-[#6d7d51] to-[#7a8a5e]'
                 : 'bg-gradient-to-r from-[#8a9a6e] via-[#7a8a5e] to-[#8a9a6e]'
-            }`} style={{ minWidth: user?.role === 'admin' ? '400px' : '500px' }}>
+            }`} style={{ minWidth: isMediaSpecialist ? '450px' : (user?.role === 'admin' ? '400px' : '500px') }}>
               <div className="flex items-center justify-around">
                 {navItems.map((item) => {
                   const Icon = item.icon;

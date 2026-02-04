@@ -70,6 +70,8 @@ import ClientSettings from './pages/ClientSettings';
 import ClientChat from './pages/ClientChat';
 import ClientSignup from './pages/ClientSignup';
 import ClientLogin from './pages/ClientLogin';
+import MediaSpecialistChat from './pages/MediaSpecialistChat';
+import MediaSpecialistSettings from './pages/MediaSpecialistSettings';
 import __Layout from './Layout.jsx';
 
 
@@ -97,6 +99,8 @@ export const PAGES = {
     "ClientChat": ClientChat,
     "ClientSignup": ClientSignup,
     "ClientLogin": ClientLogin,
+    "MediaSpecialistChat": MediaSpecialistChat,
+    "MediaSpecialistSettings": MediaSpecialistSettings,
 }
 
 export const pagesConfig = {
