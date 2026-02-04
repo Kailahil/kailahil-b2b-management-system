@@ -24,6 +24,12 @@ export default function Layout({ children, currentPageName }) {
       try {
         const currentUser = await base44.auth.me();
         setUser(currentUser);
+
+        // Load pending signups count for admins
+        if (currentUser?.role === 'admin') {
+          const pending = await base44.entities.ClientSignup.filter({ status: 'pending' });
+          setPendingSignups(pending.length);
+        }
       } catch (error) {
         console.error('Failed to load user:', error);
         base44.auth.redirectToLogin();
