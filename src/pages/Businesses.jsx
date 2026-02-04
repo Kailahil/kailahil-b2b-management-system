@@ -17,6 +17,7 @@ export default function Businesses() {
   const [loading, setLoading] = useState(true);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [pendingSignups, setPendingSignups] = useState(0);
 
   useEffect(() => {
     const loadData = async () => {
