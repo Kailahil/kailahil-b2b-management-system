@@ -60,7 +60,7 @@ export default function Layout({ children, currentPageName }) {
         { name: 'Businesses', page: 'Businesses', icon: Building2 },
         { name: 'Chat', page: 'MediaSpecialistChat', icon: MessageCircle },
         { name: 'Content', page: 'ContentPipeline', icon: FileText },
-        { name: 'Settings', page: 'MediaSpecialistSettings', icon: Settings }
+        { name: 'Settings', page: 'Settings', icon: Settings }
       ];
     } else if (user?.role === 'admin') {
       return [
