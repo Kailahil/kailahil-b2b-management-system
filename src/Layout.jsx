@@ -52,6 +52,7 @@ export default function Layout({ children, currentPageName }) {
   }
 
   const isMediaSpecialist = !!localStorage.getItem('employeeAuth');
+  const isClient = !!localStorage.getItem('clientAuth');
 
   const getNavItems = () => {
     if (isMediaSpecialist) {
