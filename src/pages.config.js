@@ -58,11 +58,9 @@ import ContentPipeline from './pages/ContentPipeline';
 import Dashboard from './pages/Dashboard';
 import ExecutiveDashboard from './pages/ExecutiveDashboard';
 import GrowthPlanner from './pages/GrowthPlanner';
+import Home from './pages/Home';
 import Reviews from './pages/Reviews';
 import Settings from './pages/Settings';
-import MediaLogin from './pages/MediaLogin';
-import ClientLogin from './pages/ClientLogin';
-import Home from './pages/Home';
 import __Layout from './Layout.jsx';
 
 
@@ -78,11 +76,9 @@ export const PAGES = {
     "Dashboard": Dashboard,
     "ExecutiveDashboard": ExecutiveDashboard,
     "GrowthPlanner": GrowthPlanner,
+    "Home": Home,
     "Reviews": Reviews,
     "Settings": Settings,
-    "MediaLogin": MediaLogin,
-    "ClientLogin": ClientLogin,
-    "Home": Home,
 }
 
 export const pagesConfig = {

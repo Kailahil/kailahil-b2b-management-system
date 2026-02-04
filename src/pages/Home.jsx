@@ -11,17 +11,17 @@ export default function Home() {
     const checkAuth = async () => {
       try {
         const user = await base44.auth.me();
-        // If user is authenticated, redirect based on role
         if (user) {
           if (user.user_role === 'client') {
             window.location.href = createPageUrl('ClientDashboard');
           } else {
             window.location.href = createPageUrl('Dashboard');
           }
+        } else {
+          window.location.href = createPageUrl('Login');
         }
       } catch (error) {
-        // User is not authenticated, show welcome page
-        setChecking(false);
+        window.location.href = createPageUrl('Login');
       }
     };
 
