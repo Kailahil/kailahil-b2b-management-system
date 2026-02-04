@@ -1,12 +1,15 @@
 import React from 'react';
-import { base44 } from '@/api/base44Client';
 import { Users, Briefcase, ArrowRight } from 'lucide-react';
 import { createPageUrl } from '../components/utils';
 
 export default function Welcome() {
   const handleRoleSelect = (role) => {
     localStorage.setItem('selectedRole', role);
-    base44.auth.redirectToLogin(createPageUrl('Home'));
+    if (role === 'employee') {
+      window.location.href = createPageUrl('Dashboard');
+    } else {
+      window.location.href = createPageUrl('ClientDashboard');
+    }
   };
 
   return (
