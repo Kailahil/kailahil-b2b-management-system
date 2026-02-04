@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
-import { Users, Heart, Eye, MessageCircle, Share2, TrendingUp } from 'lucide-react';
+import { Users, Heart, Eye, MessageCircle, Share2, TrendingUp, RefreshCw } from 'lucide-react';
+import SocialMetricsGrid from './SocialMetricsGrid';
+import EngagementOverview from './EngagementOverview';
+import TopVideos from './TopVideos';
 
 export default function TikTokMetrics({ businessId }) {
   const [analytics, setAnalytics] = useState(null);
