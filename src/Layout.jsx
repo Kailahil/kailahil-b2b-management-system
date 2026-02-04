@@ -66,8 +66,8 @@ export default function Layout({ children, currentPageName }) {
       return [
         { name: 'Dashboard', page: 'Dashboard', icon: Home },
         { name: 'Businesses', page: 'Businesses', icon: Building2 },
+        { name: 'Analytics', page: 'Reviews', icon: Star },
         { name: 'Chat', page: 'MediaSpecialistChat', icon: MessageCircle },
-        { name: 'Content', page: 'ContentPipeline', icon: FileText },
         { name: 'Settings', page: 'Settings', icon: Settings }
       ];
     } else if (isClient) {
