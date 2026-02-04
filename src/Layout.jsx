@@ -135,6 +135,11 @@ export default function Layout({ children, currentPageName }) {
                           isActive ? 'text-white' : 'text-white/60'
                         }`} />
                       </div>
+                      {item.badge > 0 && (
+                        <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-lg">
+                          {item.badge}
+                        </div>
+                      )}
                       {isActive && (
                         <div className="absolute -bottom-1 w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
                       )}
