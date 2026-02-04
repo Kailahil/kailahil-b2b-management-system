@@ -43,6 +43,8 @@ export default function Dashboard() {
         setBusinesses(businessList);
       } catch (error) {
         console.error('Failed to load dashboard:', error);
+        window.location.href = createPageUrl('EmployeeLogin');
+        return;
       } finally {
         setLoading(false);
       }
