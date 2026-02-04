@@ -17,10 +17,13 @@ export default function TikTokMetrics({ businessId }) {
         business_id: businessId
       });
 
-      if (response.data.success) {
+      if (response.data?.success) {
+        setAnalytics(response.data.data);
+      } else if (response.data?.data) {
+        // Handle case where data is returned even with error flag
         setAnalytics(response.data.data);
       } else {
-        setError(response.data.error);
+        setError(response.data?.error || 'Failed to load analytics');
       }
     } catch (err) {
       setError(err.message);
