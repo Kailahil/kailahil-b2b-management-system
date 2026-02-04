@@ -60,11 +60,13 @@ export default function Layout({ children, currentPageName }) {
         { name: 'Content', page: 'ContentPipeline', icon: FileText }
       ];
     } else {
-      // Client navigation
+      // Client-only navigation - outcome focused
       return [
-        { name: 'Dashboard', page: 'ClientDashboard', icon: Home },
-        { name: 'Reviews', page: 'Reviews', icon: Star },
-        { name: 'Content', page: 'ContentPipeline', icon: FileText }
+        { name: 'Home', page: 'ClientDashboard', icon: Home },
+        { name: 'Work', page: 'ClientWork', icon: FileText },
+        { name: 'Insights', page: 'ClientInsights', icon: Star },
+        { name: 'Reports', page: 'ClientReports', icon: Building2 },
+        { name: 'Settings', page: 'ClientSettings', icon: Settings }
       ];
     }
   };
