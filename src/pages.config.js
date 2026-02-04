@@ -61,6 +61,7 @@ import GrowthPlanner from './pages/GrowthPlanner';
 import Home from './pages/Home';
 import Reviews from './pages/Reviews';
 import Settings from './pages/Settings';
+import Auth from './pages/Auth';
 import __Layout from './Layout.jsx';
 
 
@@ -79,6 +80,7 @@ export const PAGES = {
     "Home": Home,
     "Reviews": Reviews,
     "Settings": Settings,
+    "Auth": Auth,
 }
 
 export const pagesConfig = {
