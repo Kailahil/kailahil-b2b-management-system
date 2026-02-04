@@ -8,7 +8,17 @@ export default function Layout({ children, currentPageName }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Pages that don't need authentication or navigation
+  const publicPages = ['Welcome', 'EmployeeLogin'];
+  const isPublicPage = publicPages.includes(currentPageName);
+
   useEffect(() => {
+    // Skip auth check for public pages
+    if (isPublicPage) {
+      setLoading(false);
+      return;
+    }
+
     const loadUser = async () => {
       try {
         const currentUser = await base44.auth.me();
@@ -22,12 +32,21 @@ export default function Layout({ children, currentPageName }) {
     };
 
     loadUser();
-  }, []);
+  }, [currentPageName, isPublicPage]);
 
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#f5f3ed]">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#a8b88c]"></div>
+      </div>
+    );
+  }
+
+  // For public pages, render without navigation
+  if (isPublicPage) {
+    return (
+      <div className="min-h-screen bg-[#f5f3ed]">
+        {children}
       </div>
     );
   }
