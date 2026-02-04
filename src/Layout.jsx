@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import { Home, Building2, FileText, BarChart3, Settings, LogOut } from 'lucide-react';
+import { Home, Building2, FileText, BarChart3, Settings, LogOut, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from './components/utils';
 
@@ -32,12 +32,18 @@ export default function Layout({ children, currentPageName }) {
     );
   }
 
-  const navItems = [
-    { name: 'Dashboard', page: 'Dashboard', icon: Home },
-    { name: 'Businesses', page: 'Businesses', icon: Building2 },
-    { name: 'Reviews', page: 'Reviews', icon: FileText },
-    { name: 'Content', page: 'ContentPipeline', icon: BarChart3 },
-  ];
+  const navItems = user?.user_role === 'client' 
+    ? [
+        { name: 'Dashboard', page: 'ClientDashboard', icon: Home },
+        { name: 'Reviews', page: 'Reviews', icon: Star },
+        { name: 'Content', page: 'ContentPipeline', icon: FileText }
+      ]
+    : [
+        { name: 'Dashboard', page: 'Dashboard', icon: Home },
+        { name: 'Businesses', page: 'Businesses', icon: Building2 },
+        { name: 'Reviews', page: 'Reviews', icon: Star },
+        { name: 'Content', page: 'ContentPipeline', icon: FileText }
+      ];
 
   const handleLogout = async () => {
     await base44.auth.logout();
