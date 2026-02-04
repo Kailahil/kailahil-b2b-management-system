@@ -62,17 +62,24 @@ export default function ClientChat() {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (!messageText.trim() || !business) return;
+    if (!messageText.trim() || !selectedEmployeeId) return;
 
     setSending(true);
     try {
-      // TODO: Save message to database when entity is created
-      // For now, add it to local state
+      const newMessage = await base44.asServiceRole.entities.Message.create({
+        business_id: business.id,
+        sender_id: user.id,
+        sender_name: user.full_name,
+        sender_type: 'client',
+        recipient_id: selectedEmployeeId,
+        text: messageText
+      });
+
       setMessages([...messages, {
-        id: Date.now(),
-        text: messageText,
-        sender: user.full_name,
-        timestamp: new Date().toISOString(),
+        id: newMessage.id,
+        text: newMessage.text,
+        sender: newMessage.sender_name,
+        timestamp: newMessage.created_date,
         isFromClient: true
       }]);
       setMessageText('');
@@ -158,7 +165,21 @@ export default function ClientChat() {
             <label className="text-sm font-medium text-[#2d3319] block mb-2">Send to:</label>
             <select 
               value={selectedEmployeeId || ''}
-              onChange={(e) => setSelectedEmployeeId(e.target.value)}
+              onChange={async (e) => {
+                setSelectedEmployeeId(e.target.value);
+                const msgs = await base44.asServiceRole.entities.Message.filter({
+                  business_id: business.id,
+                  sender_id: user.id,
+                  recipient_id: e.target.value
+                }, '-created_date', 50);
+                setMessages(msgs.map(m => ({
+                  id: m.id,
+                  text: m.text,
+                  sender: m.sender_name,
+                  timestamp: m.created_date,
+                  isFromClient: m.sender_type === 'client'
+                })).reverse());
+              }}
               className="w-full border border-[#e8e6de] rounded-lg px-3 py-2 text-sm focus:border-[#a8b88c] focus:ring-1 focus:ring-[#a8b88c]"
             >
               {employees.map(emp => (
