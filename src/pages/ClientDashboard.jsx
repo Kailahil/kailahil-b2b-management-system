@@ -78,6 +78,8 @@ export default function ClientDashboard() {
         }
       } catch (error) {
         console.error('Failed to load dashboard data:', error);
+        localStorage.removeItem('clientAuth');
+        window.location.href = createPageUrl('ClientLogin');
       } finally {
         setLoading(false);
       }
