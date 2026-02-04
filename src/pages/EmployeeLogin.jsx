@@ -7,6 +7,7 @@ import { createPageUrl } from '../components/utils';
 
 export default function EmployeeLogin() {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -22,12 +23,12 @@ export default function EmployeeLogin() {
 
     setLoading(true);
     try {
-      // Send magic link
-      await base44.auth.signInWithMagicLink(email);
-      setError('');
-      alert('Check your email for a login link!');
+      // Sign in with email and password
+      await base44.auth.signInWithPassword(email, password);
+      // Redirect to dashboard on success
+      window.location.href = createPageUrl('Dashboard');
     } catch (err) {
-      setError('Failed to send login link. Please try again.');
+      setError('Invalid email or password. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -79,12 +80,26 @@ export default function EmployeeLogin() {
                 </div>
               </div>
 
+              <div>
+                <label className="block text-sm font-medium text-[#2d3319] mb-2">
+                  Password
+                </label>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  className="h-12 rounded-xl border-[#e8e6de] focus:border-[#a8b88c] focus:ring-[#a8b88c]"
+                  required
+                />
+              </div>
+
               <Button
                 type="submit"
                 disabled={loading}
                 className="w-full h-12 bg-gradient-to-r from-[#7a8a5e] to-[#6d7d51] hover:from-[#6d7d51] hover:to-[#5f6f43] text-white rounded-xl font-medium"
               >
-                {loading ? 'Sending...' : 'Send Login Link'}
+                {loading ? 'Signing in...' : 'Sign In'}
               </Button>
             </form>
 
