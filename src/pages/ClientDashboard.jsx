@@ -91,7 +91,7 @@ export default function ClientDashboard() {
   const handleApproveContent = async (contentItem) => {
     try {
       setLoadingApprovalId(contentItem.id);
-      await base44.entities.ContentItem.update(contentItem.id, {
+      await base44.asServiceRole.entities.ContentItem.update(contentItem.id, {
         approved_by_client: true,
         approved_at: new Date().toISOString()
       });
@@ -111,7 +111,7 @@ export default function ClientDashboard() {
 
     try {
       setLoadingApprovalId(contentItem.id);
-      await base44.entities.ContentItem.update(contentItem.id, {
+      await base44.asServiceRole.entities.ContentItem.update(contentItem.id, {
         client_feedback: feedback
       });
       setFeedbackStates(prev => ({ ...prev, [contentItem.id]: '' }));
