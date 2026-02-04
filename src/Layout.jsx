@@ -7,6 +7,7 @@ import { createPageUrl } from './components/utils';
 export default function Layout({ children, currentPageName }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [pendingSignups, setPendingSignups] = useState(0);
 
   // Pages that don't need authentication or navigation
   const publicPages = ['Welcome', 'EmployeeLogin', 'EmployeeSignup', 'ClientLogin', 'ClientSignup'];
