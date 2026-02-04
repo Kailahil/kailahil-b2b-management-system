@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Send, MessageCircle } from 'lucide-react';
+import { Send, MessageCircle, Users } from 'lucide-react';
 
 export default function ClientChat() {
   const [user, setUser] = useState(null);
   const [business, setBusiness] = useState(null);
+  const [employees, setEmployees] = useState([]);
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState('');
   const [loading, setLoading] = useState(true);
@@ -15,20 +17,37 @@ export default function ClientChat() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const currentUser = await base44.auth.me();
+        const clientAuthStr = localStorage.getItem('clientAuth');
+        const currentUser = clientAuthStr ? JSON.parse(clientAuthStr) : await base44.auth.me();
         setUser(currentUser);
 
-        const clientBusinessList = await base44.entities.ClientBusiness.filter({ 
+        const clientBusinessList = await base44.asServiceRole.entities.ClientBusiness.filter({ 
           user_id: currentUser.id 
         });
 
         if (clientBusinessList.length > 0) {
-          const businessList = await base44.entities.Business.filter({ 
+          const businessList = await base44.asServiceRole.entities.Business.filter({ 
             id: clientBusinessList[0].business_id 
           });
           if (businessList.length > 0) {
-            setBusiness(businessList[0]);
-            // TODO: Load chat messages when entity is created
+            const selectedBusiness = businessList[0];
+            setBusiness(selectedBusiness);
+            
+            // Load all employees who have access to this business
+            const accessList = await base44.asServiceRole.entities.BusinessAccess.filter({
+              business_id: selectedBusiness.id
+            });
+            
+            if (accessList.length > 0) {
+              const userIds = accessList.map(a => a.user_id);
+              const userList = await base44.asServiceRole.entities.User.filter({
+                id: { $in: userIds }
+              });
+              setEmployees(userList);
+              if (userList.length > 0) {
+                setSelectedEmployeeId(userList[0].id);
+              }
+            }
           }
         }
       } catch (error) {
@@ -91,21 +110,31 @@ export default function ClientChat() {
             Chat with Your Team
           </h1>
           <p className="text-[#6b7055] text-lg">
-            {business?.name ? `Direct messaging with ${business.name}'s media specialists` : 'Your messages will appear here'}
+            {business?.name ? `Direct messaging with ${business.name}'s team` : 'Your messages will appear here'}
           </p>
         </div>
 
-        {messages.length === 0 ? (
+        {employees.length === 0 ? (
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center">
-              <MessageCircle className="w-16 h-16 mx-auto text-[#d4d2c8] mb-6" />
-              <h3 className="text-2xl font-bold text-[#2d3319] mb-3">Start a Conversation</h3>
+              <Users className="w-16 h-16 mx-auto text-[#d4d2c8] mb-6" />
+              <h3 className="text-2xl font-bold text-[#2d3319] mb-3">No team members yet</h3>
               <p className="text-[#6b7055] text-lg max-w-md">
-                Send a message to your media specialist team. They'll respond during business hours.
+                Your agency team will appear here once they're assigned to your business.
               </p>
             </div>
           </div>
-        ) : (
+        ) : messages.length === 0 ? (
+           <div className="flex-1 flex items-center justify-center">
+             <div className="text-center">
+               <MessageCircle className="w-16 h-16 mx-auto text-[#d4d2c8] mb-6" />
+               <h3 className="text-2xl font-bold text-[#2d3319] mb-3">Start a Conversation</h3>
+               <p className="text-[#6b7055] text-lg max-w-md">
+                 Send a message to your {selectedEmployeeId ? 'team member' : 'team'}. They'll respond during business hours.
+               </p>
+             </div>
+           </div>
+         ) : (
           <div className="flex-1 bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-lg border border-[#e8e6de]/50 overflow-y-auto mb-4">
             <div className="space-y-4">
               {messages.map(msg => (
@@ -124,22 +153,37 @@ export default function ClientChat() {
           </div>
         )}
 
+        {employees.length > 0 && (
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-[#e8e6de]/50 mb-4">
+            <label className="text-sm font-medium text-[#2d3319] block mb-2">Send to:</label>
+            <select 
+              value={selectedEmployeeId || ''}
+              onChange={(e) => setSelectedEmployeeId(e.target.value)}
+              className="w-full border border-[#e8e6de] rounded-lg px-3 py-2 text-sm focus:border-[#a8b88c] focus:ring-1 focus:ring-[#a8b88c]"
+            >
+              {employees.map(emp => (
+                <option key={emp.id} value={emp.id}>{emp.full_name}</option>
+              ))}
+            </select>
+          </div>
+        )}
+
         <form onSubmit={handleSendMessage} className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-[#e8e6de]/50 flex gap-2">
-          <Input
-            value={messageText}
-            onChange={(e) => setMessageText(e.target.value)}
-            placeholder="Type your message..."
-            className="flex-1 border-[#e8e6de] focus:border-[#a8b88c]"
-            disabled={!business}
-          />
-          <Button
-            type="submit"
-            disabled={sending || !messageText.trim() || !business}
-            className="bg-gradient-to-r from-[#7a8a5e] to-[#6d7d51] hover:from-[#6d7d51] hover:to-[#5f6f43] text-white"
-          >
-            <Send className="w-4 h-4" />
-          </Button>
-        </form>
+           <Input
+             value={messageText}
+             onChange={(e) => setMessageText(e.target.value)}
+             placeholder="Type your message..."
+             className="flex-1 border-[#e8e6de] focus:border-[#a8b88c]"
+             disabled={!selectedEmployeeId}
+           />
+           <Button
+             type="submit"
+             disabled={sending || !messageText.trim() || !selectedEmployeeId}
+             className="bg-gradient-to-r from-[#7a8a5e] to-[#6d7d51] hover:from-[#6d7d51] hover:to-[#5f6f43] text-white"
+           >
+             <Send className="w-4 h-4" />
+           </Button>
+         </form>
       </div>
     </div>
   );
