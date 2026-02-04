@@ -60,7 +60,6 @@ import ExecutiveDashboard from './pages/ExecutiveDashboard';
 import GrowthPlanner from './pages/GrowthPlanner';
 import Reviews from './pages/Reviews';
 import Settings from './pages/Settings';
-import Setup from './pages/Setup';
 import MediaLogin from './pages/MediaLogin';
 import ClientLogin from './pages/ClientLogin';
 import Home from './pages/Home';
@@ -81,7 +80,6 @@ export const PAGES = {
     "GrowthPlanner": GrowthPlanner,
     "Reviews": Reviews,
     "Settings": Settings,
-    "Setup": Setup,
     "MediaLogin": MediaLogin,
     "ClientLogin": ClientLogin,
     "Home": Home,

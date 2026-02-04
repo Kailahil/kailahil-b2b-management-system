@@ -14,12 +14,6 @@ export default function Settings() {
     const loadUser = async () => {
       try {
         const currentUser = await base44.auth.me();
-        
-        if (!currentUser.agency_id) {
-          window.location.href = createPageUrl('Setup');
-          return;
-        }
-        
         setUser(currentUser);
       } catch (error) {
         console.error('Failed to load user:', error);
