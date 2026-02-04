@@ -4,14 +4,42 @@ import { Users, Briefcase, ArrowRight } from 'lucide-react';
 import { createPageUrl } from '../components/utils';
 
 export default function Welcome() {
-  const handleRoleSelect = (role) => {
-    localStorage.setItem('selectedRole', role);
-    if (role === 'employee') {
-      window.location.href = createPageUrl('EmployeeLogin');
-    } else {
-      window.location.href = createPageUrl('ClientDashboard');
+    const [isAdmin, setIsAdmin] = React.useState(null);
+
+    React.useEffect(() => {
+      const checkAuth = async () => {
+        try {
+          const user = await base44.auth.me();
+          if (user?.role === 'admin') {
+            setIsAdmin(true);
+            // Redirect admin to dashboard
+            window.location.href = createPageUrl('Dashboard');
+          } else {
+            setIsAdmin(false);
+          }
+        } catch {
+          setIsAdmin(false);
+        }
+      };
+      checkAuth();
+    }, []);
+
+    if (isAdmin === null) {
+      return (
+        <div className="flex items-center justify-center min-h-screen bg-[#f5f3ed]">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#a8b88c]"></div>
+        </div>
+      );
     }
-  };
+
+    const handleRoleSelect = (role) => {
+      localStorage.setItem('selectedRole', role);
+      if (role === 'employee') {
+        window.location.href = createPageUrl('EmployeeLogin');
+      } else {
+        window.location.href = createPageUrl('ClientDashboard');
+      }
+    };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f5f3ed] via-[#ebe9dd] to-[#f5f3ed] relative overflow-hidden">
