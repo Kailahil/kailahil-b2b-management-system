@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import { Home, Building2, FileText, BarChart3, Settings, LogOut, Star } from 'lucide-react';
+import { Home, Building2, FileText, BarChart3, Settings, LogOut, Star, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from './components/utils';
 
@@ -65,7 +65,8 @@ export default function Layout({ children, currentPageName }) {
         { name: 'Home', page: 'ClientDashboard', icon: Home },
         { name: 'Work', page: 'ClientWork', icon: FileText },
         { name: 'Insights', page: 'ClientInsights', icon: Star },
-        { name: 'Reports', page: 'ClientReports', icon: Building2 },
+        { name: 'Chat', page: 'ClientChat', icon: MessageCircle },
+        { name: 'Reports', page: 'ClientReports', icon: BarChart3 },
         { name: 'Settings', page: 'ClientSettings', icon: Settings }
       ];
     }
@@ -92,7 +93,7 @@ export default function Layout({ children, currentPageName }) {
               user?.role === 'admin' 
                 ? 'bg-gradient-to-r from-[#7a8a5e] via-[#6d7d51] to-[#7a8a5e]'
                 : 'bg-gradient-to-r from-[#8a9a6e] via-[#7a8a5e] to-[#8a9a6e]'
-            }`}>
+            }`} style={{ minWidth: user?.role === 'admin' ? '400px' : '500px' }}>
               <div className="flex items-center justify-around">
                 {navItems.map((item) => {
                   const Icon = item.icon;
@@ -118,25 +119,6 @@ export default function Layout({ children, currentPageName }) {
                     </Link>
                   );
                 })}
-                
-                {/* Settings */}
-                <Link
-                  to={createPageUrl('Settings')}
-                  className="relative flex items-center justify-center"
-                >
-                  <div className={`transition-all duration-300 ${
-                    currentPageName === 'Settings'
-                      ? 'bg-white/20 backdrop-blur-sm p-3 rounded-2xl scale-110 shadow-lg' 
-                      : 'p-3 hover:bg-white/10 rounded-2xl'
-                  }`}>
-                    <Settings className={`w-5 h-5 transition-colors ${
-                      currentPageName === 'Settings' ? 'text-white' : 'text-white/60'
-                    }`} />
-                  </div>
-                  {currentPageName === 'Settings' && (
-                    <div className="absolute -bottom-1 w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-                  )}
-                </Link>
               </div>
             </div>
           </div>
