@@ -36,7 +36,8 @@ export default function Settings() {
   const isAdmin = user?.user_role === 'agency_admin';
 
   const handleLogout = async () => {
-    await base44.auth.logout(createPageUrl('Auth'));
+    localStorage.removeItem('selectedRole');
+    await base44.auth.logout(createPageUrl('Welcome'));
   };
 
   return (

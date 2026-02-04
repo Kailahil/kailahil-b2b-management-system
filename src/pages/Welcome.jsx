@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import { Button } from '@/components/ui/button';
 import { Users, Briefcase, ArrowRight } from 'lucide-react';
 import { createPageUrl } from '../components/utils';
 
-export default function Auth() {
+export default function Welcome() {
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
@@ -12,11 +11,20 @@ export default function Auth() {
       try {
         const user = await base44.auth.me();
         if (user) {
-          if (user.user_role === 'client') {
+          // User is already authenticated, validate their role
+          const selectedRole = localStorage.getItem('selectedRole');
+          
+          if (selectedRole === 'employee' && user.user_role !== 'client') {
+            window.location.href = createPageUrl('Dashboard');
+          } else if (selectedRole === 'client' && user.user_role === 'client') {
             window.location.href = createPageUrl('ClientDashboard');
           } else {
-            window.location.href = createPageUrl('Dashboard');
+            // Role mismatch - log them out
+            localStorage.removeItem('selectedRole');
+            await base44.auth.logout(createPageUrl('Welcome'));
           }
+        } else {
+          setChecking(false);
         }
       } catch (error) {
         setChecking(false);
@@ -26,9 +34,9 @@ export default function Auth() {
     checkAuth();
   }, []);
 
-  const handleLogin = (loginType) => {
-    localStorage.setItem('loginType', loginType);
-    base44.auth.redirectToLogin(window.location.origin + createPageUrl('Auth'));
+  const handleRoleSelect = (role) => {
+    localStorage.setItem('selectedRole', role);
+    base44.auth.redirectToLogin(window.location.origin + createPageUrl('Welcome'));
   };
 
   if (checking) {
@@ -63,22 +71,25 @@ export default function Auth() {
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#a8b88c]/20 to-[#8a9a6e]/20 px-6 py-3 rounded-full mb-6 border border-[#a8b88c]/30">
               <div className="w-2 h-2 bg-[#a8b88c] rounded-full animate-pulse" />
-              <span className="text-sm font-bold text-[#7a8a5e] uppercase tracking-wider">Welcome Back</span>
+              <span className="text-sm font-bold text-[#7a8a5e] uppercase tracking-wider">Welcome</span>
             </div>
             
             <h1 className="text-5xl md:text-6xl font-bold text-[#2d3319] mb-4 leading-tight">
-              Sign In
+              Welcome to Kailahil
             </h1>
             <p className="text-xl text-[#6b7055] max-w-2xl mx-auto">
-              Choose your login type to access your dashboard
+              Choose how you're signing in
             </p>
           </div>
 
-          {/* Login Options */}
+          {/* Role Selection Cards */}
           <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-            {/* Kailahil Employee Login */}
-            <div className="group">
-              <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem_2.5rem_2.5rem_1rem] p-8 shadow-xl border border-[#e8e6de]/50 hover:shadow-2xl hover:scale-105 transition-all duration-300 relative overflow-hidden">
+            {/* Kailahil Employee */}
+            <button
+              onClick={() => handleRoleSelect('employee')}
+              className="group text-left"
+            >
+              <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem_2.5rem_2.5rem_1rem] p-8 shadow-xl border border-[#e8e6de]/50 hover:shadow-2xl hover:scale-105 transition-all duration-300 relative overflow-hidden h-full">
                 <div className="absolute top-0 left-0 w-48 h-48 bg-[#7a8a5e]/5 rounded-full -ml-24 -mt-24" />
                 
                 <div className="relative z-10">
@@ -86,25 +97,25 @@ export default function Auth() {
                     <Users className="w-8 h-8 text-white" />
                   </div>
                   
-                  <h2 className="text-2xl font-bold text-[#2d3319] mb-3">Kailahil Employee</h2>
+                  <h2 className="text-2xl font-bold text-[#2d3319] mb-2">Kailahil Employee</h2>
                   <p className="text-[#6b7055] mb-6 leading-relaxed">
-                    Access your media specialist dashboard and manage client portfolio
+                    Staff, media specialists, admins
                   </p>
                   
-                  <Button
-                    onClick={() => handleLogin('employee')}
-                    className="w-full bg-gradient-to-r from-[#7a8a5e] to-[#6d7d51] hover:from-[#6d7d51] hover:to-[#5f6e47] text-white rounded-full py-6 text-base font-bold shadow-lg hover:shadow-xl transition-all group"
-                  >
-                    <span>Sign In as Employee</span>
-                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Button>
+                  <div className="flex items-center gap-2 text-[#7a8a5e] font-bold group-hover:gap-3 transition-all">
+                    <span>Continue</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </div>
                 </div>
               </div>
-            </div>
+            </button>
 
-            {/* Business Client Login */}
-            <div className="group">
-              <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem_2.5rem_2.5rem_1rem] p-8 shadow-xl border border-[#e8e6de]/50 hover:shadow-2xl hover:scale-105 transition-all duration-300 relative overflow-hidden">
+            {/* Business Client */}
+            <button
+              onClick={() => handleRoleSelect('client')}
+              className="group text-left"
+            >
+              <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem_2.5rem_2.5rem_1rem] p-8 shadow-xl border border-[#e8e6de]/50 hover:shadow-2xl hover:scale-105 transition-all duration-300 relative overflow-hidden h-full">
                 <div className="absolute top-0 right-0 w-48 h-48 bg-[#a8b88c]/5 rounded-full -mr-24 -mt-24" />
                 
                 <div className="relative z-10">
@@ -112,21 +123,18 @@ export default function Auth() {
                     <Briefcase className="w-8 h-8 text-white" />
                   </div>
                   
-                  <h2 className="text-2xl font-bold text-[#2d3319] mb-3">Business Client</h2>
+                  <h2 className="text-2xl font-bold text-[#2d3319] mb-2">Client</h2>
                   <p className="text-[#6b7055] mb-6 leading-relaxed">
-                    View your business performance, reviews, and content updates
+                    Business owners & stakeholders
                   </p>
                   
-                  <Button
-                    onClick={() => handleLogin('client')}
-                    className="w-full bg-gradient-to-r from-[#a8b88c] to-[#7a8a5e] hover:from-[#8a9a6e] hover:to-[#6d7d51] text-white rounded-full py-6 text-base font-bold shadow-lg hover:shadow-xl transition-all group"
-                  >
-                    <span>Sign In as Client</span>
-                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Button>
+                  <div className="flex items-center gap-2 text-[#7a8a5e] font-bold group-hover:gap-3 transition-all">
+                    <span>Continue</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </div>
                 </div>
               </div>
-            </div>
+            </button>
           </div>
 
           {/* Footer */}

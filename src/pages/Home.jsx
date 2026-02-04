@@ -12,16 +12,33 @@ export default function Home() {
       try {
         const user = await base44.auth.me();
         if (user) {
+          // Validate role matches selected role
+          const selectedRole = localStorage.getItem('selectedRole');
+          
           if (user.user_role === 'client') {
-            window.location.href = createPageUrl('ClientDashboard');
+            if (selectedRole === 'client') {
+              window.location.href = createPageUrl('ClientDashboard');
+            } else {
+              // Client logged in as employee - show error and logout
+              alert('This account is not registered as a Kailahil Employee');
+              localStorage.removeItem('selectedRole');
+              await base44.auth.logout(createPageUrl('Welcome'));
+            }
           } else {
-            window.location.href = createPageUrl('Dashboard');
+            if (selectedRole === 'employee' || !selectedRole) {
+              window.location.href = createPageUrl('Dashboard');
+            } else {
+              // Employee logged in as client - show error and logout
+              alert('This account is not registered as a Client');
+              localStorage.removeItem('selectedRole');
+              await base44.auth.logout(createPageUrl('Welcome'));
+            }
           }
         } else {
-          window.location.href = createPageUrl('Auth');
+          window.location.href = createPageUrl('Welcome');
         }
       } catch (error) {
-        window.location.href = createPageUrl('Auth');
+        window.location.href = createPageUrl('Welcome');
       }
     };
 
