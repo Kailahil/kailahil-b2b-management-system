@@ -16,7 +16,7 @@ export default function ClientDashboard() {
         const currentUser = await base44.auth.me();
         
         if (!currentUser.agency_id) {
-          window.location.href = createPageUrl('Setup');
+          window.location.href = createPageUrl('Welcome');
           return;
         }
 
