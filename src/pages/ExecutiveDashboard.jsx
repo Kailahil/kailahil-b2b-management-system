@@ -100,8 +100,8 @@ export default function ExecutiveDashboard() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      <div className="flex items-center justify-center min-h-screen bg-[#f5f3ed]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#a8b88c]"></div>
       </div>
     );
   }
@@ -143,115 +143,122 @@ export default function ExecutiveDashboard() {
   const completedThisWeek = tasks.filter(t => t.status === 'done' && t.updated_date && new Date(t.updated_date) >= new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000));
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <Link 
-        to={createPageUrl('BusinessDetail', `?id=${business.id}`)}
-        className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6 transition-colors"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        Back to {business.name}
-      </Link>
-
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">Executive Dashboard</h1>
-        <p className="text-slate-600">{business.name}</p>
+    <div className="min-h-screen bg-gradient-to-br from-[#f5f3ed] via-[#ebe9dd] to-[#f5f3ed] px-4 py-8 pb-32 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-[#d4e0b3] rounded-full opacity-10 blur-3xl animate-pulse" />
+        <div className="absolute bottom-40 right-10 w-96 h-96 bg-[#a8b88c] rounded-full opacity-10 blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* SECTION 1 - Business Status */}
-        <Card className="lg:col-span-2">
-          <CardHeader className="border-b border-slate-100">
-            <CardTitle className="flex items-center gap-2">
-              <Building2 className="w-5 h-5" />
-              Business Status
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-6">
-            <div className="grid grid-cols-2 gap-6 mb-6">
-              <div>
-                <label className="text-sm text-slate-500 mb-1 block">Status</label>
-                <Badge className={
-                  business.status === 'active' ? 'bg-emerald-100 text-emerald-700' :
-                  business.status === 'onboarding' ? 'bg-amber-100 text-amber-700' :
-                  'bg-slate-100 text-slate-600'
-                }>
-                  {business.status}
-                </Badge>
-              </div>
-              <div>
-                <label className="text-sm text-slate-500 mb-1 block">Primary Media Specialist</label>
-                <p className="text-slate-900">
-                  {business.primary_media_user_id ? 'Assigned' : 'Not Set'}
-                </p>
-              </div>
-            </div>
+      <div className="max-w-7xl mx-auto relative z-10">
+        <Link 
+          to={createPageUrl('BusinessDetail', `?id=${business.id}`)}
+          className="inline-flex items-center gap-2 text-[#6b7055] hover:text-[#2d3319] mb-6 transition-colors font-medium"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to {business.name}
+        </Link>
 
-            <div className="bg-slate-50 rounded-lg p-4">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-medium text-slate-700">Onboarding Progress</span>
-                <span className="text-sm font-bold text-slate-900">{completionPercent}%</span>
-              </div>
-              <div className="h-2 bg-slate-200 rounded-full mb-4">
-                <div 
-                  className="h-full bg-indigo-600 rounded-full transition-all"
-                  style={{ width: `${completionPercent}%` }}
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                {checklist.map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-2 text-sm">
-                    {item.completed ? (
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                    ) : (
-                      <Circle className="w-4 h-4 text-slate-300" />
-                    )}
-                    <span className={item.completed ? 'text-slate-900' : 'text-slate-500'}>
-                      {item.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-[#2d3319] mb-2">Executive Dashboard</h1>
+          <p className="text-[#6b7055] text-lg">{business.name}</p>
+        </div>
 
-        {/* SECTION 2 - Review Health */}
-        <Card>
-          <CardHeader className="border-b border-slate-100">
-            <CardTitle className="flex items-center gap-2">
-              <MessageSquare className="w-5 h-5" />
-              Review Health
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-6">
-            {reviews.length === 0 ? (
-              <div className="text-center py-8">
-                <MessageSquare className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-                <p className="text-sm text-slate-600">Import reviews to unlock insights</p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <div className="grid grid-cols-3 gap-2 text-center">
-                  <div className="bg-slate-50 rounded-lg p-3">
-                    <div className="text-2xl font-bold text-slate-900">{reviews.length}</div>
-                    <div className="text-xs text-slate-600">Total</div>
-                  </div>
-                  <div className="bg-emerald-50 rounded-lg p-3">
-                    <div className="text-2xl font-bold text-emerald-700">{positiveReviews.length}</div>
-                    <div className="text-xs text-emerald-600">Positive</div>
-                  </div>
-                  <div className="bg-red-50 rounded-lg p-3">
-                    <div className="text-2xl font-bold text-red-700">{negativeReviews.length}</div>
-                    <div className="text-xs text-red-600">Negative</div>
-                  </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* SECTION 1 - Business Status */}
+          <div className="lg:col-span-2 bg-white/90 backdrop-blur-sm rounded-[2.5rem_2.5rem_2.5rem_1rem] shadow-xl border border-[#e8e6de]/30">
+            <div className="p-6 border-b border-[#e8e6de]">
+              <h2 className="text-2xl font-bold text-[#2d3319] flex items-center gap-2">
+                <Building2 className="w-5 h-5" />
+                Business Status
+              </h2>
+            </div>
+            <div className="p-6">
+              <div className="grid grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label className="text-sm text-[#6b7055] mb-1 block">Status</label>
+                  <span className={`inline-block px-4 py-2 rounded-full text-sm font-bold shadow-sm ${
+                    business.status === 'active' ? 'bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] text-white' :
+                    business.status === 'onboarding' ? 'bg-amber-100 text-amber-700' :
+                    'bg-[#e8e6de] text-[#6b7055]'
+                  }`}>
+                    {business.status}
+                  </span>
                 </div>
-                <div className="text-xs text-slate-500 text-center">
-                  Based on {reviews.length} imported review{reviews.length !== 1 ? 's' : ''}
+                <div>
+                  <label className="text-sm text-[#6b7055] mb-1 block">Primary Media Specialist</label>
+                  <p className="text-[#2d3319] font-medium">
+                    {business.primary_media_user_id ? 'Assigned' : 'Not Set'}
+                  </p>
                 </div>
               </div>
-            )}
-          </CardContent>
-        </Card>
+
+              <div className="bg-[#f5f3ed] rounded-[1.5rem_1.5rem_1.5rem_0.5rem] p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-sm font-bold text-[#2d3319]">Onboarding Progress</span>
+                  <span className="text-sm font-bold text-[#2d3319]">{completionPercent}%</span>
+                </div>
+                <div className="h-2 bg-[#e8e6de] rounded-full mb-4">
+                  <div 
+                    className="h-full bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] rounded-full transition-all"
+                    style={{ width: `${completionPercent}%` }}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {checklist.map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-2 text-sm">
+                      {item.completed ? (
+                        <CheckCircle2 className="w-4 h-4 text-[#a8b88c]" />
+                      ) : (
+                        <Circle className="w-4 h-4 text-[#e8e6de]" />
+                      )}
+                      <span className={item.completed ? 'text-[#2d3319] font-medium' : 'text-[#9ca38a]'}>
+                        {item.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* SECTION 2 - Review Health */}
+          <div className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] shadow-xl border border-[#e8e6de]/30">
+            <div className="p-6 border-b border-[#e8e6de]">
+              <h2 className="text-xl font-bold text-[#2d3319] flex items-center gap-2">
+                <MessageSquare className="w-5 h-5" />
+                Review Health
+              </h2>
+            </div>
+            <div className="p-6">
+              {reviews.length === 0 ? (
+                <div className="text-center py-8">
+                  <MessageSquare className="w-12 h-12 text-[#e8e6de] mx-auto mb-3" />
+                  <p className="text-sm text-[#6b7055]">Import reviews to unlock insights</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div className="grid grid-cols-3 gap-2 text-center">
+                    <div className="bg-[#f5f3ed] rounded-[1rem_1rem_1rem_0.3rem] p-3">
+                      <div className="text-2xl font-bold text-[#2d3319]">{reviews.length}</div>
+                      <div className="text-xs text-[#6b7055]">Total</div>
+                    </div>
+                    <div className="bg-[#d4e0b3]/20 rounded-[1rem_1rem_1rem_0.3rem] p-3 border border-[#d4e0b3]/30">
+                      <div className="text-2xl font-bold text-[#7a8a5e]">{positiveReviews.length}</div>
+                      <div className="text-xs text-[#7a8a5e]">Positive</div>
+                    </div>
+                    <div className="bg-red-50 rounded-[1rem_1rem_1rem_0.3rem] p-3 border border-red-100">
+                      <div className="text-2xl font-bold text-red-700">{negativeReviews.length}</div>
+                      <div className="text-xs text-red-600">Negative</div>
+                    </div>
+                  </div>
+                  <div className="text-xs text-[#9ca38a] text-center">
+                    Based on {reviews.length} imported review{reviews.length !== 1 ? 's' : ''}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
 
         {/* SECTION 3 - Content & Ops */}
         <Card className="lg:col-span-2">
@@ -347,22 +354,22 @@ export default function ExecutiveDashboard() {
                 AI Executive Summary
               </CardTitle>
               <Button 
-                onClick={handleGenerateSummary}
-                disabled={generating}
-                size="sm"
-                className="bg-indigo-600 hover:bg-indigo-700"
+              onClick={handleGenerateSummary}
+              disabled={generating}
+              size="sm"
+              className="bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] hover:from-[#8a9a6e] hover:to-[#7a8a5e] text-white shadow-md"
               >
-                {generating ? (
-                  <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-4 h-4 mr-2" />
-                    Generate Summary
-                  </>
-                )}
+              {generating ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Generate Summary
+                </>
+              )}
               </Button>
             </div>
           </CardHeader>
@@ -409,6 +416,7 @@ export default function ExecutiveDashboard() {
             )}
           </CardContent>
         </Card>
+        </div>
       </div>
     </div>
   );

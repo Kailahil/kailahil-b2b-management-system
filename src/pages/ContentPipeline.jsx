@@ -42,8 +42,8 @@ export default function ContentPipeline() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      <div className="flex items-center justify-center min-h-screen bg-[#f5f3ed]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#a8b88c]"></div>
       </div>
     );
   }
@@ -62,26 +62,32 @@ export default function ContentPipeline() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Content Pipeline</h1>
-          <p className="text-slate-600">Manage content from idea to publication</p>
-        </div>
-        <Button className="bg-indigo-600 hover:bg-indigo-700">
-          <Plus className="w-4 h-4 mr-2" />
-          New Content
-        </Button>
+    <div className="min-h-screen bg-gradient-to-br from-[#f5f3ed] via-[#ebe9dd] to-[#f5f3ed] px-4 py-8 pb-32 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-[#d4e0b3] rounded-full opacity-10 blur-3xl animate-pulse" />
+        <div className="absolute bottom-40 right-10 w-96 h-96 bg-[#a8b88c] rounded-full opacity-10 blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
 
-      <Card className="mb-6">
-        <CardContent className="p-4">
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-4xl font-bold text-[#2d3319] mb-2">Content Pipeline</h1>
+            <p className="text-[#6b7055] text-lg">Manage content from idea to publication</p>
+          </div>
+          <Button className="bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] hover:from-[#8a9a6e] hover:to-[#7a8a5e] text-white shadow-md">
+            <Plus className="w-4 h-4 mr-2" />
+            New Content
+          </Button>
+        </div>
+
+        <div className="bg-white/80 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-4 mb-6 shadow-lg border border-[#e8e6de]/30">
           <div className="flex items-center gap-2">
-            <span className="text-sm text-slate-600">Filter by business:</span>
+            <span className="text-sm text-[#6b7055] font-medium">Filter by business:</span>
             <select
               value={selectedBusiness}
               onChange={(e) => setSelectedBusiness(e.target.value)}
-              className="px-3 py-2 rounded-lg border border-slate-200 text-sm"
+              className="px-4 py-2 rounded-full border border-[#e8e6de] text-sm text-[#2d3319] bg-white focus:outline-none focus:border-[#a8b88c]"
             >
               <option value="all">All Businesses</option>
               {businesses.map(biz => (
@@ -89,12 +95,10 @@ export default function ContentPipeline() {
               ))}
             </select>
           </div>
-        </CardContent>
-      </Card>
+        </div>
 
-      {filteredContent.length === 0 ? (
-        <Card>
-          <CardContent className="p-8">
+        {filteredContent.length === 0 ? (
+          <div className="bg-white/80 backdrop-blur-sm rounded-[3rem_3rem_3rem_1rem] p-12 shadow-xl border border-[#e8e6de]/30">
             <EmptyState
               icon={Calendar}
               title="No content items yet"
@@ -102,35 +106,40 @@ export default function ContentPipeline() {
               actionLabel="Create First Content"
               onAction={() => alert('Content creation form coming soon')}
             />
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="grid grid-cols-1 gap-4">
-          {filteredContent.map(item => {
-            const business = businesses.find(b => b.id === item.business_id);
-            return (
-              <Card key={item.id} className="hover:shadow-md transition-shadow cursor-pointer">
-                <CardContent className="p-6">
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4">
+            {filteredContent.map(item => {
+              const business = businesses.find(b => b.id === item.business_id);
+              return (
+                <div key={item.id} className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-6 shadow-lg border border-[#e8e6de]/30 hover:shadow-xl transition-shadow cursor-pointer">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <Badge className={statusConfig[item.status]?.color}>
+                        <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
+                          item.status === 'idea' ? 'bg-[#e8e6de] text-[#6b7055]' :
+                          item.status === 'draft' ? 'bg-blue-100 text-blue-700' :
+                          item.status === 'needs_approval' ? 'bg-amber-100 text-amber-700' :
+                          item.status === 'approved' ? 'bg-[#d4e0b3]/30 text-[#7a8a5e] border border-[#d4e0b3]/50' :
+                          item.status === 'scheduled' ? 'bg-purple-100 text-purple-700' :
+                          'bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] text-white'
+                        }`}>
                           {statusConfig[item.status]?.label}
-                        </Badge>
-                        <Badge variant="outline" className="capitalize">
+                        </span>
+                        <span className="inline-block px-3 py-1 rounded-full text-xs font-medium border border-[#e8e6de] text-[#6b7055] capitalize">
                           {item.platform}
-                        </Badge>
-                        <Badge variant="outline" className="capitalize">
+                        </span>
+                        <span className="inline-block px-3 py-1 rounded-full text-xs font-medium border border-[#e8e6de] text-[#6b7055] capitalize">
                           {item.type}
-                        </Badge>
+                        </span>
                       </div>
-                      <h3 className="font-semibold text-slate-900 mb-2">
+                      <h3 className="font-semibold text-[#2d3319] mb-2">
                         {business?.name} - {item.platform} {item.type}
                       </h3>
                       {item.caption && (
-                        <p className="text-sm text-slate-600 line-clamp-2 mb-3">{item.caption}</p>
+                        <p className="text-sm text-[#6b7055] line-clamp-2 mb-3">{item.caption}</p>
                       )}
-                      <div className="flex items-center gap-4 text-xs text-slate-500">
+                      <div className="flex items-center gap-4 text-xs text-[#9ca38a]">
                         {item.publish_at && (
                           <span className="flex items-center gap-1">
                             <Calendar className="w-3 h-3" />
@@ -149,17 +158,17 @@ export default function ContentPipeline() {
                       to={createPageUrl('ContentItemDetail', `?id=${item.id}`)}
                       className="ml-4"
                     >
-                      <Button variant="ghost" size="icon">
-                        <ArrowRight className="w-4 h-4" />
+                      <Button variant="ghost" size="icon" className="hover:bg-[#f5f3ed]">
+                        <ArrowRight className="w-4 h-4 text-[#6b7055]" />
                       </Button>
                     </Link>
                   </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-      )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

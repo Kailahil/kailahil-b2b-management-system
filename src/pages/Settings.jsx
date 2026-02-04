@@ -32,8 +32,8 @@ export default function Settings() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      <div className="flex items-center justify-center min-h-screen bg-[#f5f3ed]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#a8b88c]"></div>
       </div>
     );
   }
@@ -41,82 +41,90 @@ export default function Settings() {
   const isAdmin = user?.user_role === 'agency_admin';
 
   return (
-    <div className="max-w-5xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-slate-900 mb-2">Settings</h1>
-        <p className="text-slate-500">Manage your account and preferences</p>
+    <div className="min-h-screen bg-gradient-to-br from-[#f5f3ed] via-[#ebe9dd] to-[#f5f3ed] px-4 py-8 pb-32 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-[#d4e0b3] rounded-full opacity-10 blur-3xl animate-pulse" />
+        <div className="absolute bottom-40 right-10 w-96 h-96 bg-[#a8b88c] rounded-full opacity-10 blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
 
-      {/* Account Settings */}
-      <Card className="mb-6 shadow-lg">
-        <CardHeader className="border-b border-slate-100">
-          <CardTitle className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <SettingsIcon className="w-5 h-5" />
-            Account Settings
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="text-sm font-medium text-slate-600">Full Name</label>
-                <p className="text-slate-900 font-medium mt-1">{user?.full_name}</p>
-              </div>
-              <div>
-                <label className="text-sm font-medium text-slate-600">Email</label>
-                <p className="text-slate-900 font-medium mt-1">{user?.email}</p>
-              </div>
-              <div>
-                <label className="text-sm font-medium text-slate-600">Role</label>
-                <p className="text-slate-900 font-medium mt-1 capitalize">{user?.user_role?.replace(/_/g, ' ')}</p>
+      <div className="max-w-5xl mx-auto relative z-10">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-[#2d3319] mb-2">Settings</h1>
+          <p className="text-[#6b7055] text-lg">Manage your account and preferences</p>
+        </div>
+
+        {/* Account Settings */}
+        <div className="mb-6 bg-white/90 backdrop-blur-sm rounded-[2.5rem_2.5rem_2.5rem_1rem] shadow-xl border border-[#e8e6de]/30">
+          <div className="p-6 border-b border-[#e8e6de]">
+            <h2 className="text-2xl font-bold text-[#2d3319] flex items-center gap-2">
+              <SettingsIcon className="w-5 h-5" />
+              Account Settings
+            </h2>
+          </div>
+          <div className="p-6">
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-bold text-[#6b7055]">Full Name</label>
+                  <p className="text-[#2d3319] font-medium mt-1">{user?.full_name}</p>
+                </div>
+                <div>
+                  <label className="text-sm font-bold text-[#6b7055]">Email</label>
+                  <p className="text-[#2d3319] font-medium mt-1">{user?.email}</p>
+                </div>
+                <div>
+                  <label className="text-sm font-bold text-[#6b7055]">Role</label>
+                  <p className="text-[#2d3319] font-medium mt-1 capitalize">{user?.user_role?.replace(/_/g, ' ')}</p>
+                </div>
               </div>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
 
-      {/* User Management - Admin Only */}
-      {isAdmin && (
-        <Card className="mb-6 shadow-lg">
-          <CardHeader className="border-b border-slate-100">
-            <CardTitle className="text-xl font-bold text-slate-900 flex items-center gap-2">
-              <Users className="w-5 h-5" />
-              User Management
-            </CardTitle>
-            <p className="text-slate-500 text-sm mt-1">Invite and manage team members</p>
-          </CardHeader>
-          <CardContent className="p-6">
-            <EmptyState
-              icon={Users}
-              title="User management coming soon"
-              description="Invite team members, assign roles, and manage permissions."
-            />
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Security */}
-      <Card className="shadow-lg">
-        <CardHeader className="border-b border-slate-100">
-          <CardTitle className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <Shield className="w-5 h-5" />
-            Security
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="space-y-4">
-            <div>
-              <h3 className="font-medium text-slate-900 mb-2">Password</h3>
-              <Button variant="outline">Change Password</Button>
+        {/* User Management - Admin Only */}
+        {isAdmin && (
+          <div className="mb-6 bg-white/90 backdrop-blur-sm rounded-[2.5rem_2.5rem_2.5rem_1rem] shadow-xl border border-[#e8e6de]/30">
+            <div className="p-6 border-b border-[#e8e6de]">
+              <h2 className="text-2xl font-bold text-[#2d3319] flex items-center gap-2">
+                <Users className="w-5 h-5" />
+                User Management
+              </h2>
+              <p className="text-[#6b7055] text-sm mt-1">Invite and manage team members</p>
             </div>
-            <div>
-              <h3 className="font-medium text-slate-900 mb-2">Two-Factor Authentication</h3>
-              <p className="text-sm text-slate-500 mb-2">Add an extra layer of security to your account</p>
-              <Button variant="outline">Enable 2FA</Button>
+            <div className="p-6">
+              <EmptyState
+                icon={Users}
+                title="User management coming soon"
+                description="Invite team members, assign roles, and manage permissions."
+              />
             </div>
           </div>
-        </CardContent>
-      </Card>
+        )}
+
+        {/* Security */}
+        <div className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] shadow-xl border border-[#e8e6de]/30">
+          <div className="p-6 border-b border-[#e8e6de]">
+            <h2 className="text-2xl font-bold text-[#2d3319] flex items-center gap-2">
+              <Shield className="w-5 h-5" />
+              Security
+            </h2>
+          </div>
+          <div className="p-6">
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-bold text-[#2d3319] mb-2">Password</h3>
+                <Button variant="outline" className="border-[#e8e6de] text-[#6b7055] hover:bg-[#f5f3ed]">Change Password</Button>
+              </div>
+              <div>
+                <h3 className="font-bold text-[#2d3319] mb-2">Two-Factor Authentication</h3>
+                <p className="text-sm text-[#6b7055] mb-2">Add an extra layer of security to your account</p>
+                <Button variant="outline" className="border-[#e8e6de] text-[#6b7055] hover:bg-[#f5f3ed]">Enable 2FA</Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

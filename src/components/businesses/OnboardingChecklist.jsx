@@ -31,38 +31,38 @@ export default function OnboardingChecklist({ business, socialAccounts, reviewSo
   const progressPercent = Math.round((completedCount / steps.length) * 100);
 
   return (
-    <Card>
-      <CardHeader className="border-b border-slate-100">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg">Onboarding Checklist</CardTitle>
-          <span className="text-sm font-medium text-slate-600">{completedCount}/{steps.length}</span>
+    <div className="bg-white/90 backdrop-blur-sm rounded-[2.5rem_2.5rem_2.5rem_1rem] shadow-lg border border-[#e8e6de]/30">
+      <div className="p-6 border-b border-[#e8e6de]">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-xl font-bold text-[#2d3319]">Onboarding Checklist</h3>
+          <span className="text-sm font-bold text-[#6b7055]">{completedCount}/{steps.length}</span>
         </div>
-        <div className="mt-3 h-2 bg-slate-100 rounded-full overflow-hidden">
+        <div className="h-2 bg-[#e8e6de] rounded-full overflow-hidden">
           <div 
-            className="h-full bg-indigo-600 transition-all duration-500"
+            className="h-full bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] transition-all duration-500"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
-      </CardHeader>
-      <CardContent className="p-6">
+      </div>
+      <div className="p-6">
         <div className="space-y-3">
           {steps.map(step => (
             <div key={step.id} className="flex items-center gap-3">
               {step.pending ? (
                 <AlertCircle className="w-5 h-5 text-amber-500 flex-shrink-0" />
               ) : step.completed ? (
-                <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0" />
+                <CheckCircle2 className="w-5 h-5 text-[#a8b88c] flex-shrink-0" />
               ) : (
-                <Circle className="w-5 h-5 text-slate-300 flex-shrink-0" />
+                <Circle className="w-5 h-5 text-[#e8e6de] flex-shrink-0" />
               )}
-              <span className={step.completed ? 'text-slate-900' : 'text-slate-500'}>
+              <span className={step.completed ? 'text-[#2d3319] font-medium' : 'text-[#9ca38a]'}>
                 {step.label}
                 {step.pending && <span className="text-amber-600 text-xs ml-2">(Pending)</span>}
               </span>
             </div>
           ))}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
