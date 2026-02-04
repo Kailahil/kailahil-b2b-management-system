@@ -31,11 +31,33 @@ export default function ClientSignupApprovals() {
   const handleApprove = async (signup) => {
     try {
       setProcessingId(signup.id);
+      const currentUser = await base44.auth.me();
+
+      // 1. Update ClientSignup status
       await base44.entities.ClientSignup.update(signup.id, {
         status: 'approved',
-        approved_by_user_id: (await base44.auth.me()).id,
+        approved_by_user_id: currentUser.id,
         approved_at: new Date().toISOString()
       });
+
+      // 2. Create a new Business record
+      const newBusiness = await base44.entities.Business.create({
+        agency_id: currentUser.agency_id,
+        name: signup.business_name,
+        status: 'onboarding',
+        primary_media_user_id: currentUser.id
+      });
+
+      // 3. Create ClientBusiness link
+      await base44.entities.ClientBusiness.create({
+        agency_id: currentUser.agency_id,
+        user_id: signup.id,
+        business_id: newBusiness.id
+      });
+
+      // 4. Create User record for the client
+      await base44.users.inviteUser(signup.email, 'user');
+
       setSignups(prev => prev.filter(s => s.id !== signup.id));
     } catch (error) {
       console.error('Failed to approve:', error);
