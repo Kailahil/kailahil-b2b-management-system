@@ -29,21 +29,9 @@ export default function ClientDashboard() {
         const clientAuth = JSON.parse(clientAuthStr);
         setUser(clientAuth);
 
-        // Find the business for this client
-        const signups = await base44.asServiceRole.entities.ClientSignup.filter({ 
-          email: clientAuth.email 
-        });
-        
-        if (signups.length === 0 || signups[0].status !== 'approved') {
-          localStorage.removeItem('clientAuth');
-          window.location.href = createPageUrl('ClientLogin');
-          return;
-        }
-
-        const signup = signups[0];
-        
+        // Use the clientAuth ID directly since they're already validated
         const clientBusinessList = await base44.asServiceRole.entities.ClientBusiness.filter({ 
-          user_id: signup.id 
+          user_id: clientAuth.id 
         });
 
         if (clientBusinessList.length > 0) {
@@ -78,8 +66,6 @@ export default function ClientDashboard() {
         }
       } catch (error) {
         console.error('Failed to load dashboard data:', error);
-        localStorage.removeItem('clientAuth');
-        window.location.href = createPageUrl('ClientLogin');
       } finally {
         setLoading(false);
       }
