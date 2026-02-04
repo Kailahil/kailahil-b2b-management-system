@@ -6,29 +6,45 @@ export default function TikTokMetrics({ businessId }) {
   const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [syncing, setSyncing] = useState(false);
+
+  const fetchAnalytics = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await base44.functions.invoke('getTikTokAnalytics', {
+        business_id: businessId
+      });
+
+      if (response.data.success) {
+        setAnalytics(response.data.data);
+      } else {
+        setError(response.data.error);
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSync = async () => {
+    setSyncing(true);
+    try {
+      await base44.functions.invoke('syncTikTok', {
+        business_id: businessId
+      });
+      // Refresh analytics after sync
+      await fetchAnalytics();
+    } catch (err) {
+      setError('Failed to sync TikTok data');
+    } finally {
+      setSyncing(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchAnalytics = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        
-        const response = await base44.functions.invoke('getTikTokAnalytics', {
-          business_id: businessId
-        });
-
-        if (response.data.success) {
-          setAnalytics(response.data.data);
-        } else {
-          setError(response.data.error);
-        }
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (businessId) {
       fetchAnalytics();
     }
