@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 import { Star, Upload, Sparkles, MessageSquare } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
 
@@ -15,7 +16,10 @@ export default function Reviews() {
   const [selectedBusiness, setSelectedBusiness] = useState('all');
   const [showImport, setShowImport] = useState(false);
   const [importText, setImportText] = useState('');
+  const [importRating, setImportRating] = useState(5);
+  const [importReviewerName, setImportReviewerName] = useState('');
   const [isImporting, setIsImporting] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
   const [generatingFor, setGeneratingFor] = useState(null);
 
   useEffect(() => {
@@ -56,14 +60,16 @@ export default function Reviews() {
         business_id: selectedBusiness,
         platform: 'google',
         review_id: `manual_${Date.now()}`,
-        rating: 5,
+        rating: importRating,
         text: importText,
-        reviewer_name: 'Manual Import',
+        reviewer_name: importReviewerName || 'Manual Import',
         created_at_platform: new Date().toISOString()
       });
 
       setReviews([newReview, ...reviews]);
       setImportText('');
+      setImportRating(5);
+      setImportReviewerName('');
       setShowImport(false);
       alert('Review imported successfully!');
     } catch (error) {
@@ -71,6 +77,35 @@ export default function Reviews() {
       alert('Failed to import review');
     } finally {
       setIsImporting(false);
+    }
+  };
+
+  const handleSyncGoogleReviews = async () => {
+    if (selectedBusiness === 'all') {
+      alert('Please select a specific business to sync reviews');
+      return;
+    }
+
+    setIsSyncing(true);
+    try {
+      // Check if business has a Google review source configured
+      const reviewSources = await base44.entities.ReviewSource.filter({
+        business_id: selectedBusiness,
+        platform: 'google'
+      });
+
+      if (reviewSources.length === 0) {
+        alert('Please connect Google Reviews for this business first in Business Settings');
+        return;
+      }
+
+      // Future: Call sync function when ready
+      alert('Google Reviews sync coming soon! Connect your Google Business Profile in Business Settings.');
+    } catch (error) {
+      console.error('Failed to sync reviews:', error);
+      alert('Failed to sync reviews');
+    } finally {
+      setIsSyncing(false);
     }
   };
 
@@ -122,13 +157,23 @@ export default function Reviews() {
             <h1 className="text-4xl font-bold text-[#2d3319] mb-2">Reviews</h1>
             <p className="text-[#6b7055] text-lg">Manage and respond to customer reviews</p>
           </div>
-          <Button 
-            onClick={() => setShowImport(!showImport)}
-            className="bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] hover:from-[#8a9a6e] hover:to-[#7a8a5e] text-white shadow-md"
-          >
-            <Upload className="w-4 h-4 mr-2" />
-            Import Review
-          </Button>
+          <div className="flex gap-2">
+            <Button 
+              onClick={handleSyncGoogleReviews}
+              disabled={isSyncing || selectedBusiness === 'all'}
+              variant="outline"
+              className="border-[#e8e6de] text-[#6b7055] hover:bg-[#f5f3ed]"
+            >
+              {isSyncing ? 'Syncing...' : 'Sync Google Reviews'}
+            </Button>
+            <Button 
+              onClick={() => setShowImport(!showImport)}
+              className="bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] hover:from-[#8a9a6e] hover:to-[#7a8a5e] text-white shadow-md"
+            >
+              <Upload className="w-4 h-4 mr-2" />
+              Import Review
+            </Button>
+          </div>
         </div>
 
         <div className="bg-white/80 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-4 mb-6 shadow-lg border border-[#e8e6de]/30">
@@ -168,6 +213,38 @@ export default function Reviews() {
                       <option key={biz.id} value={biz.id}>{biz.name}</option>
                     ))}
                   </select>
+                </div>
+                <div>
+                  <label className="text-sm font-bold text-[#2d3319] mb-2 block">
+                    Reviewer Name (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={importReviewerName}
+                    onChange={(e) => setImportReviewerName(e.target.value)}
+                    placeholder="John Doe"
+                    className="w-full px-4 py-3 rounded-[1rem_1rem_1rem_0.3rem] border border-[#e8e6de] text-[#2d3319] bg-white focus:outline-none focus:border-[#a8b88c]"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-bold text-[#2d3319] mb-2 block">
+                    Rating
+                  </label>
+                  <div className="flex items-center gap-2">
+                    {[1, 2, 3, 4, 5].map((rating) => (
+                      <button
+                        key={rating}
+                        type="button"
+                        onClick={() => setImportRating(rating)}
+                        className="p-2 hover:scale-110 transition-transform"
+                      >
+                        <Star 
+                          className={`w-8 h-8 ${rating <= importRating ? 'fill-amber-400 text-amber-400' : 'text-[#e8e6de]'}`}
+                        />
+                      </button>
+                    ))}
+                    <span className="ml-2 text-sm text-[#6b7055] font-medium">{importRating} star{importRating !== 1 ? 's' : ''}</span>
+                  </div>
                 </div>
                 <div>
                   <label className="text-sm font-bold text-[#2d3319] mb-2 block">
