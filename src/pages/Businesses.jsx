@@ -147,25 +147,39 @@ export default function Businesses() {
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-4xl font-bold text-[#2d3319] mb-2">Businesses</h1>
-            <p className="text-[#6b7055] text-lg">
-              {user?.user_role === 'client' 
-                ? 'Your business information and performance'
-                : 'Manage all businesses in your agency'}
-            </p>
-          </div>
-          <Button 
-            onClick={() => setShowCreateDialog(true)}
-            disabled={!canAddBusiness}
-            className="bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] hover:from-[#8a9a6e] hover:to-[#7a8a5e] text-white shadow-md gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <Plus className="w-4 h-4" />
-            <span className="hidden sm:inline">Add Business</span>
-            <span className="sm:hidden">Add</span>
-          </Button>
-        </div>
+         <div className="flex items-center justify-between mb-8">
+           <div>
+             <h1 className="text-4xl font-bold text-[#2d3319] mb-2">Businesses</h1>
+             <p className="text-[#6b7055] text-lg">
+               {user?.user_role === 'client' 
+                 ? 'Your business information and performance'
+                 : 'Manage all businesses in your agency'}
+             </p>
+           </div>
+           <div className="flex gap-3">
+             {user?.role === 'admin' && pendingSignups > 0 && (
+               <Link 
+                 to={createPageUrl('ClientSignupApprovals')}
+                 className="relative bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-2.5 rounded-full shadow-md gap-2 flex items-center transition-all duration-300"
+               >
+                 <CheckCircle2 className="w-4 h-4" />
+                 <span className="hidden sm:inline">Approvals</span>
+                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shadow-lg">
+                   {pendingSignups}
+                 </span>
+               </Link>
+             )}
+             <Button 
+               onClick={() => setShowCreateDialog(true)}
+               disabled={!canAddBusiness}
+               className="bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] hover:from-[#8a9a6e] hover:to-[#7a8a5e] text-white shadow-md gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+             >
+               <Plus className="w-4 h-4" />
+               <span className="hidden sm:inline">Add Business</span>
+               <span className="sm:hidden">Add</span>
+             </Button>
+           </div>
+         </div>
 
 
 
