@@ -25,6 +25,9 @@ export default function TikTokMetrics({ businessId }) {
       } else if (response.data?.data) {
         // Handle case where data is returned even with error flag
         setAnalytics(response.data.data);
+      } else if (response.status === 404) {
+        // No TikTok account connected - this is expected
+        setAnalytics(null);
       } else {
         setError(response.data?.error || 'Failed to load analytics');
       }
