@@ -15,9 +15,9 @@ export default function Dashboard() {
     const loadData = async () => {
       try {
         const currentUser = await base44.auth.me();
-        
-        // Verify employee email domain
-        if (!currentUser.email.endsWith('@kailahil.com')) {
+
+        // Verify employee email domain (admins bypass this check)
+        if (currentUser.role !== 'admin' && !currentUser.email.endsWith('@kailahil.com')) {
           alert('Access denied: This dashboard is only accessible to @kailahil.com employees');
           window.location.href = createPageUrl('Welcome');
           return;
