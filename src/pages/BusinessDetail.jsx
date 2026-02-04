@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import GlassCard from '../components/glass/GlassCard';
+import GlassBadge from '../components/glass/GlassBadge';
 import { ArrowLeft, Building2, Link as LinkIcon, TrendingUp, Lightbulb, FileText, Target } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
 import IntegrationCard from '../components/shared/IntegrationCard';
@@ -159,7 +159,7 @@ export default function BusinessDetail() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-green"></div>
       </div>
     );
   }
@@ -192,31 +192,31 @@ export default function BusinessDetail() {
       {/* Back Button */}
       <Link 
         to={createPageUrl('Businesses')}
-        className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6 transition-colors"
+        className="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary mb-8 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Businesses
       </Link>
 
       {/* Business Header */}
-      <Card className="mb-8 shadow-lg">
-        <CardContent className="p-8">
+      <GlassCard className="mb-8">
+        <div className="p-8">
           <div className="flex items-start gap-6">
             {business.logo_url ? (
               <img 
                 src={business.logo_url} 
                 alt={business.name}
-                className="w-24 h-24 rounded-2xl object-cover"
+                className="w-24 h-24 rounded-[20px] object-cover shadow-sm"
               />
             ) : (
-              <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center flex-shrink-0">
-                <Building2 className="w-12 h-12 text-indigo-600" />
+              <div className="w-24 h-24 rounded-[20px] bg-gradient-to-br from-primary-green/20 to-primary-green/40 flex items-center justify-center flex-shrink-0 shadow-sm">
+                <Building2 className="w-12 h-12 text-primary-green-dark" />
               </div>
             )}
             <div className="flex-1">
-              <h1 className="text-3xl font-bold text-slate-900 mb-2">{business.name}</h1>
-              <p className="text-slate-500 capitalize mb-4">{business.industry}</p>
-              <div className="flex flex-wrap gap-4 text-sm text-slate-600">
+              <h1 className="text-4xl font-semibold text-text-primary mb-2">{business.name}</h1>
+              <p className="text-text-secondary capitalize mb-4 text-lg">{business.industry}</p>
+              <div className="flex flex-wrap gap-4 text-sm text-text-secondary">
                 {business.city && (
                   <span>📍 {business.city}{business.state ? `, ${business.state}` : ''}</span>
                 )}
@@ -228,7 +228,7 @@ export default function BusinessDetail() {
                     href={business.website} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-indigo-600 hover:text-indigo-700"
+                    className="flex items-center gap-1 text-primary-green-dark hover:text-primary-green transition-colors"
                   >
                     <LinkIcon className="w-4 h-4" />
                     Website
@@ -236,16 +236,12 @@ export default function BusinessDetail() {
                 )}
               </div>
             </div>
-            <span className={`px-4 py-2 rounded-full text-sm font-medium ${
-              business.status === 'active' 
-                ? 'bg-emerald-100 text-emerald-700'
-                : 'bg-slate-100 text-slate-600'
-            }`}>
+            <GlassBadge variant={business.status === 'active' ? 'success' : 'default'}>
               {business.status}
-            </span>
+            </GlassBadge>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </GlassCard>
 
       {/* Onboarding Checklist */}
       <div className="mb-8">
@@ -257,12 +253,12 @@ export default function BusinessDetail() {
       </div>
 
       {/* Integrations Section */}
-      <Card className="mb-8 shadow-lg">
-        <CardHeader className="border-b border-slate-100">
-          <CardTitle className="text-2xl font-bold text-slate-900">Integrations</CardTitle>
-          <p className="text-slate-500 text-sm mt-1">Connect platforms to pull real data and metrics</p>
-        </CardHeader>
-        <CardContent className="p-6">
+      <GlassCard className="mb-8">
+        <div className="p-8 border-b border-white/10">
+          <h2 className="text-2xl font-semibold text-text-primary">Integrations</h2>
+          <p className="text-text-secondary text-sm mt-2">Connect platforms to pull real data and metrics</p>
+        </div>
+        <div className="p-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <IntegrationCard
               platform="tiktok"
@@ -289,89 +285,89 @@ export default function BusinessDetail() {
               isConnecting={connecting === 'google_reviews'}
             />
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </GlassCard>
 
       {/* Quick Actions */}
-      <Card className="shadow-lg">
-        <CardHeader className="border-b border-slate-100">
-          <CardTitle className="text-2xl font-bold text-slate-900">Quick Actions</CardTitle>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <GlassCard>
+        <div className="p-8 border-b border-white/10">
+          <h2 className="text-2xl font-semibold text-text-primary">Quick Actions</h2>
+        </div>
+        <div className="p-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <Link 
                 to={createPageUrl('ExecutiveDashboard') + `?id=${business.id}`}
-                className="p-4 rounded-lg border border-slate-200 hover:border-purple-300 hover:bg-purple-50 transition-all group"
+                className="p-5 rounded-[20px] border border-white/15 bg-cream-surface/30 hover:bg-cream-surface/50 hover:border-white/25 transition-all duration-300 group"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-purple-100 group-hover:bg-purple-200 flex items-center justify-center">
-                    <Building2 className="w-5 h-5 text-purple-600" />
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-[16px] bg-purple-100/60 group-hover:bg-purple-100/80 flex items-center justify-center shadow-sm transition-all">
+                    <Building2 className="w-6 h-6 text-purple-600" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-slate-900">Executive Dashboard</h3>
-                    <p className="text-sm text-slate-500">AI-powered business insights</p>
+                    <h3 className="font-medium text-text-primary text-base">Executive Dashboard</h3>
+                    <p className="text-sm text-text-secondary mt-0.5">AI-powered business insights</p>
                   </div>
                 </div>
               </Link>
               <Link 
                 to={createPageUrl('AIInsights') + `?id=${business.id}`}
-                className="p-4 rounded-lg border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all group"
+                className="p-5 rounded-[20px] border border-white/15 bg-cream-surface/30 hover:bg-cream-surface/50 hover:border-white/25 transition-all duration-300 group"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-indigo-100 group-hover:bg-indigo-200 flex items-center justify-center">
-                    <Lightbulb className="w-5 h-5 text-indigo-600" />
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-[16px] bg-primary-green/20 group-hover:bg-primary-green/30 flex items-center justify-center shadow-sm transition-all">
+                    <Lightbulb className="w-6 h-6 text-primary-green-dark" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-slate-900">AI Insights</h3>
-                    <p className="text-sm text-slate-500">Issues, opportunities & action plans</p>
+                    <h3 className="font-medium text-text-primary text-base">AI Insights</h3>
+                    <p className="text-sm text-text-secondary mt-0.5">Issues, opportunities & action plans</p>
                   </div>
                 </div>
               </Link>
               <Link 
                 to={createPageUrl('BusinessAnalytics') + `?id=${business.id}`}
-                className="p-4 rounded-lg border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all group"
+                className="p-5 rounded-[20px] border border-white/15 bg-cream-surface/30 hover:bg-cream-surface/50 hover:border-white/25 transition-all duration-300 group"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-indigo-100 group-hover:bg-indigo-200 flex items-center justify-center">
-                    <TrendingUp className="w-5 h-5 text-indigo-600" />
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-[16px] bg-blue-100/60 group-hover:bg-blue-100/80 flex items-center justify-center shadow-sm transition-all">
+                    <TrendingUp className="w-6 h-6 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-slate-900">View Analytics</h3>
-                    <p className="text-sm text-slate-500">Performance metrics & insights</p>
+                    <h3 className="font-medium text-text-primary text-base">View Analytics</h3>
+                    <p className="text-sm text-text-secondary mt-0.5">Performance metrics & insights</p>
                   </div>
                 </div>
               </Link>
               <Link 
                 to={createPageUrl('ClientReports') + `?id=${business.id}`}
-                className="p-4 rounded-lg border border-slate-200 hover:border-emerald-300 hover:bg-emerald-50 transition-all group"
+                className="p-5 rounded-[20px] border border-white/15 bg-cream-surface/30 hover:bg-cream-surface/50 hover:border-white/25 transition-all duration-300 group"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-emerald-100 group-hover:bg-emerald-200 flex items-center justify-center">
-                    <FileText className="w-5 h-5 text-emerald-600" />
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-[16px] bg-emerald-100/60 group-hover:bg-emerald-100/80 flex items-center justify-center shadow-sm transition-all">
+                    <FileText className="w-6 h-6 text-emerald-600" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-slate-900">Client Reports</h3>
-                    <p className="text-sm text-slate-500">Monthly performance reports</p>
+                    <h3 className="font-medium text-text-primary text-base">Client Reports</h3>
+                    <p className="text-sm text-text-secondary mt-0.5">Monthly performance reports</p>
                   </div>
                 </div>
               </Link>
               <Link 
                 to={createPageUrl('GrowthPlanner') + `?id=${business.id}`}
-                className="p-4 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition-all group"
+                className="p-5 rounded-[20px] border border-white/15 bg-cream-surface/30 hover:bg-cream-surface/50 hover:border-white/25 transition-all duration-300 group"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-blue-100 group-hover:bg-blue-200 flex items-center justify-center">
-                    <Target className="w-5 h-5 text-blue-600" />
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-[16px] bg-amber-100/60 group-hover:bg-amber-100/80 flex items-center justify-center shadow-sm transition-all">
+                    <Target className="w-6 h-6 text-amber-600" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-slate-900">Growth Planner</h3>
-                    <p className="text-sm text-slate-500">30-day actionable plans</p>
+                    <h3 className="font-medium text-text-primary text-base">Growth Planner</h3>
+                    <p className="text-sm text-text-secondary mt-0.5">30-day actionable plans</p>
                   </div>
                 </div>
               </Link>
             </div>
-        </CardContent>
-      </Card>
+        </div>
+      </GlassCard>
 
       {/* Link TikTok Dialog */}
       <LinkTikTokDialog
