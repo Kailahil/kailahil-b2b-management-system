@@ -60,6 +60,7 @@ import Reviews from './pages/Reviews';
 import Settings from './pages/Settings';
 import Setup from './pages/Setup';
 import Dashboard from './pages/Dashboard';
+import ClientDashboard from './pages/ClientDashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -77,6 +78,7 @@ export const PAGES = {
     "Settings": Settings,
     "Setup": Setup,
     "Dashboard": Dashboard,
+    "ClientDashboard": ClientDashboard,
 }
 
 export const pagesConfig = {

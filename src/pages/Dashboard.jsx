@@ -105,10 +105,11 @@ export default function Dashboard() {
                 Hey {user?.full_name?.split(' ')[0]}! 👋
               </h1>
               <p className="text-[#6b7055] text-lg max-w-2xl">
-                {user?.user_role === 'client' 
-                  ? 'Your business insights at a glance'
-                  : 'Manage and grow your business portfolio'}
+                Manage your client portfolio and drive growth
               </p>
+              <div className="inline-flex items-center gap-2 bg-[#a8b88c]/10 px-4 py-2 rounded-full mt-3">
+                <span className="text-xs font-bold text-[#7a8a5e] uppercase tracking-wider">Media Specialist Dashboard</span>
+              </div>
             </div>
             <div className="w-20 h-20 rounded-[2rem_2rem_2rem_0.5rem] bg-gradient-to-br from-[#a8b88c] to-[#7a8a5e] flex items-center justify-center shadow-lg">
               <TrendingUp className="w-10 h-10 text-white" />
@@ -184,7 +185,7 @@ export default function Dashboard() {
           <div className="flex items-end justify-between gap-4 mb-2">
             <div>
               <h2 className="text-3xl font-bold text-[#2d3319] mb-2">
-                {user?.user_role === 'client' ? 'Your Business' : 'Portfolio'}
+                Your Portfolio
               </h2>
               <div className="flex items-center gap-2">
                 <div className="px-4 py-1.5 bg-white/60 backdrop-blur-sm rounded-full border border-[#e8e6de]">
@@ -193,7 +194,7 @@ export default function Dashboard() {
                 <span className="text-2xl">🌱</span>
               </div>
             </div>
-            {businesses.length > 0 && user?.user_role !== 'client' && (
+            {businesses.length > 0 && (
               <Link 
                 to={createPageUrl('Businesses')}
                 className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] text-white rounded-full hover:shadow-lg transition-all duration-300 font-medium"
@@ -209,11 +210,9 @@ export default function Dashboard() {
               <div className="w-28 h-28 rounded-[2.5rem_2.5rem_2.5rem_0.5rem] bg-gradient-to-br from-[#e8e6de] to-[#d4d2c8] flex items-center justify-center mx-auto mb-6">
                 <Building2 className="w-14 h-14 text-[#6b7055]" />
               </div>
-              <h3 className="text-2xl font-bold text-[#2d3319] mb-3">No businesses yet</h3>
+              <h3 className="text-2xl font-bold text-[#2d3319] mb-3">No clients yet</h3>
               <p className="text-[#6b7055] text-lg max-w-md mx-auto">
-                {user?.user_role === 'client'
-                  ? 'Your agency is setting up your business profile.'
-                  : 'Start your journey by adding your first business.'}
+                Start by adding your first client business to manage.
               </p>
             </div>
           ) : businesses.length === 1 ? (
