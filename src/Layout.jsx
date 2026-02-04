@@ -81,13 +81,14 @@ export default function Layout({ children, currentPageName }) {
         { name: 'Settings', page: 'ClientSettings', icon: Settings }
       ];
     } else if (user?.role === 'admin') {
-      return [
-        { name: 'Dashboard', page: 'Dashboard', icon: Home },
-        { name: 'Businesses', page: 'Businesses', icon: Building2 },
-        { name: 'Reviews', page: 'Reviews', icon: Star },
-        { name: 'Content', page: 'ContentPipeline', icon: FileText },
-        { name: 'Settings', page: 'Settings', icon: Settings }
-      ];
+        return [
+          { name: 'Dashboard', page: 'Dashboard', icon: Home },
+          { name: 'Businesses', page: 'Businesses', icon: Building2 },
+          { name: 'Reviews', page: 'Reviews', icon: Star },
+          { name: 'Content', page: 'ContentPipeline', icon: FileText },
+          { name: 'Approvals', page: 'ClientSignupApprovals', icon: Star, badge: pendingSignups },
+          { name: 'Settings', page: 'Settings', icon: Settings }
+        ];
     } else {
       return [];
     }
