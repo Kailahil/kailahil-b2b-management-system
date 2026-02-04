@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, TrendingUp, Users, Eye, ThumbsUp, MessageCircle, Share2 } from 'lucide-react';
-import EmptyState from '../components/shared/EmptyState';
+import { ArrowLeft, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../components/utils';
+import TikTokMetrics from '../components/analytics/TikTokMetrics';
+import EmptyState from '../components/shared/EmptyState';
 
 export default function BusinessAnalytics() {
   const [business, setBusiness] = useState(null);
