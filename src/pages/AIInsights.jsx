@@ -142,7 +142,7 @@ export default function AIInsights() {
     return (
       <div className="max-w-7xl mx-auto">
         <Link 
-          to={createPageUrl('BusinessDetail') + `?id=${business.id}`}
+          to={createPageUrl('BusinessDetail') + `?id=${business?.id || ''}`}
           className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
@@ -178,7 +178,7 @@ export default function AIInsights() {
   return (
     <div className="max-w-7xl mx-auto">
       <Link 
-        to={createPageUrl('BusinessDetail') + `?id=${business.id}`}
+        to={createPageUrl('BusinessDetail') + `?id=${business?.id || ''}`}
         className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
