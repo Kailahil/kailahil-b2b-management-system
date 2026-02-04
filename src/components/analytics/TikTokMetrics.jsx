@@ -67,9 +67,18 @@ export default function TikTokMetrics({ businessId }) {
 
   if (error) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-2xl p-6 text-center">
-        <p className="text-red-700 text-sm mb-2">Unable to load TikTok analytics</p>
-        <p className="text-red-600 text-xs">{error}</p>
+      <div className="bg-red-50 border border-red-200 rounded-2xl p-6 text-center space-y-3">
+        <div>
+          <p className="text-red-700 text-sm mb-2">Unable to load TikTok analytics</p>
+          <p className="text-red-600 text-xs">{error}</p>
+        </div>
+        <button
+          onClick={handleSync}
+          disabled={syncing}
+          className="bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white text-sm px-4 py-2 rounded-lg"
+        >
+          {syncing ? 'Syncing...' : 'Sync TikTok Data'}
+        </button>
       </div>
     );
   }
