@@ -64,6 +64,9 @@ import Home from './pages/Home';
 import Reviews from './pages/Reviews';
 import Settings from './pages/Settings';
 import Welcome from './pages/Welcome';
+import ClientWork from './pages/ClientWork';
+import ClientInsights from './pages/ClientInsights';
+import ClientSettings from './pages/ClientSettings';
 import __Layout from './Layout.jsx';
 
 
@@ -85,6 +88,9 @@ export const PAGES = {
     "Reviews": Reviews,
     "Settings": Settings,
     "Welcome": Welcome,
+    "ClientWork": ClientWork,
+    "ClientInsights": ClientInsights,
+    "ClientSettings": ClientSettings,
 }
 
 export const pagesConfig = {
