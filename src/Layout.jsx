@@ -44,58 +44,62 @@ export default function Layout({ children, currentPageName }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f3ed] pb-24">
+    <div className="min-h-screen bg-[#f5f3ed] pb-28">
       {/* Main Content */}
       <main className="w-full">
         {children}
       </main>
 
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-4 left-0 right-0 z-50 px-4 pointer-events-none">
-        <div className="max-w-md mx-auto pointer-events-auto">
-          <div className="bg-[#7a8a5e] backdrop-blur-lg rounded-full px-4 py-3 shadow-2xl">
-            <div className="flex items-center justify-around gap-2">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = currentPageName === item.page;
-                return (
-                  <Link
-                    key={item.page}
-                    to={createPageUrl(item.page)}
-                    className="group relative flex-1 flex justify-center"
-                  >
-                    <div className={`transition-all duration-300 ${
-                      isActive 
-                        ? 'bg-[#a8b88c] p-2.5 rounded-xl scale-110' 
-                        : 'p-2.5 hover:bg-[#6b7a4e]/50 rounded-xl'
-                    }`}>
-                      <Icon className={`w-5 h-5 transition-colors ${
-                        isActive ? 'text-white' : 'text-white/70'
-                      }`} />
-                    </div>
-                  </Link>
-                );
-              })}
-              
-              {/* Settings */}
-              <Link
-                to={createPageUrl('Settings')}
-                className="group relative flex-1 flex justify-center"
-              >
-                <div className={`transition-all duration-300 ${
-                  currentPageName === 'Settings'
-                    ? 'bg-[#a8b88c] p-2.5 rounded-xl scale-110' 
-                    : 'p-2.5 hover:bg-[#6b7a4e]/50 rounded-xl'
-                }`}>
-                  <Settings className={`w-5 h-5 transition-colors ${
-                    currentPageName === 'Settings' ? 'text-white' : 'text-white/70'
-                  }`} />
-                </div>
-              </Link>
-            </div>
+      {/* Bottom Navigation - Fixed positioning */}
+      <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] w-[90%] max-w-sm">
+        <div className="bg-gradient-to-r from-[#7a8a5e] via-[#6d7d51] to-[#7a8a5e] backdrop-blur-xl rounded-full px-3 py-3.5 shadow-[0_8px_32px_rgba(122,138,94,0.4)]">
+          <div className="flex items-center justify-around">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = currentPageName === item.page;
+              return (
+                <Link
+                  key={item.page}
+                  to={createPageUrl(item.page)}
+                  className="relative flex items-center justify-center"
+                >
+                  <div className={`transition-all duration-300 ${
+                    isActive 
+                      ? 'bg-white/20 backdrop-blur-sm p-3 rounded-2xl scale-110 shadow-lg' 
+                      : 'p-3 hover:bg-white/10 rounded-2xl'
+                  }`}>
+                    <Icon className={`w-5 h-5 transition-colors ${
+                      isActive ? 'text-white' : 'text-white/60'
+                    }`} />
+                  </div>
+                  {isActive && (
+                    <div className="absolute -bottom-1 w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+                  )}
+                </Link>
+              );
+            })}
+            
+            {/* Settings */}
+            <Link
+              to={createPageUrl('Settings')}
+              className="relative flex items-center justify-center"
+            >
+              <div className={`transition-all duration-300 ${
+                currentPageName === 'Settings'
+                  ? 'bg-white/20 backdrop-blur-sm p-3 rounded-2xl scale-110 shadow-lg' 
+                  : 'p-3 hover:bg-white/10 rounded-2xl'
+              }`}>
+                <Settings className={`w-5 h-5 transition-colors ${
+                  currentPageName === 'Settings' ? 'text-white' : 'text-white/60'
+                }`} />
+              </div>
+              {currentPageName === 'Settings' && (
+                <div className="absolute -bottom-1 w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+              )}
+            </Link>
           </div>
         </div>
-      </div>
+      </nav>
     </div>
   );
 }
