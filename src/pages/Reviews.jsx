@@ -156,45 +156,46 @@ export default function Analytics() {
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-4xl font-bold text-[#2d3319] mb-2">Reviews</h1>
-            <p className="text-[#6b7055] text-lg">Manage and respond to customer reviews</p>
-          </div>
-          <div className="flex gap-2">
-            <Button 
-              onClick={handleSyncGoogleReviews}
-              disabled={isSyncing || selectedBusiness === 'all'}
-              variant="outline"
-              className="border-[#e8e6de] text-[#6b7055] hover:bg-[#f5f3ed]"
-            >
-              {isSyncing ? 'Syncing...' : 'Sync Google Reviews'}
-            </Button>
-            <Button 
-              onClick={() => setShowImport(!showImport)}
-              className="bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] hover:from-[#8a9a6e] hover:to-[#7a8a5e] text-white shadow-md"
-            >
-              <Upload className="w-4 h-4 mr-2" />
-              Import Review
-            </Button>
-          </div>
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-[#2d3319] mb-2">Analytics</h1>
+          <p className="text-[#6b7055] text-lg">Social media performance and customer insights</p>
         </div>
 
+        {/* Business Selector */}
         <div className="bg-white/80 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-4 mb-6 shadow-lg border border-[#e8e6de]/30">
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-[#6b7055] font-medium">Filter by business:</span>
-            <select
-              value={selectedBusiness}
-              onChange={(e) => setSelectedBusiness(e.target.value)}
-              className="px-4 py-2 rounded-full border border-[#e8e6de] text-sm text-[#2d3319] bg-white focus:outline-none focus:border-[#a8b88c]"
-            >
-              <option value="all">All Businesses</option>
-              {businesses.map(biz => (
-                <option key={biz.id} value={biz.id}>{biz.name}</option>
-              ))}
-            </select>
-          </div>
+          <span className="text-sm text-[#6b7055] font-medium mr-3">Select Restaurant:</span>
+          <select
+            value={selectedBusiness}
+            onChange={(e) => setSelectedBusiness(e.target.value)}
+            className="px-4 py-2 rounded-full border border-[#e8e6de] text-sm text-[#2d3319] bg-white focus:outline-none focus:border-[#a8b88c]"
+          >
+            <option value="">Choose a restaurant...</option>
+            {businesses.map(biz => (
+              <option key={biz.id} value={biz.id}>{biz.name}</option>
+            ))}
+          </select>
         </div>
+
+        {selectedBusiness && (
+          <>
+            {/* Tab Navigation */}
+            <div className="flex gap-2 mb-6 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg border border-[#e8e6de]/30 w-fit">
+              {['overview', 'social', 'reviews'].map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+                    activeTab === tab
+                      ? 'bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] text-white shadow-md'
+                      : 'text-[#6b7055] hover:bg-[#f9f8f4]'
+                  }`}
+                >
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
 
         {selectedBusiness && activeTab === 'overview' && (
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
