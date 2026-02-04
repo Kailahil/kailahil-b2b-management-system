@@ -10,10 +10,9 @@ export default function ClientLogin() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const isAuth = await base44.auth.isAuthenticated();
-        if (isAuth) {
-          const user = await base44.auth.me();
-          // Redirect based on role
+        const user = await base44.auth.me();
+        // If user is authenticated, redirect based on role
+        if (user) {
           if (user.user_role === 'client') {
             window.location.href = createPageUrl('ClientDashboard');
           } else {
@@ -21,8 +20,7 @@ export default function ClientLogin() {
           }
         }
       } catch (error) {
-        console.error('Auth check failed:', error);
-      } finally {
+        // User is not authenticated, show login page
         setChecking(false);
       }
     };
