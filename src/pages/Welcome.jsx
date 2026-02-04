@@ -1,42 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { base44 } from '@/api/base44Client';
 import { Users, Briefcase, ArrowRight } from 'lucide-react';
 import { createPageUrl } from '../components/utils';
 
 export default function Welcome() {
-  const [checking, setChecking] = useState(true);
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const user = await base44.auth.me();
-        if (user) {
-          // User is already authenticated, redirect to Home for validation
-          window.location.href = createPageUrl('Home');
-        } else {
-          setChecking(false);
-        }
-      } catch (error) {
-        setChecking(false);
-      }
-    };
-
-    checkAuth();
-  }, []);
-
   const handleRoleSelect = (role) => {
     localStorage.setItem('selectedRole', role);
-    const returnUrl = window.location.origin + createPageUrl('Home');
-    window.location.href = `https://api.base44.com/auth/login?next=${encodeURIComponent(returnUrl)}`;
+    base44.auth.redirectToLogin(createPageUrl('Home'));
   };
-
-  if (checking) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-[#f5f3ed]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#a8b88c]"></div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f5f3ed] via-[#ebe9dd] to-[#f5f3ed] relative overflow-hidden">
