@@ -68,6 +68,8 @@ import ClientWork from './pages/ClientWork';
 import ClientInsights from './pages/ClientInsights';
 import ClientSettings from './pages/ClientSettings';
 import ClientChat from './pages/ClientChat';
+import ClientSignup from './pages/ClientSignup';
+import ClientLogin from './pages/ClientLogin';
 import __Layout from './Layout.jsx';
 
 
@@ -93,6 +95,8 @@ export const PAGES = {
     "ClientInsights": ClientInsights,
     "ClientSettings": ClientSettings,
     "ClientChat": ClientChat,
+    "ClientSignup": ClientSignup,
+    "ClientLogin": ClientLogin,
 }
 
 export const pagesConfig = {

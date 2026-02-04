@@ -37,7 +37,7 @@ export default function Welcome() {
       if (role === 'employee') {
         window.location.href = createPageUrl('EmployeeLogin');
       } else {
-        window.location.href = createPageUrl('ClientDashboard');
+        window.location.href = createPageUrl('ClientLogin');
       }
     };
 
