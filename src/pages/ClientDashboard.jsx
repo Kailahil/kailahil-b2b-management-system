@@ -47,7 +47,7 @@ export default function ClientDashboard() {
         });
 
         if (clientBusinessList.length > 0) {
-          const businessList = await base44.entities.Business.filter({ 
+          const businessList = await base44.asServiceRole.entities.Business.filter({ 
             id: clientBusinessList[0].business_id 
           });
           if (businessList.length > 0) {
@@ -55,21 +55,21 @@ export default function ClientDashboard() {
             setBusiness(selectedBusiness);
 
             // Load work logs
-            const logs = await base44.entities.WorkLog.filter({
+            const logs = await base44.asServiceRole.entities.WorkLog.filter({
               business_id: selectedBusiness.id,
               visibility: 'client'
             }, '-created_date', 50);
             setWorkLogs(logs);
 
             // Load client-visible tasks
-            const tasksData = await base44.entities.Task.filter({
+            const tasksData = await base44.asServiceRole.entities.Task.filter({
               business_id: selectedBusiness.id,
               client_visible: true
             }, '-updated_date', 50);
             setTasks(tasksData);
 
             // Load client-visible content
-            const contentData = await base44.entities.ContentItem.filter({
+            const contentData = await base44.asServiceRole.entities.ContentItem.filter({
               business_id: selectedBusiness.id,
               client_visible: true
             }, '-created_date', 50);
