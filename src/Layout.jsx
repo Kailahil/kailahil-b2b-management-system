@@ -51,62 +51,48 @@ export default function Layout({ children, currentPageName }) {
       </main>
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-        <div className="bg-[#7a8a5e] backdrop-blur-lg rounded-full px-6 py-4 shadow-2xl">
-          <div className="flex items-center gap-8">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = currentPageName === item.page;
-              return (
-                <Link
-                  key={item.page}
-                  to={createPageUrl(item.page)}
-                  className="group relative"
-                >
-                  <div className={`transition-all duration-300 ${
-                    isActive 
-                      ? 'bg-[#a8b88c] p-3 rounded-2xl' 
-                      : 'p-3 hover:bg-[#6b7a4e]/50 rounded-2xl'
-                  }`}>
-                    <Icon className={`w-5 h-5 transition-colors ${
-                      isActive ? 'text-white' : 'text-white/70'
-                    }`} />
-                  </div>
-                  {isActive && (
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#c8d4a8] rounded-full" />
-                  )}
-                </Link>
-              );
-            })}
-            
-            {/* Settings Divider */}
-            <div className="w-px h-8 bg-white/20" />
-            
-            {/* Settings */}
-            <Link
-              to={createPageUrl('Settings')}
-              className="group relative"
-            >
-              <div className={`transition-all duration-300 ${
-                currentPageName === 'Settings'
-                  ? 'bg-[#a8b88c] p-3 rounded-2xl' 
-                  : 'p-3 hover:bg-[#6b7a4e]/50 rounded-2xl'
-              }`}>
-                <Settings className={`w-5 h-5 transition-colors ${
-                  currentPageName === 'Settings' ? 'text-white' : 'text-white/70'
-                }`} />
-              </div>
-            </Link>
-
-            {/* Logout */}
-            <button
-              onClick={handleLogout}
-              className="group relative"
-            >
-              <div className="p-3 hover:bg-[#6b7a4e]/50 rounded-2xl transition-all duration-300">
-                <LogOut className="w-5 h-5 text-white/70" />
-              </div>
-            </button>
+      <div className="fixed bottom-4 left-0 right-0 z-50 px-4 pointer-events-none">
+        <div className="max-w-md mx-auto pointer-events-auto">
+          <div className="bg-[#7a8a5e] backdrop-blur-lg rounded-full px-4 py-3 shadow-2xl">
+            <div className="flex items-center justify-around gap-2">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = currentPageName === item.page;
+                return (
+                  <Link
+                    key={item.page}
+                    to={createPageUrl(item.page)}
+                    className="group relative flex-1 flex justify-center"
+                  >
+                    <div className={`transition-all duration-300 ${
+                      isActive 
+                        ? 'bg-[#a8b88c] p-2.5 rounded-xl scale-110' 
+                        : 'p-2.5 hover:bg-[#6b7a4e]/50 rounded-xl'
+                    }`}>
+                      <Icon className={`w-5 h-5 transition-colors ${
+                        isActive ? 'text-white' : 'text-white/70'
+                      }`} />
+                    </div>
+                  </Link>
+                );
+              })}
+              
+              {/* Settings */}
+              <Link
+                to={createPageUrl('Settings')}
+                className="group relative flex-1 flex justify-center"
+              >
+                <div className={`transition-all duration-300 ${
+                  currentPageName === 'Settings'
+                    ? 'bg-[#a8b88c] p-2.5 rounded-xl scale-110' 
+                    : 'p-2.5 hover:bg-[#6b7a4e]/50 rounded-xl'
+                }`}>
+                  <Settings className={`w-5 h-5 transition-colors ${
+                    currentPageName === 'Settings' ? 'text-white' : 'text-white/70'
+                  }`} />
+                </div>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
