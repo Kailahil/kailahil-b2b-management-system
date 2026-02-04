@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Users, ArrowLeft, Lock, Mail } from 'lucide-react';
+import { Users, ArrowLeft, Mail } from 'lucide-react';
 import { createPageUrl } from '../components/utils';
 
 export default function EmployeeLogin() {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [isSignup, setIsSignup] = useState(false);
 
   useEffect(() => {
     // Check if user is already logged in
@@ -40,24 +38,8 @@ export default function EmployeeLogin() {
       return;
     }
 
-    setLoading(true);
-
-    try {
-      if (isSignup) {
-        // Sign up flow
-        await base44.auth.signup(email, password);
-        // After signup, redirect to Dashboard
-        window.location.href = createPageUrl('Dashboard');
-      } else {
-        // Login flow
-        await base44.auth.login(email, password);
-        // After login, redirect to Dashboard
-        window.location.href = createPageUrl('Dashboard');
-      }
-    } catch (error) {
-      setError(error.message || 'Authentication failed. Please try again.');
-      setLoading(false);
-    }
+    // Redirect to Base44 authentication with next URL
+    base44.auth.redirectToLogin(createPageUrl('Dashboard'));
   };
 
   return (
@@ -92,7 +74,7 @@ export default function EmployeeLogin() {
               Employee Portal
             </h1>
             <p className="text-[#6b7055] text-center mb-8">
-              {isSignup ? 'Create your account' : 'Sign in to continue'}
+              Enter your @kailahil.com email to continue
             </p>
 
             {error && (
@@ -144,21 +126,9 @@ export default function EmployeeLogin() {
                 disabled={loading}
                 className="w-full h-12 bg-gradient-to-r from-[#7a8a5e] to-[#6d7d51] hover:from-[#6d7d51] hover:to-[#5f6e47] text-white rounded-xl font-medium shadow-lg"
               >
-                {loading ? 'Please wait...' : isSignup ? 'Create Account' : 'Sign In'}
+                Continue to Sign In
               </Button>
             </form>
-
-            <div className="mt-6 text-center">
-              <button
-                onClick={() => {
-                  setIsSignup(!isSignup);
-                  setError('');
-                }}
-                className="text-sm text-[#7a8a5e] hover:text-[#6d7d51] font-medium"
-              >
-                {isSignup ? 'Already have an account? Sign in' : "Don't have an account? Create one"}
-              </button>
-            </div>
           </div>
 
           {/* Footer */}
