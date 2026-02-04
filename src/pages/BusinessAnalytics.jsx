@@ -62,85 +62,48 @@ export default function BusinessAnalytics() {
     return null;
   }
 
-  const connectedAccounts = socialAccounts.filter(acc => acc.connected_status === 'connected');
-  const hasData = metrics.length > 0;
-
-  const kpiCards = [
-    { icon: Users, label: 'Total Followers', value: null, color: 'text-blue-600' },
-    { icon: Eye, label: 'Total Views', value: null, color: 'text-purple-600' },
-    { icon: ThumbsUp, label: 'Total Likes', value: null, color: 'text-pink-600' },
-    { icon: MessageCircle, label: 'Total Comments', value: null, color: 'text-green-600' },
-    { icon: Share2, label: 'Total Shares', value: null, color: 'text-orange-600' },
-    { icon: TrendingUp, label: 'Engagement Rate', value: null, color: 'text-indigo-600' }
-  ];
+  const tiktokAccount = socialAccounts.find(acc => acc.platform === 'tiktok');
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <Link 
-        to={createPageUrl('BusinessDetail', `?id=${business.id}`)}
-        className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6 transition-colors"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        Back to {business.name}
-      </Link>
-
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">Analytics</h1>
-        <p className="text-slate-600">{business.name}</p>
+    <div className="min-h-screen bg-gradient-to-br from-[#f5f3ed] via-[#ebe9dd] to-[#f5f3ed] px-4 py-8 pb-32 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-[#d4e0b3] rounded-full opacity-10 blur-3xl animate-pulse" />
+        <div className="absolute bottom-40 right-10 w-96 h-96 bg-[#a8b88c] rounded-full opacity-10 blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
 
-      {connectedAccounts.length === 0 ? (
-        <Card>
-          <CardContent className="p-8">
-            <EmptyState
-              icon={TrendingUp}
-              title="No integrations connected"
-              description="Connect TikTok, Instagram, or Google Reviews to see real analytics and insights."
-              actionLabel="Go to Integrations"
-              onAction={() => window.location.href = createPageUrl('BusinessDetail', `?id=${business.id}`)}
-            />
-          </CardContent>
-        </Card>
-      ) : !hasData ? (
-        <Card>
-          <CardContent className="p-8">
-            <EmptyState
-              icon={TrendingUp}
-              title="No data available yet"
-              description="Analytics will appear once we sync data from your connected platforms. This happens automatically every 24 hours."
-            />
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {kpiCards.map((kpi, idx) => (
-              <Card key={idx}>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <kpi.icon className={`w-5 h-5 ${kpi.color}`} />
-                  </div>
-                  <div className="text-2xl font-bold text-slate-900 mb-1">
-                    {kpi.value || '—'}
-                  </div>
-                  <div className="text-sm text-slate-600">{kpi.label}</div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+      <div className="max-w-7xl mx-auto relative z-10">
+        <Link 
+          to={createPageUrl('BusinessDetail') + `?id=${business.id}`}
+          className="inline-flex items-center gap-2 text-[#6b7055] hover:text-[#2d3319] mb-6 transition-colors font-medium"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to {business.name}
+        </Link>
 
-          <Card>
-            <CardHeader className="border-b border-slate-100">
-              <CardTitle>Performance Over Time</CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-              <div className="h-64 flex items-center justify-center text-slate-500">
-                Chart visualization coming soon
-              </div>
-            </CardContent>
-          </Card>
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-[#2d3319] mb-2">Analytics</h1>
+          <p className="text-[#6b7055] text-lg">Social media performance and customer insights</p>
         </div>
-      )}
+
+        {!tiktokAccount || tiktokAccount.connected_status !== 'connected' ? (
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-[#e8e6de]/30 text-center space-y-4">
+            <TrendingUp className="w-16 h-16 text-[#a8b88c] opacity-30 mx-auto" />
+            <h2 className="text-2xl font-bold text-[#2d3319]">No TikTok account connected</h2>
+            <p className="text-[#6b7055] max-w-md mx-auto">
+              Connect your TikTok account in Business Settings to view analytics and insights.
+            </p>
+            <Link 
+              to={createPageUrl('BusinessDetail') + `?id=${business.id}`}
+              className="inline-block px-6 py-3 bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] text-white rounded-full hover:shadow-lg transition-all duration-300 font-medium"
+            >
+              Go to Integrations
+            </Link>
+          </div>
+        ) : (
+          <TikTokMetrics businessId={business.id} />
+        )}
+      </div>
     </div>
   );
 }
