@@ -8,12 +8,13 @@ import { Input } from '@/components/ui/input';
 import { Star, Upload, Sparkles, MessageSquare } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
 
-export default function Reviews() {
+export default function Analytics() {
   const [user, setUser] = useState(null);
   const [businesses, setBusinesses] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedBusiness, setSelectedBusiness] = useState('all');
+  const [selectedBusiness, setSelectedBusiness] = useState('');
+  const [activeTab, setActiveTab] = useState('overview');
   const [showImport, setShowImport] = useState(false);
   const [importText, setImportText] = useState('');
   const [importRating, setImportRating] = useState(5);
@@ -32,6 +33,9 @@ export default function Reviews() {
           agency_id: currentUser.agency_id 
         });
         setBusinesses(businessData);
+        if (businessData.length > 0) {
+          setSelectedBusiness(businessData[0].id);
+        }
 
         const reviewData = await base44.entities.Review.filter({ 
           agency_id: currentUser.agency_id 
@@ -139,9 +143,9 @@ export default function Reviews() {
     );
   }
 
-  const filteredReviews = selectedBusiness === 'all' 
-    ? reviews 
-    : reviews.filter(r => r.business_id === selectedBusiness);
+  const filteredReviews = selectedBusiness 
+    ? reviews.filter(r => r.business_id === selectedBusiness)
+    : reviews;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f5f3ed] via-[#ebe9dd] to-[#f5f3ed] px-4 py-8 pb-32 relative overflow-hidden">
@@ -192,7 +196,58 @@ export default function Reviews() {
           </div>
         </div>
 
-        {showImport && (
+        {selectedBusiness && activeTab === 'overview' && (
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            {/* Key Metrics - Placeholder for API data */}
+            <div className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-6 shadow-lg border border-[#e8e6de]/30">
+              <p className="text-sm text-[#6b7055] font-medium mb-2">Followers</p>
+              <p className="text-3xl font-bold text-[#2d3319]">—</p>
+              <p className="text-xs text-[#9ca38a] mt-1">API data pending</p>
+            </div>
+            <div className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-6 shadow-lg border border-[#e8e6de]/30">
+              <p className="text-sm text-[#6b7055] font-medium mb-2">Engagement Rate</p>
+              <p className="text-3xl font-bold text-[#2d3319]">—</p>
+              <p className="text-xs text-[#9ca38a] mt-1">API data pending</p>
+            </div>
+            <div className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-6 shadow-lg border border-[#e8e6de]/30">
+              <p className="text-sm text-[#6b7055] font-medium mb-2">Total Impressions</p>
+              <p className="text-3xl font-bold text-[#2d3319]">—</p>
+              <p className="text-xs text-[#9ca38a] mt-1">API data pending</p>
+            </div>
+            <div className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-6 shadow-lg border border-[#e8e6de]/30">
+              <p className="text-sm text-[#6b7055] font-medium mb-2">Avg. Post Reach</p>
+              <p className="text-3xl font-bold text-[#2d3319]">—</p>
+              <p className="text-xs text-[#9ca38a] mt-1">API data pending</p>
+            </div>
+          </div>
+        )}
+
+        {selectedBusiness && activeTab === 'social' && (
+          <div className="space-y-6 mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-8 shadow-lg border border-[#e8e6de]/30">
+                <h3 className="text-lg font-bold text-[#2d3319] mb-4">Follower Growth</h3>
+                <div className="h-48 flex items-center justify-center text-[#9ca38a] text-sm">
+                  Chart placeholder - API data pending
+                </div>
+              </div>
+              <div className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-8 shadow-lg border border-[#e8e6de]/30">
+                <h3 className="text-lg font-bold text-[#2d3319] mb-4">Engagement Timeline</h3>
+                <div className="h-48 flex items-center justify-center text-[#9ca38a] text-sm">
+                  Chart placeholder - API data pending
+                </div>
+              </div>
+            </div>
+            <div className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-8 shadow-lg border border-[#e8e6de]/30">
+              <h3 className="text-lg font-bold text-[#2d3319] mb-4">Top Performing Posts</h3>
+              <div className="h-48 flex items-center justify-center text-[#9ca38a] text-sm">
+                Table placeholder - API data pending
+              </div>
+            </div>
+          </div>
+        )}
+
+        {selectedBusiness && activeTab === 'reviews' && showImport && (
           <div className="bg-white/90 backdrop-blur-sm rounded-[2.5rem_2.5rem_2.5rem_1rem] shadow-xl border-2 border-[#a8b88c]/30 mb-6 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#a8b88c]/5 rounded-full -mr-32 -mt-32" />
             
@@ -279,7 +334,27 @@ export default function Reviews() {
           </div>
         )}
 
-        {filteredReviews.length === 0 ? (
+        {selectedBusiness && activeTab === 'reviews' && (
+          <>
+            <div className="flex gap-2 mb-6">
+              <Button 
+                onClick={handleSyncGoogleReviews}
+                disabled={isSyncing}
+                variant="outline"
+                className="border-[#e8e6de] text-[#6b7055] hover:bg-[#f5f3ed]"
+              >
+                {isSyncing ? 'Syncing...' : 'Sync Google Reviews'}
+              </Button>
+              <Button 
+                onClick={() => setShowImport(!showImport)}
+                className="bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] hover:from-[#8a9a6e] hover:to-[#7a8a5e] text-white shadow-md"
+              >
+                <Upload className="w-4 h-4 mr-2" />
+                Import Review
+              </Button>
+            </div>
+
+            {filteredReviews.length === 0 ? (
           <div className="bg-white/80 backdrop-blur-sm rounded-[3rem_3rem_3rem_1rem] p-12 shadow-xl border border-[#e8e6de]/30">
             <EmptyState
               icon={MessageSquare}
@@ -357,7 +432,9 @@ export default function Reviews() {
                 </div>
               );
             })}
-          </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
