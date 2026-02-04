@@ -61,6 +61,8 @@ import GrowthPlanner from './pages/GrowthPlanner';
 import Reviews from './pages/Reviews';
 import Settings from './pages/Settings';
 import Setup from './pages/Setup';
+import MediaLogin from './pages/MediaLogin';
+import ClientLogin from './pages/ClientLogin';
 import __Layout from './Layout.jsx';
 
 
@@ -79,6 +81,8 @@ export const PAGES = {
     "Reviews": Reviews,
     "Settings": Settings,
     "Setup": Setup,
+    "MediaLogin": MediaLogin,
+    "ClientLogin": ClientLogin,
 }
 
 export const pagesConfig = {
