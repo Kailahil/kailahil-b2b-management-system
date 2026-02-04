@@ -116,245 +116,153 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Fluid Organic Stats - Bento Style */}
-        <div className="relative mb-10">
-          {/* Floating decorative elements */}
-          <div className="absolute -top-8 right-10 w-32 h-32 bg-[#a8b88c] rounded-full opacity-10 blur-2xl animate-pulse" />
-          <div className="absolute top-20 left-5 w-24 h-24 bg-[#7a8a5e] rounded-full opacity-10 blur-2xl animate-pulse" style={{ animationDelay: '1.5s' }} />
-          
-          <div className="grid grid-cols-1 md:grid-cols-6 gap-4 relative">
-            {stats.map((stat, idx) => {
-              const Icon = stat.icon;
-              
-              // Unique blob shapes for each card
-              const blobShapes = [
-                { 
-                  clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
-                  gridClass: 'md:col-span-2',
-                  gradient: 'from-white via-[#f9f8f4] to-white',
-                  iconBg: 'from-[#a8b88c] via-[#9aab7d] to-[#7a8a5e]'
-                },
-                { 
-                  clipPath: 'polygon(25% 0%, 75% 0%, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 0% 25%)',
-                  gridClass: 'md:col-span-2',
-                  gradient: 'from-[#f9f8f4] via-white to-[#f3f1e8]',
-                  iconBg: 'from-[#7a8a5e] via-[#8a9a6e] to-[#a8b88c]'
-                },
-                { 
-                  clipPath: 'polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)',
-                  gridClass: 'md:col-span-2',
-                  gradient: 'from-white via-[#f3f1e8] to-[#f9f8f4]',
-                  iconBg: 'from-[#8a9a6e] via-[#a8b88c] to-[#7a8a5e]'
-                }
-              ];
-              
-              const design = blobShapes[idx];
-              
-              return (
-                <div key={stat.title} className={`${design.gridClass} relative group`}>
-                  {/* Card with organic shape */}
-                  <div className="relative h-full">
-                    {/* Background with clip-path */}
-                    <div 
-                      className={`absolute inset-0 bg-gradient-to-br ${design.gradient} shadow-lg group-hover:shadow-2xl transition-all duration-500`}
-                      style={{ 
-                        clipPath: design.clipPath,
-                        transform: 'scale(1)',
-                        transition: 'all 0.5s ease'
-                      }}
-                    />
-                    
-                    {/* Content */}
-                    <div className="relative p-8 h-full flex flex-col justify-between">
-                      {/* Floating icon */}
-                      <div className="relative inline-block mb-4">
-                        <div className={`w-20 h-20 bg-gradient-to-br ${design.iconBg} flex items-center justify-center shadow-xl relative overflow-hidden group-hover:scale-110 group-hover:rotate-12 transition-all duration-500`}
-                          style={{ 
-                            clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
-                          }}>
-                          <Icon className="w-9 h-9 text-white" />
-                        </div>
-                        {/* Decorative dots */}
-                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-[#a8b88c] rounded-full opacity-60" />
-                        <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-[#7a8a5e] rounded-full opacity-60" />
-                      </div>
+        {/* Ultra Creative Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
+          {stats.map((stat, idx) => {
+            const Icon = stat.icon;
+            const patterns = [
+              { bg: 'bg-gradient-to-br from-white to-[#f9f8f4]', accent: 'from-[#a8b88c] to-[#8a9a6e]', shape: 'rounded-[2.5rem_2.5rem_2.5rem_0.5rem]' },
+              { bg: 'bg-gradient-to-bl from-white to-[#f9f8f4]', accent: 'from-[#7a8a5e] to-[#a8b88c]', shape: 'rounded-[2.5rem_0.5rem_2.5rem_2.5rem]' },
+              { bg: 'bg-gradient-to-tr from-white to-[#f9f8f4]', accent: 'from-[#8a9a6e] to-[#7a8a5e]', shape: 'rounded-[0.5rem_2.5rem_2.5rem_2.5rem]' }
+            ];
+            const pattern = patterns[idx];
+            
+            return (
+              <div key={stat.title} className={`${pattern.bg} ${pattern.shape} p-7 shadow-lg hover:shadow-2xl transition-all duration-500 relative overflow-hidden group`}>
+                {/* Animated background pattern */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-500">
+                  <div className="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgb3BhY2l0eT0iMC4xIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30" />
+                </div>
 
-                      <div className="space-y-2">
-                        <p className="text-xs text-[#6b7055] uppercase tracking-[0.2em] font-bold flex items-center gap-2">
-                          <span className="w-1 h-1 bg-[#a8b88c] rounded-full" />
-                          {stat.title}
-                        </p>
-                        <p className="text-6xl font-black text-[#2d3319] tracking-tighter leading-none">
-                          {stat.value}
-                        </p>
-                        {stat.note && (
-                          <div className="flex items-start gap-2 mt-3 pt-3 border-t border-[#e8e6de]">
-                            <div className="w-1 h-1 bg-[#a8b88c] rounded-full mt-1.5" />
-                            <p className="text-xs text-[#9ca38a] leading-relaxed">{stat.note}</p>
-                          </div>
-                        )}
+                <div className="relative z-10">
+                  <div className={`w-16 h-16 rounded-[1.2rem] bg-gradient-to-br ${pattern.accent} flex items-center justify-center mb-5 shadow-md group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500`}>
+                    <Icon className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-xs text-[#6b7055] uppercase tracking-widest font-semibold">{stat.title}</p>
+                    <p className="text-5xl font-black text-[#2d3319] tracking-tight">
+                      {stat.value}
+                    </p>
+                    {stat.note && (
+                      <div className="flex items-center gap-2 mt-3">
+                        <div className="w-1.5 h-1.5 bg-[#a8b88c] rounded-full" />
+                        <p className="text-xs text-[#9ca38a]">{stat.note}</p>
                       </div>
-                    </div>
-
-                    {/* Animated background elements */}
-                    <div className="absolute top-2 right-2 w-16 h-16 bg-[#a8b88c] rounded-full opacity-5 group-hover:scale-150 group-hover:opacity-10 transition-all duration-700" />
-                    <div className="absolute bottom-2 left-2 w-12 h-12 bg-[#7a8a5e] rounded-full opacity-5 group-hover:scale-150 group-hover:opacity-10 transition-all duration-700" style={{ transitionDelay: '0.1s' }} />
+                    )}
                   </div>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
 
-        {/* Organic Portfolio Section */}
-        <div className="relative">
-          {/* Morphing background blob */}
-          <div className="absolute -top-20 -left-20 w-80 h-80 bg-[#a8b88c] opacity-5 blur-3xl rounded-full" />
-          
-          <div className="relative bg-white/70 backdrop-blur-2xl overflow-hidden border border-white/60 shadow-2xl"
-            style={{ 
-              clipPath: 'polygon(0% 5%, 5% 0%, 95% 0%, 100% 5%, 100% 95%, 95% 100%, 5% 100%, 0% 95%)',
-              borderRadius: '2.5rem'
-            }}>
-            
-            {/* Header with wave effect */}
-            <div className="relative px-8 py-7 bg-gradient-to-br from-white/80 to-[#f9f8f4]/50 border-b-2 border-[#e8e6de]/30 overflow-hidden">
-              {/* Animated wave background */}
-              <div className="absolute inset-0 opacity-30">
-                <svg className="absolute bottom-0 left-0 w-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                  <path d="M0,0 C150,60 350,0 600,30 C850,60 1050,0 1200,30 L1200,120 L0,120 Z" fill="#a8b88c" opacity="0.1"/>
-                </svg>
+        {/* Revolutionary Business Cards */}
+        <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-xl overflow-hidden border border-white/50">
+          <div className="px-8 py-6 bg-gradient-to-r from-white/50 to-transparent border-b border-[#e8e6de]/50">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-2xl font-bold text-[#2d3319] mb-1">
+                  {user?.user_role === 'client' ? 'Your Business' : 'Your Portfolio'}
+                </h2>
+                <p className="text-sm text-[#6b7055]">{businesses.length} {businesses.length === 1 ? 'business' : 'businesses'} • Growing strong 🌱</p>
               </div>
-              
-              <div className="relative flex items-center justify-between">
-                <div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="flex gap-1.5">
-                      <div className="w-2 h-2 bg-[#a8b88c] rounded-full animate-pulse" />
-                      <div className="w-2 h-2 bg-[#8a9a6e] rounded-full animate-pulse" style={{ animationDelay: '0.2s' }} />
-                      <div className="w-2 h-2 bg-[#7a8a5e] rounded-full animate-pulse" style={{ animationDelay: '0.4s' }} />
-                    </div>
-                    <h2 className="text-2xl font-black text-[#2d3319]">
-                      {user?.user_role === 'client' ? 'Your Business' : 'Portfolio'}
-                    </h2>
-                  </div>
-                  <p className="text-sm text-[#6b7055] flex items-center gap-2">
-                    <span className="font-bold text-[#2d3319]">{businesses.length}</span>
-                    {businesses.length === 1 ? 'business' : 'businesses'}
-                    <span className="text-[#a8b88c]">•</span>
-                    <span>Growing 🌱</span>
-                  </p>
-                </div>
-                {businesses.length > 0 && user?.user_role !== 'client' && (
-                  <Link 
-                    to={createPageUrl('Businesses')}
-                    className="group flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#a8b88c] via-[#9aab7d] to-[#8a9a6e] text-white font-bold text-sm relative overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
-                    style={{ clipPath: 'polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%)' }}
-                  >
-                    <span>View All</span>
-                    <span className="text-lg group-hover:translate-x-1 transition-transform">→</span>
-                  </Link>
-                )}
-              </div>
-            </div>
-            
-            <div className="p-8">
-              {businesses.length === 0 ? (
-                <div className="text-center py-16">
-                  <div className="w-28 h-28 mx-auto mb-6 bg-gradient-to-br from-[#e8e6de] to-[#d4d2c8] flex items-center justify-center relative overflow-hidden"
-                    style={{ clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' }}>
-                    <Building2 className="w-14 h-14 text-[#6b7055]" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-[#2d3319] mb-3">No businesses yet</h3>
-                  <p className="text-[#6b7055] max-w-md mx-auto text-lg">
-                    {user?.user_role === 'client'
-                      ? 'Your agency is setting up your business profile.'
-                      : 'Start your journey by adding your first business.'}
-                  </p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {businesses.slice(0, 6).map((business, idx) => {
-                    // Unique organic shapes for each card
-                    const clipPaths = [
-                      'polygon(15% 0%, 85% 0%, 100% 15%, 100% 85%, 85% 100%, 15% 100%, 0% 85%, 0% 15%)',
-                      'polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)',
-                      'polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%)',
-                      'polygon(25% 0%, 75% 0%, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 0% 25%)',
-                      'polygon(18% 0%, 82% 0%, 100% 18%, 100% 82%, 82% 100%, 18% 100%, 0% 82%, 0% 18%)',
-                      'polygon(12% 0%, 88% 0%, 100% 12%, 100% 88%, 88% 100%, 12% 100%, 0% 88%, 0% 12%)'
-                    ];
-                    
-                    return (
-                      <Link
-                        key={business.id}
-                        to={createPageUrl(`BusinessDetail?id=${business.id}`)}
-                        className="block group relative"
-                      >
-                        {/* Card with organic clip-path */}
-                        <div 
-                          className="relative bg-gradient-to-br from-white via-[#f9f8f4] to-white p-6 hover:shadow-2xl transition-all duration-500 border-2 border-[#e8e6de]/40 hover:border-[#a8b88c]/60 overflow-hidden"
-                          style={{ clipPath: clipPaths[idx] }}
-                        >
-                          {/* Animated background orbs */}
-                          <div className="absolute top-0 right-0 w-24 h-24 bg-[#a8b88c] rounded-full opacity-0 group-hover:opacity-10 blur-2xl transition-all duration-700 group-hover:scale-150" />
-                          <div className="absolute bottom-0 left-0 w-20 h-20 bg-[#7a8a5e] rounded-full opacity-0 group-hover:opacity-10 blur-2xl transition-all duration-700 group-hover:scale-150" style={{ transitionDelay: '0.1s' }} />
-                          
-                          <div className="relative z-10">
-                            {/* Business Logo/Icon with unique shape */}
-                            <div className="flex items-start gap-4 mb-6">
-                              {business.logo_url ? (
-                                <div 
-                                  className="w-18 h-18 bg-[#2d3319] flex items-center justify-center overflow-hidden shadow-xl group-hover:scale-110 group-hover:rotate-12 transition-all duration-500"
-                                  style={{ clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' }}
-                                >
-                                  <img 
-                                    src={business.logo_url} 
-                                    alt={business.name}
-                                    className="w-full h-full object-cover"
-                                  />
-                                </div>
-                              ) : (
-                                <div 
-                                  className="w-18 h-18 bg-gradient-to-br from-[#a8b88c] via-[#9aab7d] to-[#7a8a5e] flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-12 transition-all duration-500"
-                                  style={{ clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' }}
-                                >
-                                  <Building2 className="w-9 h-9 text-white" />
-                                </div>
-                              )}
-                              <div className="flex-1 min-w-0 pt-1">
-                                <h3 className="font-black text-[#2d3319] text-lg mb-1 leading-tight">{business.name}</h3>
-                                <p className="text-sm text-[#6b7055] capitalize font-medium">{business.industry}</p>
-                              </div>
-                            </div>
-
-                            {/* Business Info with decorative elements */}
-                            <div className="flex items-center gap-2.5 flex-wrap pt-4 border-t border-[#e8e6de]/50">
-                              <span 
-                                className={`px-4 py-2 font-bold text-xs shadow-md ${
-                                  business.status === 'active' 
-                                    ? 'bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] text-white'
-                                    : 'bg-[#e8e6de] text-[#6b7055]'
-                                }`}
-                                style={{ clipPath: 'polygon(8% 0%, 92% 0%, 100% 8%, 100% 92%, 92% 100%, 8% 100%, 0% 92%, 0% 8%)' }}
-                              >
-                                {business.status}
-                              </span>
-                              {business.city && (
-                                <span className="text-xs text-[#9ca38a] flex items-center gap-1.5 font-medium">
-                                  <span className="text-base">📍</span>
-                                  <span>{business.city}</span>
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
+              {businesses.length > 0 && user?.user_role !== 'client' && (
+                <Link 
+                  to={createPageUrl('Businesses')}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] text-white rounded-full hover:shadow-lg transition-all duration-300 text-sm font-medium"
+                >
+                  <span>View All</span>
+                  <span className="text-lg">→</span>
+                </Link>
               )}
             </div>
+          </div>
+          
+          <div className="p-8">
+            {businesses.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="w-24 h-24 rounded-[2rem_2rem_2rem_0.5rem] bg-gradient-to-br from-[#e8e6de] to-[#d4d2c8] flex items-center justify-center mx-auto mb-6">
+                  <Building2 className="w-12 h-12 text-[#6b7055]" />
+                </div>
+                <h3 className="text-xl font-bold text-[#2d3319] mb-2">No businesses yet</h3>
+                <p className="text-[#6b7055] max-w-md mx-auto">
+                  {user?.user_role === 'client'
+                    ? 'Your agency is setting up your business profile.'
+                    : 'Start your journey by adding your first business.'}
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {businesses.slice(0, 6).map((business, idx) => {
+                  const shapes = [
+                    'rounded-[2rem_2rem_2rem_0.4rem]',
+                    'rounded-[2rem_0.4rem_2rem_2rem]',
+                    'rounded-[0.4rem_2rem_2rem_2rem]',
+                    'rounded-[2rem_2rem_0.4rem_2rem]',
+                    'rounded-[2rem_0.4rem_2rem_2rem]',
+                    'rounded-[0.4rem_2rem_2rem_2rem]'
+                  ];
+                  const gradients = [
+                    'from-[#f9f8f4] via-white to-[#f9f8f4]',
+                    'from-white via-[#f9f8f4] to-white',
+                    'from-[#f9f8f4] to-white'
+                  ];
+                  
+                  return (
+                    <Link
+                      key={business.id}
+                      to={createPageUrl(`BusinessDetail?id=${business.id}`)}
+                      className="block group"
+                    >
+                      <div className={`bg-gradient-to-br ${gradients[idx % 3]} ${shapes[idx % 6]} p-6 hover:shadow-2xl transition-all duration-500 border border-[#e8e6de]/30 hover:border-[#a8b88c]/50 relative overflow-hidden`}>
+                        {/* Animated hover effect */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#a8b88c]/0 to-[#a8b88c]/0 group-hover:from-[#a8b88c]/5 group-hover:to-[#a8b88c]/10 transition-all duration-500" />
+                        
+                        <div className="relative z-10">
+                          {/* Business Icon/Logo */}
+                          <div className="flex items-center gap-4 mb-6">
+                            {business.logo_url ? (
+                              <div className="w-16 h-16 rounded-[1.2rem] bg-[#2d3319] flex items-center justify-center overflow-hidden shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
+                                <img 
+                                  src={business.logo_url} 
+                                  alt={business.name}
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                            ) : (
+                              <div className="w-16 h-16 rounded-[1.2rem] bg-gradient-to-br from-[#a8b88c] to-[#7a8a5e] flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
+                                <Building2 className="w-8 h-8 text-white" />
+                              </div>
+                            )}
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-bold text-[#2d3319] truncate text-lg mb-1">{business.name}</h3>
+                              <p className="text-sm text-[#6b7055] capitalize">{business.industry}</p>
+                            </div>
+                          </div>
+
+                          {/* Business Info */}
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className={`px-4 py-1.5 rounded-full font-semibold text-xs shadow-sm ${
+                              business.status === 'active' 
+                                ? 'bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] text-white'
+                                : 'bg-[#e8e6de] text-[#6b7055]'
+                            }`}>
+                              {business.status}
+                            </span>
+                            {business.city && (
+                              <span className="text-xs text-[#9ca38a] flex items-center gap-1">
+                                <span>📍</span>
+                                <span>{business.city}</span>
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       </div>
