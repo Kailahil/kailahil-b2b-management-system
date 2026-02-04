@@ -19,11 +19,31 @@ export default function ClientDashboard() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const currentUser = await base44.auth.me();
-        setUser(currentUser);
+        // Check if user is logged in via clientAuth
+        const clientAuthStr = localStorage.getItem('clientAuth');
+        if (!clientAuthStr) {
+          window.location.href = createPageUrl('ClientLogin');
+          return;
+        }
 
-        const clientBusinessList = await base44.entities.ClientBusiness.filter({ 
-          user_id: currentUser.id 
+        const clientAuth = JSON.parse(clientAuthStr);
+        setUser(clientAuth);
+
+        // Find the business for this client
+        const signups = await base44.asServiceRole.entities.ClientSignup.filter({ 
+          email: clientAuth.email 
+        });
+        
+        if (signups.length === 0 || signups[0].status !== 'approved') {
+          localStorage.removeItem('clientAuth');
+          window.location.href = createPageUrl('ClientLogin');
+          return;
+        }
+
+        const signup = signups[0];
+        
+        const clientBusinessList = await base44.asServiceRole.entities.ClientBusiness.filter({ 
+          user_id: signup.id 
         });
 
         if (clientBusinessList.length > 0) {
