@@ -49,7 +49,7 @@ Deno.serve(async (req) => {
     }
 
     // Fetch user info and stats from TikTok API
-    const userInfoResponse = await fetch('https://open.tiktokapis.com/v2/user/info/', {
+    const userInfoResponse = await fetch('https://open.tiktokapis.com/v2/user/info/?fields=open_id,union_id,avatar_url,display_name,follower_count,following_count,likes_count,video_count,bio_description,is_verified', {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
         'Content-Type': 'application/json'
