@@ -63,6 +63,7 @@ import Settings from './pages/Settings';
 import Setup from './pages/Setup';
 import MediaLogin from './pages/MediaLogin';
 import ClientLogin from './pages/ClientLogin';
+import Home from './pages/Home';
 import __Layout from './Layout.jsx';
 
 
@@ -83,6 +84,7 @@ export const PAGES = {
     "Setup": Setup,
     "MediaLogin": MediaLogin,
     "ClientLogin": ClientLogin,
+    "Home": Home,
 }
 
 export const pagesConfig = {
