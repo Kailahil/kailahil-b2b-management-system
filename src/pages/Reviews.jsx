@@ -199,28 +199,8 @@ export default function Analytics() {
         )}
 
         {selectedBusiness && activeTab === 'overview' && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            {/* Key Metrics - Placeholder for API data */}
-            <div className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-6 shadow-lg border border-[#e8e6de]/30">
-              <p className="text-sm text-[#6b7055] font-medium mb-2">Followers</p>
-              <p className="text-3xl font-bold text-[#2d3319]">—</p>
-              <p className="text-xs text-[#9ca38a] mt-1">API data pending</p>
-            </div>
-            <div className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-6 shadow-lg border border-[#e8e6de]/30">
-              <p className="text-sm text-[#6b7055] font-medium mb-2">Engagement Rate</p>
-              <p className="text-3xl font-bold text-[#2d3319]">—</p>
-              <p className="text-xs text-[#9ca38a] mt-1">API data pending</p>
-            </div>
-            <div className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-6 shadow-lg border border-[#e8e6de]/30">
-              <p className="text-sm text-[#6b7055] font-medium mb-2">Total Impressions</p>
-              <p className="text-3xl font-bold text-[#2d3319]">—</p>
-              <p className="text-xs text-[#9ca38a] mt-1">API data pending</p>
-            </div>
-            <div className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-6 shadow-lg border border-[#e8e6de]/30">
-              <p className="text-sm text-[#6b7055] font-medium mb-2">Avg. Post Reach</p>
-              <p className="text-3xl font-bold text-[#2d3319]">—</p>
-              <p className="text-xs text-[#9ca38a] mt-1">API data pending</p>
-            </div>
+          <div className="space-y-6 mb-8">
+            <TikTokMetrics businessId={selectedBusiness} />
           </div>
         )}
 
