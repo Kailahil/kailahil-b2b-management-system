@@ -3,7 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Building2, Plus, Search, CheckCircle2 } from 'lucide-react';
+import { Building2, Plus, Search, CheckCircle2, MessageCircle } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../components/utils';
@@ -229,11 +229,14 @@ export default function Businesses() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredBusinesses.map((business) => (
-              <Link
+              <div
                 key={business.id}
-                to={createPageUrl(`BusinessDetail?id=${business.id}`)}
+                className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-6 shadow-lg border border-[#e8e6de]/30 hover:shadow-xl hover:border-[#a8b88c]/50 transition-all duration-300 h-full group"
               >
-                <div className="bg-white/90 backdrop-blur-sm rounded-[2rem_2rem_2rem_0.5rem] p-6 shadow-lg border border-[#e8e6de]/30 hover:shadow-xl hover:border-[#a8b88c]/50 transition-all duration-300 cursor-pointer h-full">
+                <Link
+                  to={createPageUrl(`BusinessDetail?id=${business.id}`)}
+                  className="block"
+                >
                   <div className="flex items-start gap-4 mb-4">
                     {business.logo_url ? (
                       <div className="w-16 h-16 rounded-[1.2rem_1.2rem_1.2rem_0.3rem] overflow-hidden shadow-md">
@@ -271,10 +274,25 @@ export default function Businesses() {
                       )}
                     </div>
                   )}
-                </div>
-              </Link>
-            ))}
-          </div>
+                  </Link>
+                  {user?.user_role !== 'client' && (
+                  <Link
+                    to={createPageUrl(`MediaSpecialistChat?businessId=${business.id}`)}
+                    className="mt-4 w-full"
+                  >
+                    <Button 
+                      variant="outline" 
+                      className="w-full border-[#a8b88c] text-[#7a8a5e] hover:bg-[#f9f8f4] gap-2"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      <span className="hidden sm:inline">Message Clients</span>
+                      <span className="sm:hidden">Chat</span>
+                    </Button>
+                  </Link>
+                  )}
+                  </div>
+                  ))}
+                  </div>
         )}
 
         {/* Create Business Dialog */}
