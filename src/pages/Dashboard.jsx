@@ -91,6 +91,15 @@ export default function Dashboard() {
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
+        {/* Logo */}
+        <div className="flex justify-center mb-8">
+          <img 
+            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698235382c78cdec3bacea2f/06a1de1f9_DesignTransparentbackground-02.png" 
+            alt="Logo" 
+            className="h-16 md:h-20 w-auto"
+          />
+        </div>
+
         {/* Creative Header */}
         <div className="mb-10 relative">
           <div className="flex items-start justify-between flex-wrap gap-4">
