@@ -4,10 +4,12 @@
 
 @layer base {
   :root {
-    /* Liquid Glass Design Tokens */
-    --primary-green: 134 168 134;
-    --primary-green-dark: 106 142 106;
-    --cream-surface: 250 248 243;
+    /* Organic Nature Design Tokens */
+    --primary-green: 88 129 87;
+    --primary-green-dark: 68 104 68;
+    --primary-green-rich: 76 111 75;
+    --cream-surface: 245 241 235;
+    --cream-card: 250 248 243;
     --text-primary: 45 45 42;
     --text-secondary: 115 125 115;
     
@@ -94,8 +96,16 @@
     background-color: rgb(var(--primary-green-dark));
   }
   
+  .bg-primary-green-rich {
+    background-color: rgb(var(--primary-green-rich));
+  }
+  
   .bg-cream-surface {
     background-color: rgb(var(--cream-surface));
+  }
+  
+  .bg-cream-card {
+    background-color: rgb(var(--cream-card));
   }
   
   .text-primary-green {
