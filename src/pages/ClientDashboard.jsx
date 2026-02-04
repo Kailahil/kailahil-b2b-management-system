@@ -69,6 +69,15 @@ export default function ClientDashboard() {
       </div>
 
       <div className="max-w-4xl mx-auto relative z-10">
+        {/* Logo */}
+        <div className="flex justify-center mb-8">
+          <img 
+            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698235382c78cdec3bacea2f/06a1de1f9_DesignTransparentbackground-02.png" 
+            alt="Logo" 
+            className="h-16 md:h-20 w-auto"
+          />
+        </div>
+
         {/* Header */}
         <div className="mb-10">
           <div className="inline-block mb-3">
