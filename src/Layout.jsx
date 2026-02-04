@@ -63,14 +63,7 @@ export default function Layout({ children, currentPageName }) {
         { name: 'Content', page: 'ContentPipeline', icon: FileText },
         { name: 'Settings', page: 'Settings', icon: Settings }
       ];
-    } else if (user?.role === 'admin') {
-      return [
-        { name: 'Dashboard', page: 'Dashboard', icon: Home },
-        { name: 'Businesses', page: 'Businesses', icon: Building2 },
-        { name: 'Reviews', page: 'Reviews', icon: Star },
-        { name: 'Content', page: 'ContentPipeline', icon: FileText }
-      ];
-    } else {
+    } else if (isClient) {
       // Client-only navigation - outcome focused
       return [
         { name: 'Home', page: 'ClientDashboard', icon: Home },
@@ -80,6 +73,15 @@ export default function Layout({ children, currentPageName }) {
         { name: 'Reports', page: 'ClientReports', icon: BarChart3 },
         { name: 'Settings', page: 'ClientSettings', icon: Settings }
       ];
+    } else if (user?.role === 'admin') {
+      return [
+        { name: 'Dashboard', page: 'Dashboard', icon: Home },
+        { name: 'Businesses', page: 'Businesses', icon: Building2 },
+        { name: 'Reviews', page: 'Reviews', icon: Star },
+        { name: 'Content', page: 'ContentPipeline', icon: FileText }
+      ];
+    } else {
+      return [];
     }
   };
 
