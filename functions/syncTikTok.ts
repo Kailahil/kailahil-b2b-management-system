@@ -46,8 +46,8 @@ Deno.serve(async (req) => {
         throw new Error('TikTok OAuth not authorized. Please complete the authorization flow in the Base44 dashboard first.');
       }
 
-      // Fetch user info
-      const userInfoResponse = await fetch('https://open.tiktokapis.com/v2/user/info/?fields=open_id,union_id,avatar_url,display_name,follower_count,following_count,likes_count,video_count', {
+      // Fetch user info using the TikTok API with proper endpoint
+      const userInfoResponse = await fetch('https://open.tiktokapis.com/v2/user/info/', {
         headers: {
           'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/json'
@@ -55,14 +55,15 @@ Deno.serve(async (req) => {
       });
 
       if (!userInfoResponse.ok) {
-        throw new Error(`TikTok API error: ${userInfoResponse.status}`);
+        const errorText = await userInfoResponse.text();
+        throw new Error(`TikTok API error: ${userInfoResponse.status} - ${errorText}`);
       }
 
       const userInfo = await userInfoResponse.json();
-      const userData = userInfo.data?.user;
+      const userData = userInfo?.data?.user;
 
       if (!userData) {
-        throw new Error('No user data returned from TikTok');
+        throw new Error('No user data returned from TikTok API response');
       }
 
       // Update SocialAccount record
