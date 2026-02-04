@@ -11,18 +11,19 @@ export default function GlassButton({
 }) {
   const variants = {
     primary: cn(
-      "bg-primary-green/90 backdrop-blur-md text-cream-surface",
-      "hover:bg-primary-green hover:shadow-[0_4px_20px_0_rgba(134,168,134,0.4)]",
-      "active:bg-primary-green-dark"
+      "bg-primary-green/85 backdrop-blur-md text-cream-surface border border-white/10",
+      "shadow-[0_2px_16px_0_rgba(134,168,134,0.2)]",
+      "hover:bg-primary-green/90 hover:brightness-105",
+      "active:bg-primary-green/95 active:scale-[0.98]"
     ),
     secondary: cn(
-      "bg-cream-surface/40 backdrop-blur-md text-primary-green-dark border border-primary-green/30",
-      "hover:bg-cream-surface/60 hover:border-primary-green/50",
-      "active:bg-cream-surface/80"
+      "bg-cream-surface/50 backdrop-blur-md text-primary-green-dark border border-white/20",
+      "hover:bg-cream-surface/70 hover:brightness-105",
+      "active:bg-cream-surface/80 active:scale-[0.98]"
     ),
     ghost: cn(
-      "bg-transparent hover:bg-cream-surface/30 text-text-primary",
-      "active:bg-cream-surface/50"
+      "bg-transparent hover:bg-cream-surface/40 text-text-primary",
+      "active:bg-cream-surface/60 active:scale-[0.98]"
     )
   };
 

@@ -32,7 +32,7 @@ export default function Layout({ children, currentPageName }) {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-[rgb(240,245,240)] via-[rgb(250,248,243)] to-[rgb(245,250,245)]">
+    <div className="flex min-h-screen bg-gradient-to-br from-[rgb(242,247,242)] via-[rgb(250,248,243)] to-[rgb(248,252,248)]">
       <Sidebar 
         currentPageName={currentPageName} 
         user={user} 
