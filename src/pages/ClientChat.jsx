@@ -46,6 +46,20 @@ export default function ClientChat() {
               setEmployees(userList);
               if (userList.length > 0) {
                 setSelectedEmployeeId(userList[0].id);
+                
+                // Load messages with the first employee
+                const msgs = await base44.asServiceRole.entities.Message.filter({
+                  business_id: selectedBusiness.id,
+                  sender_id: currentUser.id,
+                  recipient_id: userList[0].id
+                }, '-created_date', 50);
+                setMessages(msgs.map(m => ({
+                  id: m.id,
+                  text: m.text,
+                  sender: m.sender_name,
+                  timestamp: m.created_date,
+                  isFromClient: m.sender_type === 'client'
+                })).reverse());
               }
             }
           }
