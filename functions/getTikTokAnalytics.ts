@@ -49,9 +49,7 @@ Deno.serve(async (req) => {
     }
 
     // Fetch user info and stats from TikTok API
-    // Using TikTok Research API v2 endpoints
-    const userInfoResponse = await fetch('https://open.tiktokapis.com/v1/user/info/', {
-      method: 'GET',
+    const userInfoResponse = await fetch('https://open.tiktokapis.com/v2/user/info/', {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
         'Content-Type': 'application/json'
@@ -59,17 +57,40 @@ Deno.serve(async (req) => {
     });
 
     if (!userInfoResponse.ok) {
-      console.error('TikTok API error:', userInfoResponse.status, userInfoResponse.statusText);
+      console.error('TikTok API error:', userInfoResponse.status);
+      // Return cached data from database if API fails
+      const metrics = await base44.asServiceRole.entities.SocialDailyMetric.filter({
+        social_account_id: account.id
+      }, '-date', 1);
+      
+      if (metrics.length > 0) {
+        return Response.json({
+          success: true,
+          data: {
+            handle: account.handle,
+            followers: metrics[0].followers || 0,
+            following: metrics[0].following || 0,
+            video_count: 0,
+            likes_count: metrics[0].likes || 0,
+            verified: false,
+            profile_views: metrics[0].profile_views || 0,
+            bio: '',
+            avatar_url: '',
+            top_posts: []
+          }
+        });
+      }
+      
       return Response.json({
         error: 'Failed to fetch TikTok analytics',
         data: {
-          followers: null,
-          engagement_rate: null,
-          video_views: null,
-          likes: null,
-          comments: null,
-          shares: null,
-          profile_views: null,
+          followers: 0,
+          engagement_rate: 0,
+          video_views: 0,
+          likes: 0,
+          comments: 0,
+          shares: 0,
+          profile_views: 0,
           verified: false
         }
       }, { status: 200 });
@@ -78,12 +99,15 @@ Deno.serve(async (req) => {
     const userInfo = await userInfoResponse.json();
 
     // Fetch videos for engagement data
-    const videosResponse = await fetch('https://open.tiktokapis.com/v1/video/list/', {
-      method: 'GET',
+    const videosResponse = await fetch('https://open.tiktokapis.com/v2/video/list/', {
+      method: 'POST',
       headers: {
         'Authorization': `Bearer ${accessToken}`,
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify({
+        max_count: 5
+      })
     });
 
     let topPosts = [];
