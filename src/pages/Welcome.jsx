@@ -6,7 +6,7 @@ export default function Welcome() {
   const handleRoleSelect = (role) => {
     localStorage.setItem('selectedRole', role);
     if (role === 'employee') {
-      window.location.href = createPageUrl('EmployeeLogin');
+      base44.auth.redirectToLogin(createPageUrl('Dashboard'));
     } else {
       window.location.href = createPageUrl('ClientDashboard');
     }
