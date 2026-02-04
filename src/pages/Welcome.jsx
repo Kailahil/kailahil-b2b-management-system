@@ -7,7 +7,7 @@ export default function Welcome() {
   const handleRoleSelect = (role) => {
     localStorage.setItem('selectedRole', role);
     if (role === 'employee') {
-      window.location.href = createPageUrl('Dashboard');
+      window.location.href = createPageUrl('EmployeeLogin');
     } else {
       window.location.href = createPageUrl('ClientDashboard');
     }

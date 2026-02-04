@@ -9,7 +9,7 @@ export default function Layout({ children, currentPageName }) {
   const [loading, setLoading] = useState(true);
 
   // Pages that don't need authentication or navigation
-  const publicPages = ['Welcome'];
+  const publicPages = ['Welcome', 'EmployeeLogin'];
   const isPublicPage = publicPages.includes(currentPageName);
 
   useEffect(() => {

@@ -62,6 +62,7 @@ import Home from './pages/Home';
 import Reviews from './pages/Reviews';
 import Settings from './pages/Settings';
 import Welcome from './pages/Welcome';
+import EmployeeLogin from './pages/EmployeeLogin';
 import __Layout from './Layout.jsx';
 
 
@@ -81,6 +82,7 @@ export const PAGES = {
     "Reviews": Reviews,
     "Settings": Settings,
     "Welcome": Welcome,
+    "EmployeeLogin": EmployeeLogin,
 }
 
 export const pagesConfig = {
