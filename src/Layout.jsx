@@ -51,18 +51,25 @@ export default function Layout({ children, currentPageName }) {
     );
   }
 
-  const navItems = user?.role === 'admin' 
-    ? [
+  const getNavItems = () => {
+    if (user?.role === 'admin') {
+      return [
         { name: 'Dashboard', page: 'Dashboard', icon: Home },
         { name: 'Businesses', page: 'Businesses', icon: Building2 },
         { name: 'Reviews', page: 'Reviews', icon: Star },
         { name: 'Content', page: 'ContentPipeline', icon: FileText }
-      ]
-    : [
+      ];
+    } else {
+      // Client navigation
+      return [
         { name: 'Dashboard', page: 'ClientDashboard', icon: Home },
         { name: 'Reviews', page: 'Reviews', icon: Star },
         { name: 'Content', page: 'ContentPipeline', icon: FileText }
       ];
+    }
+  };
+
+  const navItems = getNavItems();
 
   const handleLogout = async () => {
     await base44.auth.logout();
@@ -79,7 +86,11 @@ export default function Layout({ children, currentPageName }) {
       <div className="fixed bottom-0 left-0 right-0 z-[99999] pointer-events-none pb-safe">
         <div className="pb-6 px-4 pointer-events-none">
           <div className="max-w-sm mx-auto pointer-events-auto">
-            <div className="bg-gradient-to-r from-[#7a8a5e] via-[#6d7d51] to-[#7a8a5e] backdrop-blur-xl rounded-full px-3 py-3.5 shadow-[0_8px_32px_rgba(122,138,94,0.4)]">
+            <div className={`backdrop-blur-xl rounded-full px-3 py-3.5 shadow-[0_8px_32px_rgba(122,138,94,0.4)] ${
+              user?.role === 'admin' 
+                ? 'bg-gradient-to-r from-[#7a8a5e] via-[#6d7d51] to-[#7a8a5e]'
+                : 'bg-gradient-to-r from-[#8a9a6e] via-[#7a8a5e] to-[#8a9a6e]'
+            }`}>
               <div className="flex items-center justify-around">
                 {navItems.map((item) => {
                   const Icon = item.icon;
