@@ -36,10 +36,7 @@ export default function Settings() {
   const isAdmin = user?.user_role === 'agency_admin';
 
   const handleLogout = async () => {
-    const redirectUrl = user?.user_role === 'client' 
-      ? createPageUrl('ClientLogin') 
-      : createPageUrl('MediaLogin');
-    await base44.auth.logout(redirectUrl);
+    await base44.auth.logout(createPageUrl('Auth'));
   };
 
   return (
