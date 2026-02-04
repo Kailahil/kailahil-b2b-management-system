@@ -11,18 +11,8 @@ export default function Welcome() {
       try {
         const user = await base44.auth.me();
         if (user) {
-          // User is already authenticated, validate their role
-          const selectedRole = localStorage.getItem('selectedRole');
-          
-          if (selectedRole === 'employee' && user.user_role !== 'client') {
-            window.location.href = createPageUrl('Dashboard');
-          } else if (selectedRole === 'client' && user.user_role === 'client') {
-            window.location.href = createPageUrl('ClientDashboard');
-          } else {
-            // Role mismatch - log them out
-            localStorage.removeItem('selectedRole');
-            await base44.auth.logout(createPageUrl('Welcome'));
-          }
+          // User is already authenticated, redirect to Home for validation
+          window.location.href = createPageUrl('Home');
         } else {
           setChecking(false);
         }
@@ -36,7 +26,7 @@ export default function Welcome() {
 
   const handleRoleSelect = (role) => {
     localStorage.setItem('selectedRole', role);
-    base44.auth.redirectToLogin(window.location.origin + createPageUrl('Welcome'));
+    base44.auth.redirectToLogin(window.location.origin + createPageUrl('Home'));
   };
 
   if (checking) {
