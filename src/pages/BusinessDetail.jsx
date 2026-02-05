@@ -6,6 +6,7 @@ import { ArrowLeft, Building2, Link as LinkIcon, TrendingUp, Lightbulb, FileText
 import EmptyState from '../components/shared/EmptyState';
 import IntegrationCard from '../components/shared/IntegrationCard';
 import LinkTikTokDialog from '../components/businesses/LinkTikTokDialog';
+import LinkGoogleDialog from '../components/businesses/LinkGoogleDialog';
 import OnboardingChecklist from '../components/businesses/OnboardingChecklist';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../components/utils';
@@ -18,6 +19,7 @@ export default function BusinessDetail() {
   const [loading, setLoading] = useState(true);
   const [connecting, setConnecting] = useState(null);
   const [showTikTokDialog, setShowTikTokDialog] = useState(false);
+  const [showGoogleDialog, setShowGoogleDialog] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -109,6 +111,8 @@ export default function BusinessDetail() {
       } finally {
         setConnecting(null);
       }
+    } else if (platform === 'google_reviews') {
+      setShowGoogleDialog(true);
     } else {
       alert(`Connect ${platform} - Integration flow coming soon`);
     }
@@ -151,6 +155,46 @@ export default function BusinessDetail() {
     } catch (error) {
       console.error('Failed to link TikTok:', error);
       alert('Failed to link TikTok account. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleLinkGoogle = async (formData) => {
+    setIsSubmitting(true);
+    try {
+      // Find or update the Google ReviewSource
+      const reviewSourceData = await base44.entities.ReviewSource.filter({ 
+        business_id: business.id,
+        platform: 'google'
+      });
+
+      if (reviewSourceData.length > 0) {
+        await base44.entities.ReviewSource.update(reviewSourceData[0].id, {
+          connected_status: 'connected',
+          place_id: formData.place_id
+        });
+      } else {
+        await base44.entities.ReviewSource.create({
+          agency_id: business.agency_id,
+          business_id: business.id,
+          platform: 'google',
+          connected_status: 'connected',
+          place_id: formData.place_id
+        });
+      }
+
+      // Refresh review sources
+      const updatedSources = await base44.entities.ReviewSource.filter({ 
+        business_id: business.id 
+      });
+      setReviewSources(updatedSources);
+      
+      setShowGoogleDialog(false);
+      alert('Google Business linked! You can now sync reviews from the Google Reviews page.');
+    } catch (error) {
+      console.error('Failed to link Google:', error);
+      alert('Failed to link Google Business. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -395,6 +439,14 @@ export default function BusinessDetail() {
           open={showTikTokDialog}
           onClose={() => setShowTikTokDialog(false)}
           onSubmit={handleLinkTikTok}
+          isSubmitting={isSubmitting}
+        />
+
+        {/* Link Google Dialog */}
+        <LinkGoogleDialog
+          open={showGoogleDialog}
+          onClose={() => setShowGoogleDialog(false)}
+          onSubmit={handleLinkGoogle}
           isSubmitting={isSubmitting}
         />
       </div>
