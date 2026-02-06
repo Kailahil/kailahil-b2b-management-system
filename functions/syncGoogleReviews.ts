@@ -37,52 +37,41 @@ Deno.serve(async (req) => {
       }, { status: 400 });
     }
 
-    // Fetch reviews from Google Places API (New)
+    // Fetch reviews from Google Places API
     const apiKey = Deno.env.get('GOOGLE_PLACES_API_KEY');
-    const placeDetailsUrl = `https://places.googleapis.com/v1/places/${reviewSource.place_id}`;
+    const placeDetailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${reviewSource.place_id}&fields=reviews,rating,user_ratings_total&key=${apiKey}`;
 
-    const response = await fetch(placeDetailsUrl, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Goog-Api-Key': apiKey,
-        'X-Goog-FieldMask': 'reviews,rating,userRatingCount'
-      }
-    });
-    
+    const response = await fetch(placeDetailsUrl);
     const data = await response.json();
 
-    if (!response.ok) {
+    if (data.status !== 'OK') {
       return Response.json({ 
-        error: `Google API error: ${response.status}`,
-        details: data.error?.message || JSON.stringify(data)
+        error: `Google API error: ${data.status}`,
+        details: data.error_message 
       }, { status: 500 });
     }
 
-    const reviews = data.reviews || [];
+    const reviews = data.result?.reviews || [];
     let newReviews = 0;
     let updatedReviews = 0;
 
     // Store/update reviews in database
     for (const review of reviews) {
-      const authorName = review.authorAttribution?.displayName || 'Anonymous';
-      const publishTime = review.publishTime || new Date().toISOString();
-      
       const existingReviews = await base44.entities.Review.filter({
         business_id: business_id,
         platform: 'google',
-        review_id: review.name || (authorName + '_' + publishTime)
+        review_id: review.author_name + '_' + review.time
       });
 
       const reviewData = {
         agency_id: user.agency_id,
         business_id: business_id,
         platform: 'google',
-        review_id: review.name || (authorName + '_' + publishTime),
-        rating: review.rating || 0,
-        text: review.text?.text || review.originalText?.text || '',
-        reviewer_name: authorName,
-        created_at_platform: publishTime,
+        review_id: review.author_name + '_' + review.time,
+        rating: review.rating,
+        text: review.text || '',
+        reviewer_name: review.author_name,
+        created_at_platform: new Date(review.time * 1000).toISOString(),
         last_synced_at: new Date().toISOString()
       };
 
