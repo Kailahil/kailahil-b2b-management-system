@@ -59,27 +59,30 @@ Deno.serve(async (req) => {
       }, { status: 500 });
     }
 
-    const reviews = data.result?.reviews || [];
+    const reviews = data.reviews || [];
     let newReviews = 0;
     let updatedReviews = 0;
 
     // Store/update reviews in database
     for (const review of reviews) {
+      const authorName = review.authorAttribution?.displayName || 'Anonymous';
+      const publishTime = review.publishTime || new Date().toISOString();
+      
       const existingReviews = await base44.entities.Review.filter({
         business_id: business_id,
         platform: 'google',
-        review_id: review.author_name + '_' + review.time
+        review_id: review.name || (authorName + '_' + publishTime)
       });
 
       const reviewData = {
         agency_id: user.agency_id,
         business_id: business_id,
         platform: 'google',
-        review_id: review.author_name + '_' + review.time,
-        rating: review.rating,
-        text: review.text || '',
-        reviewer_name: review.author_name,
-        created_at_platform: new Date(review.time * 1000).toISOString(),
+        review_id: review.name || (authorName + '_' + publishTime),
+        rating: review.rating || 0,
+        text: review.text?.text || review.originalText?.text || '',
+        reviewer_name: authorName,
+        created_at_platform: publishTime,
         last_synced_at: new Date().toISOString()
       };
 
