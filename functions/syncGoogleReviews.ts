@@ -37,17 +37,25 @@ Deno.serve(async (req) => {
       }, { status: 400 });
     }
 
-    // Fetch reviews from Google Places API
+    // Fetch reviews from Google Places API (New)
     const apiKey = Deno.env.get('GOOGLE_PLACES_API_KEY');
-    const placeDetailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${reviewSource.place_id}&fields=reviews,rating,user_ratings_total&key=${apiKey}`;
+    const placeDetailsUrl = `https://places.googleapis.com/v1/places/${reviewSource.place_id}`;
 
-    const response = await fetch(placeDetailsUrl);
+    const response = await fetch(placeDetailsUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Goog-Api-Key': apiKey,
+        'X-Goog-FieldMask': 'reviews,rating,userRatingCount'
+      }
+    });
+    
     const data = await response.json();
 
-    if (data.status !== 'OK') {
+    if (!response.ok) {
       return Response.json({ 
-        error: `Google API error: ${data.status}`,
-        details: data.error_message 
+        error: `Google API error: ${response.status}`,
+        details: data.error?.message || JSON.stringify(data)
       }, { status: 500 });
     }
 
