@@ -74,12 +74,6 @@ Deno.serve(async (req) => {
 
     // Store/update reviews in database
     for (const review of reviews) {
-      const existingReviews = await base44.entities.Review.filter({
-        business_id: business_id,
-        platform: 'google',
-        review_id: reviewData.review_id
-      });
-
       const reviewData = {
         agency_id: user.agency_id,
         business_id: business_id,
@@ -91,6 +85,12 @@ Deno.serve(async (req) => {
         created_at_platform: review.publishTime,
         last_synced_at: new Date().toISOString()
       };
+
+      const existingReviews = await base44.entities.Review.filter({
+        business_id: business_id,
+        platform: 'google',
+        review_id: reviewData.review_id
+      });
 
       if (existingReviews.length === 0) {
         await base44.entities.Review.create(reviewData);
