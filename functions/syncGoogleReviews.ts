@@ -39,6 +39,13 @@ Deno.serve(async (req) => {
 
     // Fetch reviews from Google Places API
     const apiKey = Deno.env.get('GOOGLE_PLACES_API_KEY');
+    
+    if (!apiKey) {
+      return Response.json({ 
+        error: 'Google Places API key not configured'
+      }, { status: 500 });
+    }
+    
     const placeDetailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${reviewSource.place_id}&fields=reviews,rating,user_ratings_total&key=${apiKey}`;
 
     const response = await fetch(placeDetailsUrl);
@@ -47,7 +54,9 @@ Deno.serve(async (req) => {
     if (data.status !== 'OK') {
       return Response.json({ 
         error: `Google API error: ${data.status}`,
-        details: data.error_message 
+        details: data.error_message || data.status,
+        place_id: reviewSource.place_id,
+        debug_info: 'Check: 1) Places API enabled 2) Billing enabled 3) API key restrictions 4) Place ID format'
       }, { status: 500 });
     }
 
