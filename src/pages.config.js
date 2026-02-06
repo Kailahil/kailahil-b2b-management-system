@@ -66,13 +66,13 @@ import Dashboard from './pages/Dashboard';
 import EmployeeLogin from './pages/EmployeeLogin';
 import EmployeeSignup from './pages/EmployeeSignup';
 import ExecutiveDashboard from './pages/ExecutiveDashboard';
+import GoogleReviews from './pages/GoogleReviews';
 import GrowthPlanner from './pages/GrowthPlanner';
 import Home from './pages/Home';
 import MediaSpecialistChat from './pages/MediaSpecialistChat';
+import Reviews from './pages/Reviews';
 import Settings from './pages/Settings';
 import Welcome from './pages/Welcome';
-import Reviews from './pages/Reviews';
-import GoogleReviews from './pages/GoogleReviews';
 import __Layout from './Layout.jsx';
 
 
@@ -96,13 +96,13 @@ export const PAGES = {
     "EmployeeLogin": EmployeeLogin,
     "EmployeeSignup": EmployeeSignup,
     "ExecutiveDashboard": ExecutiveDashboard,
+    "GoogleReviews": GoogleReviews,
     "GrowthPlanner": GrowthPlanner,
     "Home": Home,
     "MediaSpecialistChat": MediaSpecialistChat,
+    "Reviews": Reviews,
     "Settings": Settings,
     "Welcome": Welcome,
-    "Reviews": Reviews,
-    "GoogleReviews": GoogleReviews,
 }
 
 export const pagesConfig = {

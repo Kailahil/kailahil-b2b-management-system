@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Building2, Link as LinkIcon, TrendingUp, Lightbulb, FileText, Target } from 'lucide-react';
+import { ArrowLeft, Building2, Link as LinkIcon, TrendingUp, Lightbulb, FileText, Target, Star } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
 import IntegrationCard from '../components/shared/IntegrationCard';
 import LinkTikTokDialog from '../components/businesses/LinkTikTokDialog';
@@ -430,7 +430,21 @@ export default function BusinessDetail() {
                   </div>
                 </div>
               </Link>
-            </div>
+              <Link 
+                to={createPageUrl('GoogleReviews')}
+                className="p-6 rounded-[0.5rem_1.5rem_1.5rem_1.5rem] bg-white border border-[#e8e6de]/30 hover:border-[#a8b88c]/50 hover:shadow-lg transition-all duration-500 group"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-[0.3rem_1rem_1rem_1rem] bg-gradient-to-br from-[#a8b88c] to-[#7a8a5e] flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-500">
+                    <Star className="w-7 h-7 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-[#2d3319] mb-1">Reviews</h3>
+                    <p className="text-sm text-[#6b7055]">Customer feedback & insights</p>
+                  </div>
+                </div>
+              </Link>
+              </div>
         </div>
       </div>
 
