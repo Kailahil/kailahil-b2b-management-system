@@ -3,9 +3,8 @@ import { base44 } from '@/api/base44Client';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
-import { Star, Upload, Sparkles, MessageSquare } from 'lucide-react';
+
+import { Star, Sparkles, MessageSquare } from 'lucide-react';
 import EmptyState from '../components/shared/EmptyState';
 import TikTokMetrics from '../components/analytics/TikTokMetrics';
 
@@ -16,11 +15,7 @@ export default function Analytics() {
   const [loading, setLoading] = useState(true);
   const [selectedBusiness, setSelectedBusiness] = useState('');
   const [activeTab, setActiveTab] = useState('overview');
-  const [showImport, setShowImport] = useState(false);
-  const [importText, setImportText] = useState('');
-  const [importRating, setImportRating] = useState(5);
-  const [importReviewerName, setImportReviewerName] = useState('');
-  const [isImporting, setIsImporting] = useState(false);
+
   const [isSyncing, setIsSyncing] = useState(false);
   const [generatingFor, setGeneratingFor] = useState(null);
 
@@ -52,38 +47,7 @@ export default function Analytics() {
     loadData();
   }, []);
 
-  const handleImport = async () => {
-    if (!importText.trim() || selectedBusiness === 'all') {
-      alert('Please select a business and enter review text');
-      return;
-    }
 
-    setIsImporting(true);
-    try {
-      const newReview = await base44.entities.Review.create({
-        agency_id: user.agency_id,
-        business_id: selectedBusiness,
-        platform: 'google',
-        review_id: `manual_${Date.now()}`,
-        rating: importRating,
-        text: importText,
-        reviewer_name: importReviewerName || 'Manual Import',
-        created_at_platform: new Date().toISOString()
-      });
-
-      setReviews([newReview, ...reviews]);
-      setImportText('');
-      setImportRating(5);
-      setImportReviewerName('');
-      setShowImport(false);
-      alert('Review imported successfully!');
-    } catch (error) {
-      console.error('Failed to import review:', error);
-      alert('Failed to import review');
-    } finally {
-      setIsImporting(false);
-    }
-  };
 
   const handleSyncGoogleReviews = async () => {
     if (selectedBusiness === 'all') {
@@ -220,92 +184,7 @@ export default function Analytics() {
           </div>
         )}
 
-        {selectedBusiness && activeTab === 'reviews' && showImport && (
-          <div className="bg-white/90 backdrop-blur-sm rounded-[2.5rem_2.5rem_2.5rem_1rem] shadow-xl border-2 border-[#a8b88c]/30 mb-6 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#a8b88c]/5 rounded-full -mr-32 -mt-32" />
-            
-            <div className="relative z-10 p-8">
-              <h2 className="text-2xl font-bold text-[#2d3319] mb-6">Import Review</h2>
-              <div className="space-y-4">
-                <div>
-                  <label className="text-sm font-bold text-[#2d3319] mb-2 block">
-                    Select Business
-                  </label>
-                  <select
-                    value={selectedBusiness === 'all' ? '' : selectedBusiness}
-                    onChange={(e) => setSelectedBusiness(e.target.value)}
-                    className="w-full px-4 py-3 rounded-[1rem_1rem_1rem_0.3rem] border border-[#e8e6de] text-[#2d3319] bg-white focus:outline-none focus:border-[#a8b88c]"
-                  >
-                    <option value="">Choose a business...</option>
-                    {businesses.map(biz => (
-                      <option key={biz.id} value={biz.id}>{biz.name}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="text-sm font-bold text-[#2d3319] mb-2 block">
-                    Reviewer Name (Optional)
-                  </label>
-                  <input
-                    type="text"
-                    value={importReviewerName}
-                    onChange={(e) => setImportReviewerName(e.target.value)}
-                    placeholder="John Doe"
-                    className="w-full px-4 py-3 rounded-[1rem_1rem_1rem_0.3rem] border border-[#e8e6de] text-[#2d3319] bg-white focus:outline-none focus:border-[#a8b88c]"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-bold text-[#2d3319] mb-2 block">
-                    Rating
-                  </label>
-                  <div className="flex items-center gap-2">
-                    {[1, 2, 3, 4, 5].map((rating) => (
-                      <button
-                        key={rating}
-                        type="button"
-                        onClick={() => setImportRating(rating)}
-                        className="p-2 hover:scale-110 transition-transform"
-                      >
-                        <Star 
-                          className={`w-8 h-8 ${rating <= importRating ? 'fill-amber-400 text-amber-400' : 'text-[#e8e6de]'}`}
-                        />
-                      </button>
-                    ))}
-                    <span className="ml-2 text-sm text-[#6b7055] font-medium">{importRating} star{importRating !== 1 ? 's' : ''}</span>
-                  </div>
-                </div>
-                <div>
-                  <label className="text-sm font-bold text-[#2d3319] mb-2 block">
-                    Review Text
-                  </label>
-                  <Textarea
-                    value={importText}
-                    onChange={(e) => setImportText(e.target.value)}
-                    placeholder="Paste review text here..."
-                    rows={4}
-                    className="rounded-[1rem_1rem_1rem_0.3rem] border-[#e8e6de] focus:border-[#a8b88c]"
-                  />
-                </div>
-                <div className="flex gap-3">
-                  <Button 
-                    onClick={handleImport}
-                    disabled={isImporting}
-                    className="bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] hover:from-[#8a9a6e] hover:to-[#7a8a5e] text-white shadow-md"
-                  >
-                    {isImporting ? 'Importing...' : 'Import Review'}
-                  </Button>
-                  <Button 
-                    onClick={() => setShowImport(false)}
-                    variant="outline"
-                    className="border-[#e8e6de] text-[#6b7055] hover:bg-[#f5f3ed]"
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+
 
         {selectedBusiness && activeTab === 'reviews' && (
           <>
@@ -313,17 +192,9 @@ export default function Analytics() {
               <Button 
                 onClick={handleSyncGoogleReviews}
                 disabled={isSyncing}
-                variant="outline"
-                className="border-[#e8e6de] text-[#6b7055] hover:bg-[#f5f3ed]"
-              >
-                {isSyncing ? 'Syncing...' : 'Sync Google Reviews'}
-              </Button>
-              <Button 
-                onClick={() => setShowImport(!showImport)}
                 className="bg-gradient-to-r from-[#a8b88c] to-[#8a9a6e] hover:from-[#8a9a6e] hover:to-[#7a8a5e] text-white shadow-md"
               >
-                <Upload className="w-4 h-4 mr-2" />
-                Import Review
+                {isSyncing ? 'Syncing...' : 'Sync Google Reviews'}
               </Button>
             </div>
 
@@ -332,9 +203,7 @@ export default function Analytics() {
             <EmptyState
               icon={MessageSquare}
               title="No reviews yet"
-              description="Import reviews manually or connect Google Reviews to automatically sync customer feedback."
-              actionLabel="Import First Review"
-              onAction={() => setShowImport(true)}
+              description="Connect Google Reviews to automatically sync customer feedback."
             />
           </div>
         ) : (

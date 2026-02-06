@@ -46,6 +46,7 @@ Deno.serve(async (req) => {
       }, { status: 500 });
     }
     
+    // Note: Google Places API returns maximum 5 most recent reviews per request
     const placeDetailsUrl = `https://places.googleapis.com/v1/places/${reviewSource.place_id}`;
 
     const response = await fetch(placeDetailsUrl, {
