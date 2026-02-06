@@ -37,7 +37,7 @@ Deno.serve(async (req) => {
       }, { status: 400 });
     }
 
-    // Fetch reviews from Google Places API
+    // Fetch reviews from Google Places API (New)
     const apiKey = Deno.env.get('GOOGLE_PLACES_API_KEY');
     
     if (!apiKey) {
@@ -46,21 +46,29 @@ Deno.serve(async (req) => {
       }, { status: 500 });
     }
     
-    const placeDetailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${reviewSource.place_id}&fields=reviews,rating,user_ratings_total&key=${apiKey}`;
+    const placeDetailsUrl = `https://places.googleapis.com/v1/places/${reviewSource.place_id}`;
 
-    const response = await fetch(placeDetailsUrl);
+    const response = await fetch(placeDetailsUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Goog-Api-Key': apiKey,
+        'X-Goog-FieldMask': 'reviews,rating,userRatingCount'
+      }
+    });
+    
     const data = await response.json();
 
-    if (data.status !== 'OK') {
+    if (!response.ok) {
       return Response.json({ 
-        error: `Google API error: ${data.status}`,
-        details: data.error_message || data.status,
+        error: `Google API error: ${response.status}`,
+        details: data.error?.message || 'Unknown error',
         place_id: reviewSource.place_id,
-        debug_info: 'Check: 1) Places API enabled 2) Billing enabled 3) API key restrictions 4) Place ID format'
+        debug_info: 'Check: 1) Places API (New) enabled 2) Billing enabled 3) API key valid 4) Place ID format'
       }, { status: 500 });
     }
 
-    const reviews = data.result?.reviews || [];
+    const reviews = data.reviews || [];
     let newReviews = 0;
     let updatedReviews = 0;
 
@@ -69,18 +77,18 @@ Deno.serve(async (req) => {
       const existingReviews = await base44.entities.Review.filter({
         business_id: business_id,
         platform: 'google',
-        review_id: review.author_name + '_' + review.time
+        review_id: reviewData.review_id
       });
 
       const reviewData = {
         agency_id: user.agency_id,
         business_id: business_id,
         platform: 'google',
-        review_id: review.author_name + '_' + review.time,
+        review_id: review.name || (review.authorAttribution?.displayName + '_' + review.publishTime),
         rating: review.rating,
-        text: review.text || '',
-        reviewer_name: review.author_name,
-        created_at_platform: new Date(review.time * 1000).toISOString(),
+        text: review.text?.text || review.originalText?.text || '',
+        reviewer_name: review.authorAttribution?.displayName || 'Anonymous',
+        created_at_platform: review.publishTime,
         last_synced_at: new Date().toISOString()
       };
 
@@ -104,8 +112,8 @@ Deno.serve(async (req) => {
       new_reviews: newReviews,
       updated_reviews: updatedReviews,
       total_reviews: reviews.length,
-      business_rating: data.result?.rating,
-      total_ratings: data.result?.user_ratings_total
+      business_rating: data.rating,
+      total_ratings: data.userRatingCount
     });
 
   } catch (error) {
