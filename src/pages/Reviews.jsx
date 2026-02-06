@@ -101,14 +101,24 @@ export default function Analytics() {
 
       if (reviewSources.length === 0) {
         alert('Please connect Google Reviews for this business first in Business Settings');
+        setIsSyncing(false);
         return;
       }
 
-      // Future: Call sync function when ready
-      alert('Google Reviews sync coming soon! Connect your Google Business Profile in Business Settings.');
+      const response = await base44.functions.invoke('syncGoogleReviews', {
+        business_id: selectedBusiness
+      });
+
+      if (response.data.success) {
+        const updatedReviews = await base44.entities.Review.filter({ 
+          agency_id: user.agency_id 
+        });
+        setReviews(updatedReviews);
+        alert(`✅ Synced ${response.data.total_reviews} reviews (${response.data.new_reviews} new)`);
+      }
     } catch (error) {
       console.error('Failed to sync reviews:', error);
-      alert('Failed to sync reviews');
+      alert('❌ ' + (error.response?.data?.error || error.message));
     } finally {
       setIsSyncing(false);
     }
