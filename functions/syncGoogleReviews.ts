@@ -106,8 +106,8 @@ Deno.serve(async (req) => {
       new_reviews: newReviews,
       updated_reviews: updatedReviews,
       total_reviews: reviews.length,
-      business_rating: data.result?.rating,
-      total_ratings: data.result?.user_ratings_total
+      business_rating: data.rating,
+      total_ratings: data.userRatingCount
     });
 
   } catch (error) {
