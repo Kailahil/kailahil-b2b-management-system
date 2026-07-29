@@ -1,0 +1,33 @@
+{
+  "name": "BusinessAccess",
+  "type": "object",
+  "properties": {
+    "agency_id": {
+      "type": "string",
+      "description": "Agency ID"
+    },
+    "business_id": {
+      "type": "string",
+      "description": "Business ID"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User ID"
+    },
+    "access_role": {
+      "type": "string",
+      "enum": [
+        "collaborator",
+        "account_owner",
+        "reviewer"
+      ],
+      "default": "collaborator",
+      "description": "Access role type"
+    }
+  },
+  "required": [
+    "agency_id",
+    "business_id",
+    "user_id"
+  ]
+}

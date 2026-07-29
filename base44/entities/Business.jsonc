@@ -1,0 +1,60 @@
+{
+  "name": "Business",
+  "type": "object",
+  "properties": {
+    "agency_id": {
+      "type": "string",
+      "description": "Agency ID"
+    },
+    "name": {
+      "type": "string",
+      "description": "Business name"
+    },
+    "industry": {
+      "type": "string",
+      "description": "Business industry"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "Business timezone"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "onboarding",
+        "paused"
+      ],
+      "default": "active",
+      "description": "Business status"
+    },
+    "address_line1": {
+      "type": "string",
+      "description": "Street address"
+    },
+    "city": {
+      "type": "string",
+      "description": "City"
+    },
+    "state": {
+      "type": "string",
+      "description": "State"
+    },
+    "postal_code": {
+      "type": "string",
+      "description": "Postal code"
+    },
+    "country": {
+      "type": "string",
+      "description": "Country"
+    },
+    "primary_media_user_id": {
+      "type": "string",
+      "description": "Primary media specialist (accountability owner)"
+    }
+  },
+  "required": [
+    "agency_id",
+    "name"
+  ]
+}

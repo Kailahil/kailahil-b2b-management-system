@@ -1,0 +1,86 @@
+{
+  "name": "Task",
+  "type": "object",
+  "properties": {
+    "agency_id": {
+      "type": "string",
+      "description": "Agency ID"
+    },
+    "business_id": {
+      "type": "string",
+      "description": "Business ID"
+    },
+    "title": {
+      "type": "string",
+      "description": "Task title"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "shoot",
+        "edit",
+        "post",
+        "report",
+        "review_response",
+        "meeting",
+        "other"
+      ],
+      "default": "other",
+      "description": "Task type"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "todo",
+        "in_progress",
+        "blocked",
+        "done"
+      ],
+      "default": "todo",
+      "description": "Task status"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "medium",
+      "description": "Task priority"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Due date"
+    },
+    "assigned_to_user_id": {
+      "type": "string",
+      "description": "Assigned user ID"
+    },
+    "created_by_user_id": {
+      "type": "string",
+      "description": "Creator user ID"
+    },
+    "client_visible": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether task is visible to client"
+    },
+    "client_summary": {
+      "type": "string",
+      "description": "Client-facing summary of task"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When task was completed"
+    }
+  },
+  "required": [
+    "agency_id",
+    "business_id",
+    "title",
+    "created_by_user_id"
+  ]
+}

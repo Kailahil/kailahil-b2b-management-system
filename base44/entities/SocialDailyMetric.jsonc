@@ -1,0 +1,74 @@
+{
+  "name": "SocialDailyMetric",
+  "type": "object",
+  "properties": {
+    "agency_id": {
+      "type": "string",
+      "description": "Agency ID"
+    },
+    "business_id": {
+      "type": "string",
+      "description": "Business ID"
+    },
+    "social_account_id": {
+      "type": "string",
+      "description": "Social account ID"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Metric date (YYYY-MM-DD)"
+    },
+    "followers": {
+      "type": "number",
+      "description": "Follower count"
+    },
+    "following": {
+      "type": "number",
+      "description": "Following count"
+    },
+    "profile_views": {
+      "type": "number",
+      "description": "Profile views"
+    },
+    "impressions": {
+      "type": "number",
+      "description": "Impressions"
+    },
+    "reach": {
+      "type": "number",
+      "description": "Reach"
+    },
+    "likes": {
+      "type": "number",
+      "description": "Likes"
+    },
+    "comments": {
+      "type": "number",
+      "description": "Comments"
+    },
+    "shares": {
+      "type": "number",
+      "description": "Shares"
+    },
+    "video_views": {
+      "type": "number",
+      "description": "Video views"
+    },
+    "engagement_rate": {
+      "type": "number",
+      "description": "Engagement rate (computed or from source)"
+    },
+    "source": {
+      "type": "string",
+      "description": "Data source (e.g., tiktok_connector, meta_api)"
+    }
+  },
+  "required": [
+    "agency_id",
+    "business_id",
+    "social_account_id",
+    "date",
+    "source"
+  ]
+}

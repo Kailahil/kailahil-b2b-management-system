@@ -1,0 +1,67 @@
+{
+  "name": "PostMetric",
+  "type": "object",
+  "properties": {
+    "agency_id": {
+      "type": "string",
+      "description": "Agency ID"
+    },
+    "business_id": {
+      "type": "string",
+      "description": "Business ID"
+    },
+    "social_account_id": {
+      "type": "string",
+      "description": "Social account ID"
+    },
+    "platform_post_id": {
+      "type": "string",
+      "description": "Platform post ID"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Metric date (YYYY-MM-DD)"
+    },
+    "views": {
+      "type": "number",
+      "description": "Views"
+    },
+    "likes": {
+      "type": "number",
+      "description": "Likes"
+    },
+    "comments": {
+      "type": "number",
+      "description": "Comments"
+    },
+    "shares": {
+      "type": "number",
+      "description": "Shares"
+    },
+    "saves": {
+      "type": "number",
+      "description": "Saves"
+    },
+    "watch_time_seconds": {
+      "type": "number",
+      "description": "Watch time in seconds"
+    },
+    "engagement_rate": {
+      "type": "number",
+      "description": "Engagement rate"
+    },
+    "source": {
+      "type": "string",
+      "description": "Data source"
+    }
+  },
+  "required": [
+    "agency_id",
+    "business_id",
+    "social_account_id",
+    "platform_post_id",
+    "date",
+    "source"
+  ]
+}

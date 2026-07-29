@@ -1,0 +1,57 @@
+{
+  "name": "GrowthPlan",
+  "type": "object",
+  "properties": {
+    "agency_id": {
+      "type": "string",
+      "description": "Agency ID"
+    },
+    "business_id": {
+      "type": "string",
+      "description": "Business ID"
+    },
+    "plan_summary": {
+      "type": "string",
+      "description": "One paragraph summary of the plan"
+    },
+    "strategic_focus": {
+      "type": "string",
+      "description": "3-5 bullet priorities (JSON string)"
+    },
+    "success_definition": {
+      "type": "string",
+      "description": "What 'better' looks like in 30 days"
+    },
+    "operational_fixes": {
+      "type": "string",
+      "description": "Operational fixes plan (JSON array)"
+    },
+    "content_plan": {
+      "type": "string",
+      "description": "Content & marketing plan (JSON array)"
+    },
+    "reputation_plan": {
+      "type": "string",
+      "description": "Review & reputation plan (JSON array)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "completed"
+      ],
+      "default": "active",
+      "description": "Plan status"
+    },
+    "generated_by_user_id": {
+      "type": "string",
+      "description": "User who generated this plan"
+    }
+  },
+  "required": [
+    "agency_id",
+    "business_id",
+    "plan_summary",
+    "generated_by_user_id"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "ClientBusiness",
+  "type": "object",
+  "properties": {
+    "agency_id": {
+      "type": "string",
+      "description": "Agency ID"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "Client user ID"
+    },
+    "business_id": {
+      "type": "string",
+      "description": "Business ID"
+    }
+  },
+  "required": [
+    "agency_id",
+    "user_id",
+    "business_id"
+  ]
+}

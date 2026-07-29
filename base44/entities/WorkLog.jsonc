@@ -1,0 +1,57 @@
+{
+  "name": "WorkLog",
+  "type": "object",
+  "properties": {
+    "business_id": {
+      "type": "string",
+      "description": "Business ID"
+    },
+    "created_by_user_id": {
+      "type": "string",
+      "description": "Media specialist who created this log"
+    },
+    "work_type": {
+      "type": "string",
+      "enum": [
+        "shoot",
+        "edit",
+        "posting",
+        "reply_to_reviews",
+        "strategy",
+        "other"
+      ],
+      "description": "Type of work performed"
+    },
+    "summary": {
+      "type": "string",
+      "description": "Short text summary of work"
+    },
+    "time_spent_minutes": {
+      "type": "number",
+      "description": "Time spent in minutes"
+    },
+    "linked_task_id": {
+      "type": "string",
+      "description": "Related task ID"
+    },
+    "linked_content_item_id": {
+      "type": "string",
+      "description": "Related content item ID"
+    },
+    "visibility": {
+      "type": "string",
+      "enum": [
+        "internal",
+        "client"
+      ],
+      "default": "internal",
+      "description": "Visibility to client"
+    }
+  },
+  "required": [
+    "business_id",
+    "created_by_user_id",
+    "work_type",
+    "summary"
+  ]
+}

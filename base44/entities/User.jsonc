@@ -1,0 +1,35 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "agency_id": {
+      "type": "string",
+      "description": "Agency ID"
+    },
+    "user_role": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "account_manager",
+        "media_specialist",
+        "client",
+        "read_only"
+      ],
+      "description": "User role within agency"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "invited",
+        "disabled"
+      ],
+      "default": "invited",
+      "description": "User status"
+    }
+  },
+  "required": [
+    "agency_id",
+    "user_role"
+  ]
+}

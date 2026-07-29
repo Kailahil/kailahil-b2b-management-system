@@ -1,0 +1,79 @@
+{
+  "name": "Review",
+  "type": "object",
+  "properties": {
+    "agency_id": {
+      "type": "string",
+      "description": "Agency ID"
+    },
+    "business_id": {
+      "type": "string",
+      "description": "Business ID"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "google"
+      ],
+      "description": "Review platform"
+    },
+    "review_id": {
+      "type": "string",
+      "description": "Platform review ID (unique per platform)"
+    },
+    "rating": {
+      "type": "number",
+      "description": "Rating value"
+    },
+    "text": {
+      "type": "string",
+      "description": "Review text"
+    },
+    "reviewer_name": {
+      "type": "string",
+      "description": "Reviewer name"
+    },
+    "created_at_platform": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When review was created on platform"
+    },
+    "response_text": {
+      "type": "string",
+      "description": "Response text"
+    },
+    "response_status": {
+      "type": "string",
+      "enum": [
+        "none",
+        "drafted",
+        "posted"
+      ],
+      "default": "none",
+      "description": "Response status"
+    },
+    "ai_response_draft": {
+      "type": "string",
+      "description": "AI-generated response draft"
+    },
+    "ai_action_plan": {
+      "type": "string",
+      "description": "Internal action plan for addressing review"
+    },
+    "ai_promo_idea": {
+      "type": "string",
+      "description": "Promotional idea based on review"
+    },
+    "last_synced_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last sync timestamp"
+    }
+  },
+  "required": [
+    "agency_id",
+    "business_id",
+    "platform",
+    "review_id"
+  ]
+}

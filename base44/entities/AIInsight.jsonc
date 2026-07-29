@@ -1,0 +1,55 @@
+{
+  "name": "AIInsight",
+  "type": "object",
+  "properties": {
+    "agency_id": {
+      "type": "string",
+      "description": "Agency ID"
+    },
+    "business_id": {
+      "type": "string",
+      "description": "Business ID"
+    },
+    "insight_type": {
+      "type": "string",
+      "enum": [
+        "root_cause",
+        "opportunities",
+        "risks",
+        "fix_first"
+      ],
+      "description": "Type of insight"
+    },
+    "root_causes": {
+      "type": "string",
+      "description": "Bullet list of root causes"
+    },
+    "supporting_evidence": {
+      "type": "string",
+      "description": "Quoted review snippets"
+    },
+    "confidence_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "description": "Confidence level"
+    },
+    "action_items": {
+      "type": "string",
+      "description": "Prioritized actions (JSON string)"
+    },
+    "generated_by_user_id": {
+      "type": "string",
+      "description": "User who generated this insight"
+    }
+  },
+  "required": [
+    "agency_id",
+    "business_id",
+    "insight_type",
+    "generated_by_user_id"
+  ]
+}

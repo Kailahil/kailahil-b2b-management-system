@@ -1,0 +1,45 @@
+{
+  "name": "SocialPost",
+  "type": "object",
+  "properties": {
+    "agency_id": {
+      "type": "string",
+      "description": "Agency ID"
+    },
+    "business_id": {
+      "type": "string",
+      "description": "Business ID"
+    },
+    "social_account_id": {
+      "type": "string",
+      "description": "Social account ID"
+    },
+    "platform_post_id": {
+      "type": "string",
+      "description": "Platform post ID"
+    },
+    "posted_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Post timestamp"
+    },
+    "caption": {
+      "type": "string",
+      "description": "Post caption"
+    },
+    "media_url": {
+      "type": "string",
+      "description": "Media URL"
+    },
+    "permalink": {
+      "type": "string",
+      "description": "Post permalink"
+    }
+  },
+  "required": [
+    "agency_id",
+    "business_id",
+    "social_account_id",
+    "platform_post_id"
+  ]
+}

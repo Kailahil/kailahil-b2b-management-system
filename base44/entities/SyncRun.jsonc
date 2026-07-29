@@ -1,0 +1,56 @@
+{
+  "name": "SyncRun",
+  "type": "object",
+  "properties": {
+    "agency_id": {
+      "type": "string",
+      "description": "Agency ID"
+    },
+    "business_id": {
+      "type": "string",
+      "description": "Business ID (nullable for agency-wide jobs)"
+    },
+    "integration": {
+      "type": "string",
+      "enum": [
+        "tiktok",
+        "instagram",
+        "google_reviews"
+      ],
+      "description": "Integration type"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "failed",
+        "running"
+      ],
+      "default": "running",
+      "description": "Sync status"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Start timestamp"
+    },
+    "finished_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Finish timestamp"
+    },
+    "records_written": {
+      "type": "number",
+      "description": "Number of records written"
+    },
+    "error_message": {
+      "type": "string",
+      "description": "Error message if failed"
+    }
+  },
+  "required": [
+    "agency_id",
+    "integration",
+    "started_at"
+  ]
+}

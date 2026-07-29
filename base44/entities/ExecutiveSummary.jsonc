@@ -1,0 +1,44 @@
+{
+  "name": "ExecutiveSummary",
+  "type": "object",
+  "properties": {
+    "agency_id": {
+      "type": "string",
+      "description": "Agency ID"
+    },
+    "business_id": {
+      "type": "string",
+      "description": "Business ID"
+    },
+    "summary_text": {
+      "type": "string",
+      "description": "AI-generated executive summary"
+    },
+    "current_health": {
+      "type": "string",
+      "description": "Health assessment"
+    },
+    "biggest_risk": {
+      "type": "string",
+      "description": "Top risk identified"
+    },
+    "biggest_opportunity": {
+      "type": "string",
+      "description": "Top opportunity identified"
+    },
+    "team_actions": {
+      "type": "string",
+      "description": "Current team activities"
+    },
+    "generated_by_user_id": {
+      "type": "string",
+      "description": "User who generated this summary"
+    }
+  },
+  "required": [
+    "agency_id",
+    "business_id",
+    "summary_text",
+    "generated_by_user_id"
+  ]
+}

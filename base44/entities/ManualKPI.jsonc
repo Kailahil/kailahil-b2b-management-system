@@ -1,0 +1,37 @@
+{
+  "name": "ManualKPI",
+  "type": "object",
+  "properties": {
+    "agency_id": {
+      "type": "string",
+      "description": "Agency ID"
+    },
+    "business_id": {
+      "type": "string",
+      "description": "Business ID"
+    },
+    "metric_name": {
+      "type": "string",
+      "description": "KPI name (e.g., Monthly Revenue, New Clients)"
+    },
+    "value": {
+      "type": "number",
+      "description": "Metric value"
+    },
+    "period": {
+      "type": "string",
+      "description": "Time period (e.g., 2026-01, Q1 2026)"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional context"
+    }
+  },
+  "required": [
+    "agency_id",
+    "business_id",
+    "metric_name",
+    "value",
+    "period"
+  ]
+}

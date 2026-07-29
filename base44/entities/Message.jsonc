@@ -1,0 +1,41 @@
+{
+  "name": "Message",
+  "type": "object",
+  "properties": {
+    "business_id": {
+      "type": "string",
+      "description": "Business ID"
+    },
+    "sender_id": {
+      "type": "string",
+      "description": "Sender ID (client or employee)"
+    },
+    "sender_name": {
+      "type": "string",
+      "description": "Sender full name"
+    },
+    "sender_type": {
+      "type": "string",
+      "enum": [
+        "client",
+        "employee"
+      ],
+      "description": "Who sent the message"
+    },
+    "recipient_id": {
+      "type": "string",
+      "description": "Recipient ID (employee or null for broadcast)"
+    },
+    "text": {
+      "type": "string",
+      "description": "Message content"
+    }
+  },
+  "required": [
+    "business_id",
+    "sender_id",
+    "sender_name",
+    "sender_type",
+    "text"
+  ]
+}

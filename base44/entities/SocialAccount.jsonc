@@ -1,0 +1,54 @@
+{
+  "name": "SocialAccount",
+  "type": "object",
+  "properties": {
+    "agency_id": {
+      "type": "string",
+      "description": "Agency ID"
+    },
+    "business_id": {
+      "type": "string",
+      "description": "Business ID"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "tiktok",
+        "instagram"
+      ],
+      "description": "Social platform"
+    },
+    "handle": {
+      "type": "string",
+      "description": "Platform handle/username"
+    },
+    "external_account_id": {
+      "type": "string",
+      "description": "Platform account ID"
+    },
+    "connected_status": {
+      "type": "string",
+      "enum": [
+        "connected",
+        "disconnected",
+        "error"
+      ],
+      "default": "disconnected",
+      "description": "Connection status"
+    },
+    "last_sync_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last sync timestamp"
+    },
+    "auth_ref": {
+      "type": "string",
+      "description": "Auth/token reference"
+    }
+  },
+  "required": [
+    "agency_id",
+    "business_id",
+    "platform"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "Agency",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Agency name"
+    },
+    "timezone": {
+      "type": "string",
+      "default": "America/Los_Angeles",
+      "description": "Agency timezone"
+    },
+    "logo_url": {
+      "type": "string",
+      "description": "Agency logo URL"
+    },
+    "primary_color": {
+      "type": "string",
+      "description": "Primary brand color"
+    },
+    "accent_color": {
+      "type": "string",
+      "description": "Accent brand color"
+    }
+  },
+  "required": [
+    "name",
+    "timezone"
+  ]
+}

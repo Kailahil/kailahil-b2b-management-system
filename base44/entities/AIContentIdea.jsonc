@@ -1,0 +1,47 @@
+{
+  "name": "AIContentIdea",
+  "type": "object",
+  "properties": {
+    "agency_id": {
+      "type": "string",
+      "description": "Agency ID"
+    },
+    "business_id": {
+      "type": "string",
+      "description": "Business ID"
+    },
+    "hook": {
+      "type": "string",
+      "description": "Content hook"
+    },
+    "angle": {
+      "type": "string",
+      "description": "Messaging angle"
+    },
+    "platform_suggestion": {
+      "type": "string",
+      "enum": [
+        "tiktok",
+        "instagram",
+        "short"
+      ],
+      "description": "Recommended platform"
+    },
+    "source_theme": {
+      "type": "string",
+      "description": "Source theme from reviews"
+    },
+    "generated_by_user_id": {
+      "type": "string",
+      "description": "User who generated this idea"
+    }
+  },
+  "required": [
+    "agency_id",
+    "business_id",
+    "hook",
+    "angle",
+    "source_theme",
+    "generated_by_user_id"
+  ]
+}

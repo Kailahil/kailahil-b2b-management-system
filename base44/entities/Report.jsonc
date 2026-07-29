@@ -1,0 +1,50 @@
+{
+  "name": "Report",
+  "type": "object",
+  "properties": {
+    "agency_id": {
+      "type": "string",
+      "description": "Agency ID"
+    },
+    "business_id": {
+      "type": "string",
+      "description": "Business ID"
+    },
+    "report_month": {
+      "type": "string",
+      "description": "Report month (YYYY-MM format)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "finalized",
+        "sent"
+      ],
+      "default": "draft",
+      "description": "Report status"
+    },
+    "executive_summary": {
+      "type": "string",
+      "description": "AI-generated executive summary"
+    },
+    "recommendations": {
+      "type": "string",
+      "description": "AI-generated recommendations (JSON string)"
+    },
+    "internal_notes": {
+      "type": "string",
+      "description": "Agency-only internal notes"
+    },
+    "generated_by_user_id": {
+      "type": "string",
+      "description": "User who generated this report"
+    }
+  },
+  "required": [
+    "agency_id",
+    "business_id",
+    "report_month",
+    "generated_by_user_id"
+  ]
+}

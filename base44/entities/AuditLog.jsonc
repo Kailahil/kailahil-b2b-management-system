@@ -1,0 +1,32 @@
+{
+  "name": "AuditLog",
+  "type": "object",
+  "properties": {
+    "agency_id": {
+      "type": "string",
+      "description": "Agency ID"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User ID who performed action"
+    },
+    "action": {
+      "type": "string",
+      "description": "Action performed"
+    },
+    "entity_type": {
+      "type": "string",
+      "description": "Entity type affected"
+    },
+    "entity_id": {
+      "type": "string",
+      "description": "Entity ID affected"
+    }
+  },
+  "required": [
+    "agency_id",
+    "user_id",
+    "action",
+    "entity_type"
+  ]
+}

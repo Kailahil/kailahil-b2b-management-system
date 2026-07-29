@@ -1,0 +1,32 @@
+{
+  "name": "Employee",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "description": "Employee email address"
+    },
+    "password_hash": {
+      "type": "string",
+      "description": "Hashed password"
+    },
+    "full_name": {
+      "type": "string",
+      "description": "Full name of employee"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive"
+      ],
+      "default": "active",
+      "description": "Employee status"
+    }
+  },
+  "required": [
+    "email",
+    "password_hash",
+    "full_name"
+  ]
+}
