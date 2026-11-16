@@ -1,0 +1,9 @@
+{
+  "name": "Kailahil B2B Management System",
+  "site": {
+    "installCommand": "npm install",
+    "buildCommand": "npm run build",
+    "serveCommand": "npm run dev",
+    "outputDirectory": "./dist"
+  }
+}
